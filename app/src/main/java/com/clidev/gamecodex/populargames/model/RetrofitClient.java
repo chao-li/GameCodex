@@ -2,6 +2,7 @@ package com.clidev.gamecodex.populargames.model;
 
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 
 import com.clidev.gamecodex.ApiKeys;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
@@ -20,11 +21,21 @@ public interface RetrofitClient {
             "Accept: application/json"
     })
     @GET("/games/")
-    Call<LiveData<List<Game>>> getGame(
+    Call<List<Game>> getGame(
             @Query("fields") String fields,
             @Query("order") String order,
             @Query("limit") int limit
     );
+
+
+    /*
+    @GET("/games/")
+    Call<List<Game>> getGame(
+            @Query("fields") String fields,
+            @Query("order") String order,
+            @Query("limit") int limit
+    );
+    */
 
     /*
     @GET("/3/movie/popular")

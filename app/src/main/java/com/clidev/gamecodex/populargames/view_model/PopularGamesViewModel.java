@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.NonNull;
 
@@ -27,7 +28,7 @@ public class PopularGamesViewModel extends AndroidViewModel {
     private static final String ORDER = "popularity:desc";
     private static final int LIMIT = 30;
 
-    private LiveData<List<Game>> mGameList;
+    private MutableLiveData<List<Game>> mGameList;
 
     public PopularGamesViewModel(@NonNull Application application) {
         super(application);
@@ -43,31 +44,31 @@ public class PopularGamesViewModel extends AndroidViewModel {
 
         // Create the retrofit client
         RetrofitClient client = retrofit.create(RetrofitClient.class);
-        Call<LiveData<List<Game>>> call = client.getGame(FIELDS,
+        Call<List<Game>> call = client.getGame(FIELDS,
                 ORDER,
                 LIMIT);
 
-        call.enqueue(new Callback<LiveData<List<Game>>>() {
+        call.enqueue(new Callback<List<Game>>() {
             @Override
-            public void onResponse(Call<LiveData<List<Game>>> call, Response<LiveData<List<Game>>> response) {
+            public void onResponse(Call<List<Game>> call, Response<List<Game>> response) {
+                Timber.d("api call sucesss");
                 if (response.body() != null) {
-                    Timber.d("Call response body not null");
-                    mGameList = response.body();
-
-                } else {
-                    Timber.d("Call response body is null");
+                    List<Game> gameList = response.body();
+                    mGameList.setValue(gameList);
                 }
             }
 
             @Override
-            public void onFailure(Call<LiveData<List<Game>>> call, Throwable t) {
-                Timber.d("Retrofit call failed");
+            public void onFailure(Call<List<Game>> call, Throwable t) {
+                Timber.d("api call failed");
             }
         });
-
     }
 
-    public LiveData<List<Game>> getGameList() {
+    public MutableLiveData<List<Game>> getGameList() {
+        if (mGameList == null) {
+            mGameList = new MutableLiveData<List<Game>>();
+        }
         return mGameList;
     }
 
