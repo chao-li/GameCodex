@@ -6,6 +6,8 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.clidev.gamecodex.populargames.model.RetrofitClient;
@@ -21,18 +23,17 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
-public class PopularGamesViewModel extends AndroidViewModel {
+public class PopularGamesViewModel extends ViewModel {
 
     private static final String igdbBaseUrl = "https://api-endpoint.igdb.com/";
     private static final String FIELDS = "id,name,genres,cover,popularity";
     private static final String ORDER = "popularity:desc";
     private static final int LIMIT = 30;
 
-    private MutableLiveData<List<Game>> mGameList;
+    public MutableLiveData<List<Game>> mGameList = new MutableLiveData<>();
 
-    public PopularGamesViewModel(@NonNull Application application) {
-        super(application);
 
+    public PopularGamesViewModel() {
 
         // Create the retrofit builder
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -48,14 +49,18 @@ public class PopularGamesViewModel extends AndroidViewModel {
                 ORDER,
                 LIMIT);
 
+
+
         call.enqueue(new Callback<List<Game>>() {
             @Override
             public void onResponse(Call<List<Game>> call, Response<List<Game>> response) {
                 Timber.d("api call sucesss");
-                if (response.body() != null) {
-                    List<Game> gameList = response.body();
-                    mGameList.setValue(gameList);
-                }
+
+                List<Game> gameList = response.body();
+                mGameList.setValue(gameList);
+
+                Timber.d("First game: " + response.body().get(0).getName());
+
             }
 
             @Override
@@ -63,12 +68,10 @@ public class PopularGamesViewModel extends AndroidViewModel {
                 Timber.d("api call failed");
             }
         });
+
     }
 
     public MutableLiveData<List<Game>> getGameList() {
-        if (mGameList == null) {
-            mGameList = new MutableLiveData<List<Game>>();
-        }
         return mGameList;
     }
 
