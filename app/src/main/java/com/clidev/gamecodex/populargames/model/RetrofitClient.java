@@ -6,6 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 
 import com.clidev.gamecodex.ApiKeys;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
+import com.clidev.gamecodex.populargames.model.modeldata.Genre;
 
 import java.util.List;
 
@@ -29,24 +30,17 @@ public interface RetrofitClient {
 
     );
 
-
-    /*
-    @GET("/games/")
-    Call<List<Game>> getGame(
-            @Query("fields") String fields,
-            @Query("order") String order,
-            @Query("limit") int limit
+    @Headers({
+            ApiKeys.IGDB_API_KEY,
+            "Accept: application/json"
+    })
+    @GET("/genres/")
+    Call<List<Genre>> getGenres(
+            @Query("fields") String fields
     );
-    */
 
-    /*
-    @GET("/3/movie/popular")
-    Call<MovieResults> getPopularMovie(
-            @Query("api_key") String apiKey,
-            @Query("language") String language,
-            @Query("page") int page
-    );
-    */
+
+
 
 
 

@@ -28,7 +28,7 @@ public class PopularGamesRepository {
     }
 
     // Retrieve popular movie data Retrofit
-    public MutableLiveData<List<Game>> queryPopularMovies() {
+    public MutableLiveData<List<Game>> queryPopularGames() {
         final MutableLiveData<List<Game>> gameList = new MutableLiveData<>();
 
         // Get current time and date

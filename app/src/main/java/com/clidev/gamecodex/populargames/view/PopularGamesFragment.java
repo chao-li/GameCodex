@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.clidev.gamecodex.R;
+import com.clidev.gamecodex.populargames.model.GenreRepository;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
 import com.clidev.gamecodex.populargames.view.adapters.GameListRvAdapter;
 import com.clidev.gamecodex.populargames.view_model.PopularGamesViewModel;
@@ -39,6 +40,20 @@ public class PopularGamesFragment extends Fragment{
 
         ButterKnife.bind(this, rootView);
 
+        loadGameGenres();
+
+        loadPopularGames();
+
+        return rootView;
+    }
+
+    private void loadGameGenres() {
+        GenreRepository genreRepository = new GenreRepository();
+        genreRepository.queryGameGenres();
+
+    }
+
+    private void loadPopularGames() {
         PopularGamesViewModelFactory factory = new PopularGamesViewModelFactory();
 
         final PopularGamesViewModel popViewModel = ViewModelProviders.of(this, factory).get(PopularGamesViewModel.class);
@@ -61,8 +76,6 @@ public class PopularGamesFragment extends Fragment{
             }
 
         });
-
-        return rootView;
     }
 
 
