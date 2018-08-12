@@ -5,21 +5,15 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.clidev.gamecodex.R;
-import com.clidev.gamecodex.populargames.model.PopularGamesModel;
-import com.clidev.gamecodex.populargames.model.RetrofitClient;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
 import com.clidev.gamecodex.populargames.view_model.PopularGamesViewModel;
 import com.clidev.gamecodex.populargames.view_model.PopularGamesViewModelFactory;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
 public class PopularGamesActivity extends AppCompatActivity {
@@ -37,13 +31,23 @@ public class PopularGamesActivity extends AppCompatActivity {
 
         PopularGamesViewModelFactory factory = new PopularGamesViewModelFactory();
 
-        PopularGamesViewModel popViewModel = ViewModelProviders.of(this, factory).get(PopularGamesViewModel.class);
+        final PopularGamesViewModel popViewModel = ViewModelProviders.of(this, factory).get(PopularGamesViewModel.class);
 
-        popViewModel.mGameList.observe(this, new Observer<List<Game>>() {
+        popViewModel.getGameList().observe(this, new Observer<List<Game>>() {
             @Override
             public void onChanged(@Nullable List<Game> gameList) {
                 String firstName = gameList.get(0).getName();
                 Timber.d(firstName);
+                Toast.makeText(PopularGamesActivity.this, "First game name: " + firstName,
+                        Toast.LENGTH_LONG).show();
+
+                // remove the live model observer
+                popViewModel.getGameList().removeObserver(this);
+
+
+                // TODO: populate the RecyclerView
+
+
             }
 
         });
