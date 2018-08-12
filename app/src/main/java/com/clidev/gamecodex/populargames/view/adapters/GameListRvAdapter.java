@@ -26,10 +26,12 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
 
     private Context mContext;
     private List<Game> mGameList;
+    private float mScreenWidth;
 
     // Constructor
-    public GameListRvAdapter(Context context) {
+    public GameListRvAdapter(Context context, float screenWidth) {
         mContext = context;
+        mScreenWidth = screenWidth;
     }
 
     // Custom methods /////////////////////////////////////////
@@ -69,7 +71,6 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
 
             // Set the property of glide loading
             RequestOptions options = new RequestOptions();
-            options.centerCrop();
 
             // load image with glide
             Glide.with(mContext)
@@ -107,6 +108,15 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
             super(itemView);
 
             ButterKnife.bind(this, itemView);
+
+            float imageWidth = (mScreenWidth / 2) - 2 - 4;
+            float imageHeight = imageWidth * 1.4f;
+
+            /*
+            mGameCover.getLayoutParams().height = (int) imageHeight;
+            mGameCover.getLayoutParams().width = (int) imageWidth;
+            mGameCover.requestLayout();
+            */
 
             itemView.setOnClickListener(this);
         }

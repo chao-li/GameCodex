@@ -33,7 +33,7 @@ public class PopularGamesRepository {
 
         // Get current time and date
         Date currentTime = Calendar.getInstance().getTime();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String releaseAfterDate = dateFormat.format(currentTime);
 
 
