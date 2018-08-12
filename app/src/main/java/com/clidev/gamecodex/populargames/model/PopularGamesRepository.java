@@ -5,6 +5,9 @@ import android.arch.lifecycle.MutableLiveData;
 
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,6 +31,12 @@ public class PopularGamesRepository {
     public MutableLiveData<List<Game>> queryPopularMovies() {
         final MutableLiveData<List<Game>> gameList = new MutableLiveData<>();
 
+        // Get current time and date
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        String releaseAfterDate = dateFormat.format(currentTime);
+
+
         // Create the retrofit builder
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(igdbBaseUrl)
@@ -39,6 +48,7 @@ public class PopularGamesRepository {
         // Create the retrofit client
         RetrofitClient client = retrofit.create(RetrofitClient.class);
         Call<List<Game>> call = client.getGame(FIELDS,
+                releaseAfterDate,
                 ORDER,
                 LIMIT);
 

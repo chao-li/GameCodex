@@ -23,8 +23,10 @@ public interface RetrofitClient {
     @GET("/games/")
     Call<List<Game>> getGame(
             @Query("fields") String fields,
+            @Query("filter[release_dates.date][lte]") String releasedBefore,
             @Query("order") String order,
             @Query("limit") int limit
+
     );
 
 
