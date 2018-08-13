@@ -16,7 +16,7 @@ public abstract class GenreDatabase extends RoomDatabase{
 
     private static GenreDatabase sInstance;
     private static final Object LOCK = new Object();
-    private static final String DATABASE_NAME = "genre database";
+    public static final String DATABASE_NAME = "genre database";
 
     public static GenreDatabase getInstance(Context context) {
         if (sInstance == null) {
@@ -32,5 +32,7 @@ public abstract class GenreDatabase extends RoomDatabase{
     }
 
     public abstract GenreDao genreDao();
+
+
 
 }

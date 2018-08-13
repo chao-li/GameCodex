@@ -14,7 +14,7 @@ import java.util.List;
 public interface GenreDao {
 
     @Query("SELECT * FROM genre ORDER BY id")
-    List<Genre> loadAllTask();
+    List<Genre> loadAllGenre();
 
     @Insert
     void insertGenre(Genre genre);

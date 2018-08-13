@@ -17,10 +17,15 @@ import android.widget.Toast;
 import com.clidev.gamecodex.R;
 import com.clidev.gamecodex.populargames.model.GenreRepository;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
+import com.clidev.gamecodex.populargames.model.room.Genre;
+import com.clidev.gamecodex.populargames.model.room.GenreDatabase;
 import com.clidev.gamecodex.populargames.view.adapters.GameListRvAdapter;
+import com.clidev.gamecodex.populargames.view_model.GenreViewModel;
+import com.clidev.gamecodex.populargames.view_model.GenreViewModelFactory;
 import com.clidev.gamecodex.populargames.view_model.PopularGamesViewModel;
 import com.clidev.gamecodex.populargames.view_model.PopularGamesViewModelFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,6 +35,7 @@ import timber.log.Timber;
 public class PopularGamesFragment extends Fragment{
 
     private GridLayoutManager mGridLayoutManager;
+    private List<Genre> mGenres = new ArrayList<>();
 
     @BindView(R.id.popular_games_rv) RecyclerView mGameListRv;
 
@@ -48,8 +54,22 @@ public class PopularGamesFragment extends Fragment{
     }
 
     private void loadGameGenres() {
-        GenreRepository genreRepository = new GenreRepository(getActivity().getApplicationContext());
-        genreRepository.queryGameGenres();
+        // Destroys database.
+        getActivity().getApplicationContext().deleteDatabase(GenreDatabase.DATABASE_NAME);
+
+        GenreViewModelFactory factory = new GenreViewModelFactory(getActivity().getApplicationContext());
+
+        final GenreViewModel genreViewModel = ViewModelProviders.of(this, factory).get(GenreViewModel.class);
+
+        genreViewModel.updateGenreList();
+
+        genreViewModel.getGenres().observe(this, new Observer<List<Genre>>() {
+            @Override
+            public void onChanged(@Nullable List<Genre> genres) {
+                Timber.d("Genre list successfully loaded");
+                mGenres = genres;
+            }
+        });
 
     }
 
@@ -70,7 +90,7 @@ public class PopularGamesFragment extends Fragment{
                 popViewModel.getGameList().removeObserver(this);
 
 
-                // TODO: populate the RecyclerView
+                // populate the RecyclerView
                 populateRecyclerView(gameList);
 
             }

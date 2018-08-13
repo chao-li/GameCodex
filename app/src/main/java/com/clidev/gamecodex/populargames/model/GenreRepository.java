@@ -1,5 +1,7 @@
 package com.clidev.gamecodex.populargames.model;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 
 import com.clidev.gamecodex.populargames.model.room.AppExecutors;
@@ -21,13 +23,45 @@ public class GenreRepository {
     public static final String NAME = "name";
 
     private GenreDatabase mGenreDb;
+    private MutableLiveData<List<Genre>> mGenres = new MutableLiveData<>();
 
     public GenreRepository(Context context) {
         mGenreDb = GenreDatabase.getInstance(context);
     }
 
+    public MutableLiveData<List<Genre>> getGenreList() {
+        return mGenres;
+    }
+
+
+    public void checkGenreList() {
+        //  Check if database exists,
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                // check if item exists first
+                List<Genre> genres = mGenreDb.genreDao().loadAllGenre();
+
+                if (genres != null && genres.isEmpty() != true) {
+                    // if database exists, set genre data
+                    mGenres.postValue(genres);
+
+                    Timber.d("Genre database already exists, loading current database");
+
+                } else {
+                    // if database don't exist, query genre data, then set data
+                    Timber.d("Genre database don't exist, will query from online");
+
+                    queryGameGenres();
+                }
+
+            }
+        });
+
+    }
+
     // Retrieve list of genres
-    public void queryGameGenres() {
+    private void queryGameGenres() {
 
         // Create retrofit builder
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -49,9 +83,9 @@ public class GenreRepository {
                     Timber.d("Genre api call successful.");
                     List<Genre> genres = response.body();
 
-                    for (Genre genre : genres) {
-                        Timber.d("Genre: " + genre.getName() + "\n");
-                    }
+                    // set Genres to member field
+                    mGenres.setValue(genres);
+
 
                     addGenresToDatabase(genres);
 
@@ -74,7 +108,7 @@ public class GenreRepository {
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    // Todo: check if item exists first
+                    // check if item exists first
                     Genre previousGenre = mGenreDb.genreDao().loadGenreById(genre.getId());
 
                     if (previousGenre == null) {
@@ -83,7 +117,9 @@ public class GenreRepository {
                     } else {
                         Timber.d(genre.getName() + " already in database");
                     }
+
                 }
+
             });
         }
 
