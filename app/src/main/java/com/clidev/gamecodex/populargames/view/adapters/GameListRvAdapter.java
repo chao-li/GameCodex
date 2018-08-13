@@ -33,12 +33,11 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
     private List<Genre> mGenreList;
     private List<Integer> mGenreIds;
     private List<String> mColorList;
-    private float mScreenWidth;
+    //private float mScreenWidth;
 
     // Constructor
-    public GameListRvAdapter(Context context, float screenWidth) {
+    public GameListRvAdapter(Context context) {
         mContext = context;
-        mScreenWidth = screenWidth;
     }
 
     // Custom PUBLIC methods /////////////////////////////////////////
@@ -219,8 +218,10 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
 
             ButterKnife.bind(this, itemView);
 
+            /*
             float imageWidth = (mScreenWidth / 2) - 2 - 4;
             float imageHeight = imageWidth * 1.4f;
+            */
 
             /*
             mGameCover.getLayoutParams().height = (int) imageHeight;

@@ -2,6 +2,7 @@ package com.clidev.gamecodex.populargames.model;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.widget.LinearLayout;
 
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
 
@@ -18,36 +19,48 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
 public class PopularGamesRepository {
+
+    // Constants
     private static final String igdbBaseUrl = "https://api-endpoint.igdb.com/";
     private static final String FIELDS = "id,name,genres,cover,popularity";
     private static final String ORDER = "popularity:desc";
     private static final int LIMIT = 30;
 
+
+    // Retrofit fields
+    Retrofit.Builder mBuilder;
+    Retrofit mRetrofit;
+    RetrofitClient mClient;
+
+    // Gamelist fields
+    private MutableLiveData<List<Game>> mLiveDataGameList;
+    private List<Game> mGameList;
+
     // Constructor
     public PopularGamesRepository() {
+        // Create retrofit builder
+        mBuilder = new Retrofit.Builder()
+                .baseUrl(igdbBaseUrl)
+                .addConverterFactory(GsonConverterFactory.create());
+
+        // Build retrofit
+        mRetrofit = mBuilder.build();
+
+        // Create the retrofit client
+        mClient = mRetrofit.create(RetrofitClient.class);
     }
 
     // Retrieve popular movie data Retrofit
     public MutableLiveData<List<Game>> queryPopularGames() {
-        final MutableLiveData<List<Game>> gameList = new MutableLiveData<>();
+        //final MutableLiveData<List<Game>> gameList = new MutableLiveData<>();
 
         // Get current time and date
         Date currentTime = Calendar.getInstance().getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String releaseAfterDate = dateFormat.format(currentTime);
 
-
-        // Create the retrofit builder
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(igdbBaseUrl)
-                .addConverterFactory(GsonConverterFactory.create());
-
-        // Build retrofit
-        Retrofit retrofit = builder.build();
-
-        // Create the retrofit client
-        RetrofitClient client = retrofit.create(RetrofitClient.class);
-        Call<List<Game>> call = client.getGame(FIELDS,
+        // Create call
+        Call<List<Game>> call = mClient.getGame(FIELDS,
                 releaseAfterDate,
                 ORDER,
                 LIMIT);
@@ -61,7 +74,8 @@ public class PopularGamesRepository {
                     Timber.d("api call sucesss");
                     Timber.d("First game: " + response.body().get(0).getName());
 
-                    gameList.setValue(response.body());
+                    mGameList = response.body();
+                    mLiveDataGameList.setValue(response.body());
                 } else {
                     Timber.d("api call not successful");
                 }
@@ -74,8 +88,28 @@ public class PopularGamesRepository {
             }
         });
 
-        return gameList;
+        return mLiveDataGameList;
     }
+
+    // TODO: create method to query the next set of games data
+    public MutableLiveData<List<Game>> queryNextSetPopularGames(int scrollCount) {
+        // Get current time and date
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String releaseAfterDate = dateFormat.format(currentTime);
+
+        // Create call
+        Call<List<Game>> call = mClient.getNextSetGame(FIELDS,
+                releaseAfterDate,
+                ORDER,
+                LIMIT,
+                LIMIT*scrollCount);
+
+        // TODO: begin the callback;
+
+        return null;
+    }
+
 
 
 }

@@ -27,6 +27,24 @@ public interface RetrofitClient {
 
     );
 
+
+    @Headers({
+            ApiKeys.IGDB_API_KEY,
+            "Accept: application/json"
+    })
+    @GET("/games/")
+    Call<List<Game>> getNextSetGame(
+            @Query("fields") String fields,
+            @Query("filter[release_dates.date][lte]") String releasedBefore,
+            @Query("order") String order,
+            @Query("limit") int limit,
+            @Query("offset") int offset
+
+    );
+
+
+
+
     @Headers({
             ApiKeys.IGDB_API_KEY,
             "Accept: application/json"

@@ -12,11 +12,16 @@ public class PopularGamesViewModel extends ViewModel {
 
 
     private MutableLiveData<List<Game>> mGameList = new MutableLiveData<>();
+    private PopularGamesRepository mPopularGamesRepository;
 
 
     public PopularGamesViewModel() {
-        PopularGamesRepository popularGamesRepository = new PopularGamesRepository();
-        mGameList = popularGamesRepository.queryPopularGames();
+        mPopularGamesRepository = new PopularGamesRepository();
+        mGameList = mPopularGamesRepository.queryPopularGames();
+    }
+
+    public void downloadNextSetOfGames(int scrollCount) {
+        mGameList = mPopularGamesRepository.queryNextSetPopularGames(scrollCount);
     }
 
     public MutableLiveData<List<Game>> getGameList() {

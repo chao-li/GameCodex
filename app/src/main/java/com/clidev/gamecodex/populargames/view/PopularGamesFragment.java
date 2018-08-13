@@ -32,10 +32,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class PopularGamesFragment extends Fragment{
+public class PopularGamesFragment extends Fragment {
 
+    private GameListRvAdapter mGameListRvAdapter;
     private GridLayoutManager mGridLayoutManager;
     private List<Genre> mGenres = new ArrayList<>();
+    private PopularGamesViewModel mPopViewModel;
+
+    // fields for scroll listener
+    private int mPreviousTotalItemCount = 0;
+    private boolean isLoading = false;
+    private int mScrollCount = 0;
 
     @BindView(R.id.popular_games_rv) RecyclerView mGameListRv;
 
@@ -45,6 +52,8 @@ public class PopularGamesFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_popular_games, container, false);
 
         ButterKnife.bind(this, rootView);
+
+        prepareRecyclerView();
 
         loadGameGenres();
 
@@ -78,19 +87,12 @@ public class PopularGamesFragment extends Fragment{
     private void loadPopularGames() {
         PopularGamesViewModelFactory factory = new PopularGamesViewModelFactory();
 
-        final PopularGamesViewModel popViewModel = ViewModelProviders.of(this, factory).get(PopularGamesViewModel.class);
+        mPopViewModel = ViewModelProviders.of(this, factory).get(PopularGamesViewModel.class);
 
-        popViewModel.getGameList().observe(this, new Observer<List<Game>>() {
+        mPopViewModel.getGameList().observe(this, new Observer<List<Game>>() {
             @Override
             public void onChanged(@Nullable List<Game> gameList) {
-                String firstName = gameList.get(0).getName();
-                Timber.d(firstName);
-                Toast.makeText(getContext(), "First game name: " + firstName,
-                        Toast.LENGTH_LONG).show();
-
-                // remove the live model observer
-                popViewModel.getGameList().removeObserver(this);
-
+                Timber.d("Updated game list data observed, updating recycler view...");
 
                 // populate the RecyclerView
                 populateRecyclerView(gameList);
@@ -101,23 +103,68 @@ public class PopularGamesFragment extends Fragment{
     }
 
 
-    private void populateRecyclerView(List<Game> gameList) {
-        // Determining screen width
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-
-
-        GameListRvAdapter gameListRvAdapter = new GameListRvAdapter(getContext(), dpWidth);
+    private void prepareRecyclerView() {
+        mGameListRvAdapter = new GameListRvAdapter(getContext());
         mGridLayoutManager = new GridLayoutManager(getContext(), 2,
                 GridLayoutManager.VERTICAL, false);
 
-        mGameListRv.setAdapter(gameListRvAdapter);
+        mGameListRv.setAdapter(mGameListRvAdapter);
         mGameListRv.setLayoutManager(mGridLayoutManager);
 
-        gameListRvAdapter.setGameList(gameList);
-        gameListRvAdapter.setGenreList(mGenres);
+        mGameListRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                // Total items in the list
+                int totalItemCount = mGridLayoutManager.getItemCount();
+                Timber.d("Total item count: " + totalItemCount);
+
+                // the position of the last visible item on the list;
+                int lastVisiblePosition = mGridLayoutManager.findLastVisibleItemPosition();
+                Timber.d("Current scroll position's last item: " + lastVisiblePosition);
+
+                // initiate previousTotalItemCount
+                if (mPreviousTotalItemCount == 0) {
+                    mPreviousTotalItemCount = totalItemCount;
+                }
+
+                // if not loading, and we are near the bottom of the list, initiate loading.
+                if (isLoading == false &&
+                        lastVisiblePosition >= totalItemCount - 10 &&
+                        totalItemCount > 0) {
+                    isLoading = true;
+                    mScrollCount++;
+                    queryForMoreGames(mScrollCount);
+
+                    Timber.d("Scroll loading started");
+                }
+
+                // if we are currently loading, check if loading has completed
+                if (isLoading == true && totalItemCount > mPreviousTotalItemCount) {
+                    isLoading = false;
+                    mPreviousTotalItemCount = totalItemCount;
+                    Timber.d("Scroll loading ended");
+                }
+
+
+            }
+        });
+    }
+
+
+    private void populateRecyclerView(List<Game> gameList) {
+        // Determining screen width
+        //DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        //float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+
+        mGameListRvAdapter.setGameList(gameList);
+        mGameListRvAdapter.setGenreList(mGenres);
 
     }
 
 
+    private void queryForMoreGames() {
+        mPopViewModel.downloadNextSetOfGames();
+    }
 }
