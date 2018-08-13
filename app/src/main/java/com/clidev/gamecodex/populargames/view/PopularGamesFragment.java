@@ -55,7 +55,7 @@ public class PopularGamesFragment extends Fragment{
 
     private void loadGameGenres() {
         // Destroys database.
-        getActivity().getApplicationContext().deleteDatabase(GenreDatabase.DATABASE_NAME);
+        //getActivity().getApplicationContext().deleteDatabase(GenreDatabase.DATABASE_NAME);
 
         GenreViewModelFactory factory = new GenreViewModelFactory(getActivity().getApplicationContext());
 
@@ -68,6 +68,8 @@ public class PopularGamesFragment extends Fragment{
             public void onChanged(@Nullable List<Genre> genres) {
                 Timber.d("Genre list successfully loaded");
                 mGenres = genres;
+
+                genreViewModel.getGenres().removeObserver(this);
             }
         });
 
@@ -113,6 +115,7 @@ public class PopularGamesFragment extends Fragment{
         mGameListRv.setLayoutManager(mGridLayoutManager);
 
         gameListRvAdapter.setGameList(gameList);
+        gameListRvAdapter.setGenreList(mGenres);
 
     }
 

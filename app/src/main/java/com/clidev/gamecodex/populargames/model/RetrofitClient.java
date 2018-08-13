@@ -33,7 +33,8 @@ public interface RetrofitClient {
     })
     @GET("/genres/")
     Call<List<Genre>> getGenres(
-            @Query("fields") String fields
+            @Query("fields") String fields,
+            @Query("limit") int limit
     );
 
 

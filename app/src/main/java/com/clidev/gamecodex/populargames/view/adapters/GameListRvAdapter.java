@@ -15,8 +15,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.clidev.gamecodex.R;
 import com.clidev.gamecodex.populargames.model.PopularGamesRepository;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
+import com.clidev.gamecodex.populargames.model.room.Genre;
 import com.clidev.gamecodex.utilities.ImageUrlEditor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,6 +28,8 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
 
     private Context mContext;
     private List<Game> mGameList;
+    private List<Genre> mGenreList;
+    private List<Integer> mGenreIds;
     private float mScreenWidth;
 
     // Constructor
@@ -38,6 +42,21 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
     public void setGameList(List<Game> gameList) {
         if (gameList != null && gameList.isEmpty() != true) {
             mGameList = gameList;
+            notifyDataSetChanged();
+        }
+    }
+
+    public void setGenreList(List<Genre> genreList) {
+        if (genreList != null && genreList.isEmpty() != true) {
+            mGenreList = genreList;
+
+            List<Integer> genreIds = new ArrayList<>();
+            for (Genre genre : mGenreList) {
+                genreIds.add(genre.getId());
+            }
+
+            mGenreIds = genreIds;
+
             notifyDataSetChanged();
         }
     }
@@ -87,6 +106,28 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
         holder.mGameTitle.setText(title);
 
         // Load game genre (do later)
+        if (mGenreList != null && mGenreList.isEmpty() != true) {
+            if (mGameList.get(position).getGenres() != null) {
+                List<Integer> genreIds = mGameList.get(position).getGenres();
+
+                String genreString = "";
+
+                for (Integer genreId : genreIds) {
+                    Integer index = mGenreIds.indexOf(genreId);
+
+                    // only if a match is found, and the genre is not null
+                    if (index >= 0 && mGenreList.get(index) != null) {
+                        if (genreString.matches("")) {
+                            genreString = mGenreList.get(index).getName();
+                        } else {
+                            genreString = genreString + ", " + mGenreList.get(index).getName();
+                        }
+                    }
+                }
+
+                holder.mGameGenre.setText(genreString);
+            }
+        }
 
     }
 

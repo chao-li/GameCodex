@@ -21,6 +21,7 @@ public class GenreRepository {
 
     private static final String GENRE_BASE_URL = "https://api-endpoint.igdb.com/";
     public static final String NAME = "name";
+    private static final int LIMIT = 50;
 
     private GenreDatabase mGenreDb;
     private MutableLiveData<List<Genre>> mGenres = new MutableLiveData<>();
@@ -73,7 +74,7 @@ public class GenreRepository {
 
         // Create the retrofit client
         RetrofitClient client = retrofit.create(RetrofitClient.class);
-        Call<List<Genre>> call = client.getGenres(NAME);
+        Call<List<Genre>> call = client.getGenres(NAME, LIMIT);
 
         // perform the call for list of genres
         call.enqueue(new Callback<List<Genre>>() {
