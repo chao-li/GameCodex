@@ -48,7 +48,7 @@ public class PopularGamesFragment extends Fragment{
     }
 
     private void loadGameGenres() {
-        GenreRepository genreRepository = new GenreRepository();
+        GenreRepository genreRepository = new GenreRepository(getActivity().getApplicationContext());
         genreRepository.queryGameGenres();
 
     }

@@ -1,8 +1,10 @@
 package com.clidev.gamecodex.populargames.model;
 
-import android.support.v7.widget.RecyclerView;
+import android.content.Context;
 
-import com.clidev.gamecodex.populargames.model.modeldata.Genre;
+import com.clidev.gamecodex.populargames.model.room.AppExecutors;
+import com.clidev.gamecodex.populargames.model.room.Genre;
+import com.clidev.gamecodex.populargames.model.room.GenreDatabase;
 
 import java.util.List;
 
@@ -18,7 +20,10 @@ public class GenreRepository {
     private static final String GENRE_BASE_URL = "https://api-endpoint.igdb.com/";
     public static final String NAME = "name";
 
-    public GenreRepository() {
+    private GenreDatabase mGenreDb;
+
+    public GenreRepository(Context context) {
+        mGenreDb = GenreDatabase.getInstance(context);
     }
 
     // Retrieve list of genres
@@ -48,7 +53,7 @@ public class GenreRepository {
                         Timber.d("Genre: " + genre.getName() + "\n");
                     }
 
-                    queryGenreTranslation(genres);
+                    addGenresToDatabase(genres);
 
                 } else {
                     Timber.d("Genre call failed");
@@ -64,7 +69,24 @@ public class GenreRepository {
 
     }
 
-    private void queryGenreTranslation(List<Genre> genres) {
+    private void addGenresToDatabase(List<Genre> genres) {
+        for (final Genre genre : genres) {
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    // Todo: check if item exists first
+                    Genre previousGenre = mGenreDb.genreDao().loadGenreById(genre.getId());
+
+                    if (previousGenre == null) {
+                        mGenreDb.genreDao().insertGenre(genre);
+                        Timber.d("Inserting: " + genre.getName());
+                    } else {
+                        Timber.d(genre.getName() + " already in database");
+                    }
+                }
+            });
+        }
+
 
     }
 

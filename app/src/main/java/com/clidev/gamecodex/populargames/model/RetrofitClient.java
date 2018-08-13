@@ -1,12 +1,9 @@
 package com.clidev.gamecodex.populargames.model;
 
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-
 import com.clidev.gamecodex.ApiKeys;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
-import com.clidev.gamecodex.populargames.model.modeldata.Genre;
+import com.clidev.gamecodex.populargames.model.room.Genre;
 
 import java.util.List;
 

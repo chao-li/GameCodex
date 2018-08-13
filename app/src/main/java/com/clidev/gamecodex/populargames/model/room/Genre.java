@@ -1,11 +1,17 @@
 
-package com.clidev.gamecodex.populargames.model.modeldata;
+package com.clidev.gamecodex.populargames.model.room;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "genre")
 public class Genre {
 
+    @PrimaryKey
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -19,6 +25,7 @@ public class Genre {
      * No args constructor for use in serialization
      * 
      */
+    @Ignore
     public Genre() {
     }
 
@@ -27,7 +34,6 @@ public class Genre {
      * @param id, name
      */
     public Genre(Integer id, String name) {
-        super();
         this.id = id;
         this.name = name;
     }
