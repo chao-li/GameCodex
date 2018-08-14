@@ -43,11 +43,26 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
     // Custom PUBLIC methods /////////////////////////////////////////
     public void setGameList(List<Game> gameList) {
         if (gameList != null && gameList.isEmpty() != true) {
-            mGameList = gameList;
+
+            // If this is the first set of data load
+            if (mGameList.isEmpty() == true) {
+                mGameList = gameList;
+
+                // setup color list.
+                setupColorList(gameList.size());
+
+            } else { // if there already exists a set of data, only update the color for the new data
+                int newColorSize =  gameList.size() - mColorList.size();
+                mGameList = gameList;
+
+                // add new colors
+                addColorToList(newColorSize);
+
+
+            }
+
             notifyDataSetChanged();
 
-            // setup color list.
-            setupColorList(gameList);
         }
     }
 
@@ -164,10 +179,10 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
         holder.mDescriptionBox.setBackgroundColor(Color.parseColor(mColorList.get(position)));
     }
 
-    private void setupColorList(List<Game> gameList) {
+    private void setupColorList(int colorSize) {
         mColorList = new ArrayList<>();
 
-        for (int i= 0 ; i < gameList.size(); i++) {
+        for (int i= 0 ; i < colorSize; i++) {
 
             if (i == 0) { //  if position = 0, pick random color
                 mColorList.add(HexColorArray.getRandomColor());
@@ -193,6 +208,47 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
             }
 
         }
+    }
+
+    private void addColorToList(int colorSize) {
+        List<String> newColorList = new ArrayList<>();
+
+        for (int i = 0; i < colorSize; i++) {
+            if (i == 0) {
+                String randomColor = HexColorArray.getRandomColor();
+
+                // while the chosen color is the same as previous 2 color, keep looping until u choose a different color
+                while (isColorSame(randomColor, mColorList.get(mColorList.size() - 2)) == true ||
+                        isColorSame(randomColor, mColorList.get(mColorList.size() - 1)) == true) {
+                    randomColor = HexColorArray.getRandomColor();
+                }
+
+                newColorList.add(randomColor);
+            } else if (i == 1) {
+                String randomColor = HexColorArray.getRandomColor();
+
+                // while the chosen color is the same as previous 2 color, keep looping until u choose a different color
+                while (isColorSame(randomColor, mColorList.get(mColorList.size() - 1)) == true ||
+                        isColorSame(randomColor, newColorList.get(i - 1)) == true) {
+                    randomColor = HexColorArray.getRandomColor();
+                }
+
+                newColorList.add(randomColor);
+            } else {
+                String randomColor = HexColorArray.getRandomColor();
+
+                // while the chosen color is the same as previous 2 color, keep looping until u choose a different color
+                while (isColorSame(randomColor, newColorList.get(i - 1)) == true ||
+                        isColorSame(randomColor, newColorList.get(i - 2)) == true) {
+                    randomColor = HexColorArray.getRandomColor();
+                }
+
+                newColorList.add(randomColor);
+            }
+        }
+
+        mColorList.addAll(newColorList);
+
     }
 
     private boolean isColorSame(String chosenColor, String previousColor) {
