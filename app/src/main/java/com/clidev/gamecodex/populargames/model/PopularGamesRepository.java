@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -33,8 +34,8 @@ public class PopularGamesRepository {
     RetrofitClient mClient;
 
     // Gamelist fields
-    private MutableLiveData<List<Game>> mLiveDataGameList;
-    private List<Game> mGameList;
+    private MutableLiveData<List<Game>> mLiveDataGameList = new MutableLiveData<>();
+    private List<Game> mGameList = new ArrayList<>();
 
     // Constructor
     public PopularGamesRepository() {
@@ -91,7 +92,7 @@ public class PopularGamesRepository {
         return mLiveDataGameList;
     }
 
-    // TODO: create method to query the next set of games data
+    // create method to query the next set of games data
     public MutableLiveData<List<Game>> queryNextSetPopularGames(int scrollCount) {
         // Get current time and date
         Date currentTime = Calendar.getInstance().getTime();
@@ -105,9 +106,25 @@ public class PopularGamesRepository {
                 LIMIT,
                 LIMIT*scrollCount);
 
-        // TODO: begin the callback;
+        // begin the callback;
+        call.enqueue(new Callback<List<Game>>() {
+            @Override
+            public void onResponse(Call<List<Game>> call, Response<List<Game>> response) {
+                if (response.isSuccessful()) {
+                    mGameList.addAll(response.body());
+                    mLiveDataGameList.setValue(mGameList);
+                } else {
+                    Timber.d("Scroll call failed");
+                }
+            }
 
-        return null;
+            @Override
+            public void onFailure(Call<List<Game>> call, Throwable t) {
+                Timber.d("Scroll call failed");
+            }
+        });
+
+        return mLiveDataGameList;
     }
 
 

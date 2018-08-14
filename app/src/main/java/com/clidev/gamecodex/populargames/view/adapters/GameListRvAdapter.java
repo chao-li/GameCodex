@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.GameListViewHolder> {
 
     private Context mContext;
-    private List<Game> mGameList;
+    private List<Game> mGameList = new ArrayList<>();
     private List<Genre> mGenreList;
     private List<Integer> mGenreIds;
     private List<String> mColorList;

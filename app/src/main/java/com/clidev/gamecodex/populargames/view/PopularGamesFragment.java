@@ -118,11 +118,11 @@ public class PopularGamesFragment extends Fragment {
 
                 // Total items in the list
                 int totalItemCount = mGridLayoutManager.getItemCount();
-                Timber.d("Total item count: " + totalItemCount);
+                //Timber.d("Total item count: " + totalItemCount);
 
                 // the position of the last visible item on the list;
                 int lastVisiblePosition = mGridLayoutManager.findLastVisibleItemPosition();
-                Timber.d("Current scroll position's last item: " + lastVisiblePosition);
+                //Timber.d("Current scroll position's last item: " + lastVisiblePosition);
 
                 // initiate previousTotalItemCount
                 if (mPreviousTotalItemCount == 0) {
@@ -164,7 +164,7 @@ public class PopularGamesFragment extends Fragment {
     }
 
 
-    private void queryForMoreGames() {
-        mPopViewModel.downloadNextSetOfGames();
+    private void queryForMoreGames(int scrollCount) {
+        mPopViewModel.downloadNextSetOfGames(scrollCount);
     }
 }
