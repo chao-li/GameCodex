@@ -2,6 +2,7 @@ package com.clidev.gamecodex.populargames.view;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,6 +35,8 @@ import timber.log.Timber;
 
 public class PopularGamesFragment extends Fragment {
 
+    private static final String TOTAL_ITEM_COUNT = "TOTAL_ITEM_COUNT";
+    private static final String ISLOADING = "ISLOADING";
     private GameListRvAdapter mGameListRvAdapter;
     private GridLayoutManager mGridLayoutManager;
     private List<Genre> mGenres = new ArrayList<>();
@@ -42,9 +45,15 @@ public class PopularGamesFragment extends Fragment {
     // fields for scroll listener
     private int mPreviousTotalItemCount = 0;
     private boolean isLoading = false;
-    private int mScrollCount = 0;
 
     @BindView(R.id.popular_games_rv) RecyclerView mGameListRv;
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(TOTAL_ITEM_COUNT, mPreviousTotalItemCount);
+        outState.putBoolean(ISLOADING, isLoading);
+    }
 
     @Nullable
     @Override
@@ -52,6 +61,14 @@ public class PopularGamesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_popular_games, container, false);
 
         ButterKnife.bind(this, rootView);
+
+        if (savedInstanceState != null) {
+            mPreviousTotalItemCount = savedInstanceState.getInt(TOTAL_ITEM_COUNT);
+            isLoading = savedInstanceState.getBoolean(ISLOADING);
+
+            Timber.d("PreviousItemCount restored instance state: " + mPreviousTotalItemCount);
+            Timber.d("isLoading restored instance state: " + isLoading);
+        }
 
         prepareRecyclerView();
 
@@ -105,8 +122,14 @@ public class PopularGamesFragment extends Fragment {
 
     private void prepareRecyclerView() {
         mGameListRvAdapter = new GameListRvAdapter(getContext());
-        mGridLayoutManager = new GridLayoutManager(getContext(), 2,
-                GridLayoutManager.VERTICAL, false);
+
+        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            mGridLayoutManager = new GridLayoutManager(getContext(), 2,
+                    GridLayoutManager.VERTICAL, false);
+        } else {
+            mGridLayoutManager = new GridLayoutManager(getContext(), 4,
+                    GridLayoutManager.VERTICAL, false);
+        }
 
         mGameListRv.setAdapter(mGameListRvAdapter);
         mGameListRv.setLayoutManager(mGridLayoutManager);
@@ -131,11 +154,10 @@ public class PopularGamesFragment extends Fragment {
 
                 // if not loading, and we are near the bottom of the list, initiate loading.
                 if (isLoading == false &&
-                        lastVisiblePosition >= totalItemCount - 10 &&
+                        lastVisiblePosition >= totalItemCount - 25 &&
                         totalItemCount > 0) {
                     isLoading = true;
-                    mScrollCount++;
-                    queryForMoreGames(mScrollCount);
+                    queryForMoreGames();
 
                     Timber.d("Scroll loading started");
                 }
@@ -164,7 +186,7 @@ public class PopularGamesFragment extends Fragment {
     }
 
 
-    private void queryForMoreGames(int scrollCount) {
-        mPopViewModel.downloadNextSetOfGames(scrollCount);
+    private void queryForMoreGames() {
+        mPopViewModel.downloadNextSetOfGames();
     }
 }

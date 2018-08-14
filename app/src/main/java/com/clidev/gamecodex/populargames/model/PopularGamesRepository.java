@@ -106,6 +106,8 @@ public class PopularGamesRepository {
                 LIMIT,
                 LIMIT*scrollCount);
 
+        Timber.d("Call offset by: " + LIMIT*scrollCount);
+
         // begin the callback;
         call.enqueue(new Callback<List<Game>>() {
             @Override
