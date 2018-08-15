@@ -1,8 +1,7 @@
 package com.clidev.gamecodex.populargames.model;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.widget.LinearLayout;
+
 
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
 
@@ -66,13 +65,14 @@ public class PopularGamesRepository {
                 ORDER,
                 LIMIT);
 
+
         // Perform the call for popular movie list
         call.enqueue(new Callback<List<Game>>() {
             @Override
             public void onResponse(Call<List<Game>> call, Response<List<Game>> response) {
                 if (response.isSuccessful()) {
 
-                    Timber.d("api call sucesss");
+                    Timber.d("api call success");
                     Timber.d("First game: " + response.body().get(0).getName());
 
                     mGameList = response.body();

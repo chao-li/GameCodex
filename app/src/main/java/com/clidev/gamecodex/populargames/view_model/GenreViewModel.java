@@ -7,21 +7,21 @@ import android.content.Context;
 
 import com.clidev.gamecodex.populargames.model.GenreRepository;
 import com.clidev.gamecodex.populargames.model.room.Genre;
+import com.clidev.gamecodex.populargames.model.room.GenreDatabase;
 
 import java.util.List;
 
 public class GenreViewModel extends ViewModel{
 
     private MutableLiveData<List<Genre>> mGenres = new MutableLiveData<>();
-    private Context mContext;
 
     // Constructor
-    public GenreViewModel(Context context) {
-        mContext = context;
+    public GenreViewModel() {
     }
 
-    public void updateGenreList() {
-        GenreRepository genreRepository = new GenreRepository(mContext.getApplicationContext());
+    public void updateGenreList(GenreDatabase genreDatabase) {
+
+        GenreRepository genreRepository = new GenreRepository(genreDatabase);
         genreRepository.checkGenreList();
         mGenres = genreRepository.getGenreList();
 

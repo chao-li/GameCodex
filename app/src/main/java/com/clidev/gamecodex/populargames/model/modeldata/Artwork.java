@@ -7,7 +7,7 @@ import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Cover implements Parcelable
+public class Artwork implements Parcelable
 {
 
     @SerializedName("url")
@@ -22,24 +22,24 @@ public class Cover implements Parcelable
     @SerializedName("height")
     @Expose
     private Integer height;
-    public final static Creator<Cover> CREATOR = new Creator<Cover>() {
+    public final static Creator<Artwork> CREATOR = new Creator<Artwork>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public Cover createFromParcel(Parcel in) {
-            return new Cover(in);
+        public Artwork createFromParcel(Parcel in) {
+            return new Artwork(in);
         }
 
-        public Cover[] newArray(int size) {
-            return (new Cover[size]);
+        public Artwork[] newArray(int size) {
+            return (new Artwork[size]);
         }
 
     }
     ;
 
-    protected Cover(Parcel in) {
+    protected Artwork(Parcel in) {
         this.url = ((String) in.readValue((String.class.getClassLoader())));
         this.cloudinaryId = ((String) in.readValue((String.class.getClassLoader())));
         this.width = ((Integer) in.readValue((Integer.class.getClassLoader())));
@@ -50,7 +50,7 @@ public class Cover implements Parcelable
      * No args constructor for use in serialization
      * 
      */
-    public Cover() {
+    public Artwork() {
     }
 
     /**
@@ -60,7 +60,7 @@ public class Cover implements Parcelable
      * @param width
      * @param url
      */
-    public Cover(String url, String cloudinaryId, Integer width, Integer height) {
+    public Artwork(String url, String cloudinaryId, Integer width, Integer height) {
         super();
         this.url = url;
         this.cloudinaryId = cloudinaryId;

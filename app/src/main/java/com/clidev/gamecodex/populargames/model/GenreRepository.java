@@ -7,6 +7,7 @@ import android.content.Context;
 import com.clidev.gamecodex.populargames.model.room.AppExecutors;
 import com.clidev.gamecodex.populargames.model.room.Genre;
 import com.clidev.gamecodex.populargames.model.room.GenreDatabase;
+import com.clidev.gamecodex.utilities.NetworkUtilities;
 
 import java.util.List;
 
@@ -26,8 +27,8 @@ public class GenreRepository {
     private GenreDatabase mGenreDb;
     private MutableLiveData<List<Genre>> mGenres = new MutableLiveData<>();
 
-    public GenreRepository(Context context) {
-        mGenreDb = GenreDatabase.getInstance(context);
+    public GenreRepository(GenreDatabase genreDatabase) {
+        mGenreDb = genreDatabase;
     }
 
     public MutableLiveData<List<Genre>> getGenreList() {

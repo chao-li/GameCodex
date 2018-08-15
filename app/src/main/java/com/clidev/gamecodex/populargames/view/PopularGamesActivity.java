@@ -1,22 +1,10 @@
 package com.clidev.gamecodex.populargames.view;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.clidev.gamecodex.R;
-import com.clidev.gamecodex.populargames.model.modeldata.Game;
-import com.clidev.gamecodex.populargames.view_model.PopularGamesViewModel;
-import com.clidev.gamecodex.populargames.view_model.PopularGamesViewModelFactory;
-
-import java.util.List;
-
-import timber.log.Timber;
 
 public class PopularGamesActivity extends AppCompatActivity {
 

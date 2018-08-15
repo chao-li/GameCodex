@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.clidev.gamecodex.R;
-import com.clidev.gamecodex.populargames.model.PopularGamesRepository;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
 import com.clidev.gamecodex.populargames.model.room.Genre;
 import com.clidev.gamecodex.utilities.HexColorArray;
@@ -277,22 +276,13 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
 
             ButterKnife.bind(this, itemView);
 
-            /*
-            float imageWidth = (mScreenWidth / 2) - 2 - 4;
-            float imageHeight = imageWidth * 1.4f;
-            */
-
-            /*
-            mGameCover.getLayoutParams().height = (int) imageHeight;
-            mGameCover.getLayoutParams().width = (int) imageWidth;
-            mGameCover.requestLayout();
-            */
-
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+            int position = getAdapterPosition();
+
 
         }
     }

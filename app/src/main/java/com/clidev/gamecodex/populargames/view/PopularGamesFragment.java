@@ -9,14 +9,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.clidev.gamecodex.R;
-import com.clidev.gamecodex.populargames.model.GenreRepository;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
 import com.clidev.gamecodex.populargames.model.room.Genre;
 import com.clidev.gamecodex.populargames.model.room.GenreDatabase;
@@ -25,6 +22,7 @@ import com.clidev.gamecodex.populargames.view_model.GenreViewModel;
 import com.clidev.gamecodex.populargames.view_model.GenreViewModelFactory;
 import com.clidev.gamecodex.populargames.view_model.PopularGamesViewModel;
 import com.clidev.gamecodex.populargames.view_model.PopularGamesViewModelFactory;
+import com.clidev.gamecodex.utilities.NetworkUtilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,15 +77,17 @@ public class PopularGamesFragment extends Fragment {
         return rootView;
     }
 
+
     private void loadGameGenres() {
         // Destroys database.
         //getActivity().getApplicationContext().deleteDatabase(GenreDatabase.DATABASE_NAME);
-
-        GenreViewModelFactory factory = new GenreViewModelFactory(getActivity().getApplicationContext());
+        GenreViewModelFactory factory = new GenreViewModelFactory();
 
         final GenreViewModel genreViewModel = ViewModelProviders.of(this, factory).get(GenreViewModel.class);
 
-        genreViewModel.updateGenreList();
+        GenreDatabase genreDatabase = GenreDatabase.getInstance(getContext());
+
+        genreViewModel.updateGenreList(genreDatabase);
 
         genreViewModel.getGenres().observe(this, new Observer<List<Genre>>() {
             @Override
@@ -189,4 +189,22 @@ public class PopularGamesFragment extends Fragment {
     private void queryForMoreGames() {
         mPopViewModel.downloadNextSetOfGames();
     }
+
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkIfNetWorkIsAvailable();
+    }
+
+    private void checkIfNetWorkIsAvailable() {
+        if (NetworkUtilities.isNetworkAvailable(getContext()) == false) {
+            NetworkUtilities.alertNetworkNotAvailable(getContext());
+        }
+    }
+
+
+
 }
