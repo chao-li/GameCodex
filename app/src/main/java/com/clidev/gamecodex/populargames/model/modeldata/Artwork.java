@@ -13,15 +13,7 @@ public class Artwork implements Parcelable
     @SerializedName("url")
     @Expose
     private String url;
-    @SerializedName("cloudinary_id")
-    @Expose
-    private String cloudinaryId;
-    @SerializedName("width")
-    @Expose
-    private Integer width;
-    @SerializedName("height")
-    @Expose
-    private Integer height;
+
     public final static Creator<Artwork> CREATOR = new Creator<Artwork>() {
 
 
@@ -41,9 +33,6 @@ public class Artwork implements Parcelable
 
     protected Artwork(Parcel in) {
         this.url = ((String) in.readValue((String.class.getClassLoader())));
-        this.cloudinaryId = ((String) in.readValue((String.class.getClassLoader())));
-        this.width = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.height = ((Integer) in.readValue((Integer.class.getClassLoader())));
     }
 
     /**
@@ -55,17 +44,12 @@ public class Artwork implements Parcelable
 
     /**
      * 
-     * @param cloudinaryId
-     * @param height
-     * @param width
+
      * @param url
      */
-    public Artwork(String url, String cloudinaryId, Integer width, Integer height) {
+    public Artwork(String url) {
         super();
         this.url = url;
-        this.cloudinaryId = cloudinaryId;
-        this.width = width;
-        this.height = height;
     }
 
     public String getUrl() {
@@ -76,35 +60,9 @@ public class Artwork implements Parcelable
         this.url = url;
     }
 
-    public String getCloudinaryId() {
-        return cloudinaryId;
-    }
-
-    public void setCloudinaryId(String cloudinaryId) {
-        this.cloudinaryId = cloudinaryId;
-    }
-
-    public Integer getWidth() {
-        return width;
-    }
-
-    public void setWidth(Integer width) {
-        this.width = width;
-    }
-
-    public Integer getHeight() {
-        return height;
-    }
-
-    public void setHeight(Integer height) {
-        this.height = height;
-    }
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(url);
-        dest.writeValue(cloudinaryId);
-        dest.writeValue(width);
-        dest.writeValue(height);
     }
 
     public int describeContents() {
