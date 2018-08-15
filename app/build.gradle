@@ -46,7 +46,8 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.11' // Dagger 2
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11' // Dagger 2
     implementation 'com.google.dagger:dagger-android:2.11' // Dagger Android
-    implementation 'com.google.dagger:dagger-android-support:2.11' // if you use the support libraries for Dagger
+    implementation 'com.google.dagger:dagger-android-support:2.11'
+    // if you use the support libraries for Dagger
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
 
     implementation "android.arch.lifecycle:extensions:1.1.1" // LiveData and ViewModel
@@ -56,8 +57,6 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1" // Room
 
     implementation 'com.github.igdb:api-android-java:1.1'
-
-
 
 
 }

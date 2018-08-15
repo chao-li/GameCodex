@@ -1,6 +1,8 @@
 package com.clidev.gamecodex.populargames.view.adapters;
 
+import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +16,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.clidev.gamecodex.R;
+import com.clidev.gamecodex.gamedetails.view.GameDetails;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
+import com.clidev.gamecodex.populargames.model.modeldata.ReleaseDate;
 import com.clidev.gamecodex.populargames.model.room.Genre;
+import com.clidev.gamecodex.populargames.view.PopularGamesActivity;
 import com.clidev.gamecodex.utilities.HexColorArray;
 import com.clidev.gamecodex.utilities.ImageUrlEditor;
 
@@ -24,6 +29,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.GameListViewHolder> {
 
@@ -33,10 +39,16 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
     private List<Integer> mGenreIds;
     private List<String> mColorList;
     //private float mScreenWidth;
+    private ItemClickHandler mItemClickHandler;
+
+    public interface ItemClickHandler {
+        void onGameItemClicked(Game game);
+    }
 
     // Constructor
     public GameListRvAdapter(Context context) {
         mContext = context;
+        mItemClickHandler = (ItemClickHandler) context;
     }
 
     // Custom PUBLIC methods /////////////////////////////////////////
@@ -56,12 +68,9 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
 
                 // add new colors
                 addColorToList(newColorSize);
-
-
             }
 
             notifyDataSetChanged();
-
         }
     }
 
@@ -282,6 +291,32 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
+            Game selectedGame = mGameList.get(position);
+
+            // pass selected game to activity
+            mItemClickHandler.onGameItemClicked(selectedGame);
+
+
+            // Checking if all values are correct
+            /*
+            String name = selectedGame.getName();
+            String url = selectedGame.getUrl();
+            String summary = selectedGame.getSummary();
+            Double popularity = selectedGame.getPopularity();
+            Double aggregatedRating = selectedGame.getAggregatedRating();
+            Long firstReleaseDate = selectedGame.getFirstReleaseDate();
+            Long releaseDate = selectedGame.getReleaseDates().get(0).getDate();
+            String artworkUrl = selectedGame.getArtworks().get(0).getUrl();
+
+            Timber.d(name);
+            Timber.d(url);
+            Timber.d(summary);
+            Timber.d(popularity + "");
+            Timber.d(aggregatedRating + "");
+            Timber.d(firstReleaseDate + "");
+            Timber.d(releaseDate + "");
+            Timber.d(artworkUrl + "");
+            */
 
 
         }

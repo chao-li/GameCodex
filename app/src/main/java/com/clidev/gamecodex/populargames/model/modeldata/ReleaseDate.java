@@ -10,27 +10,15 @@ import com.google.gson.annotations.SerializedName;
 public class ReleaseDate implements Parcelable
 {
 
-    @SerializedName("category")
-    @Expose
-    private Integer category;
-    @SerializedName("platform")
-    @Expose
-    private Integer platform;
+
     @SerializedName("date")
     @Expose
     private Long date;
-    @SerializedName("region")
-    @Expose
-    private Integer region;
+
     @SerializedName("human")
     @Expose
     private String human;
-    @SerializedName("y")
-    @Expose
-    private Integer y;
-    @SerializedName("m")
-    @Expose
-    private Integer m;
+
     public final static Creator<ReleaseDate> CREATOR = new Creator<ReleaseDate>() {
 
 
@@ -49,13 +37,8 @@ public class ReleaseDate implements Parcelable
     ;
 
     protected ReleaseDate(Parcel in) {
-        this.category = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.platform = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.date = ((Long) in.readValue((Long.class.getClassLoader())));
-        this.region = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.human = ((String) in.readValue((String.class.getClassLoader())));
-        this.y = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.m = ((Integer) in.readValue((Integer.class.getClassLoader())));
     }
 
     /**
@@ -67,40 +50,18 @@ public class ReleaseDate implements Parcelable
 
     /**
      * 
-     * @param region
-     * @param platform
-     * @param category
-     * @param m
+
      * @param date
-     * @param y
+
      * @param human
      */
-    public ReleaseDate(Integer category, Integer platform, Long date, Integer region, String human, Integer y, Integer m) {
+    public ReleaseDate(Long date, String human) {
         super();
-        this.category = category;
-        this.platform = platform;
         this.date = date;
-        this.region = region;
         this.human = human;
-        this.y = y;
-        this.m = m;
+
     }
 
-    public Integer getCategory() {
-        return category;
-    }
-
-    public void setCategory(Integer category) {
-        this.category = category;
-    }
-
-    public Integer getPlatform() {
-        return platform;
-    }
-
-    public void setPlatform(Integer platform) {
-        this.platform = platform;
-    }
 
     public Long getDate() {
         return date;
@@ -110,13 +71,6 @@ public class ReleaseDate implements Parcelable
         this.date = date;
     }
 
-    public Integer getRegion() {
-        return region;
-    }
-
-    public void setRegion(Integer region) {
-        this.region = region;
-    }
 
     public String getHuman() {
         return human;
@@ -126,30 +80,13 @@ public class ReleaseDate implements Parcelable
         this.human = human;
     }
 
-    public Integer getY() {
-        return y;
-    }
-
-    public void setY(Integer y) {
-        this.y = y;
-    }
-
-    public Integer getM() {
-        return m;
-    }
-
-    public void setM(Integer m) {
-        this.m = m;
-    }
 
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(category);
-        dest.writeValue(platform);
+
         dest.writeValue(date);
-        dest.writeValue(region);
+
         dest.writeValue(human);
-        dest.writeValue(y);
-        dest.writeValue(m);
+
     }
 
     public int describeContents() {
