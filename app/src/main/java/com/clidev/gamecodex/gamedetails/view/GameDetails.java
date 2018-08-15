@@ -17,6 +17,7 @@ public class GameDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_details);
 
+        /*
         Intent intent = getIntent();
         Game selectedGame = intent.getParcelableExtra(PopularGamesActivity.SELECTED_GAME);
 
@@ -37,7 +38,7 @@ public class GameDetails extends AppCompatActivity {
         Timber.d(firstReleaseDate + "");
         Timber.d(releaseDate + "");
         Timber.d(artworkUrl + "");
-
+        */
 
     }
 }

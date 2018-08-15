@@ -3,7 +3,7 @@ package com.clidev.gamecodex.populargames.model;
 
 import com.clidev.gamecodex.ApiKeys;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
-import com.clidev.gamecodex.populargames.model.room.Genre;
+import com.clidev.gamecodex.populargames.model.room.genre.Genre;
 
 import java.util.List;
 

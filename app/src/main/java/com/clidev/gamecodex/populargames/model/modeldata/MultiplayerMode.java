@@ -1,18 +1,14 @@
 
 package com.clidev.gamecodex.populargames.model.modeldata;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MultiplayerMode implements Parcelable
-{
+public class MultiplayerMode {
 
     @SerializedName("platform")
     @Expose
-    private Integer platform;
+    private Long platform;
     @SerializedName("offlinecoop")
     @Expose
     private Boolean offlinecoop;
@@ -36,47 +32,16 @@ public class MultiplayerMode implements Parcelable
     private Boolean dropin;
     @SerializedName("offlinecoopmax")
     @Expose
-    private Integer offlinecoopmax;
+    private Long offlinecoopmax;
     @SerializedName("onlinecoopmax")
     @Expose
-    private Integer onlinecoopmax;
+    private Long onlinecoopmax;
     @SerializedName("onlinemax")
     @Expose
-    private Integer onlinemax;
+    private Long onlinemax;
     @SerializedName("offlinemax")
     @Expose
-    private Integer offlinemax;
-    public final static Creator<MultiplayerMode> CREATOR = new Creator<MultiplayerMode>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public MultiplayerMode createFromParcel(Parcel in) {
-            return new MultiplayerMode(in);
-        }
-
-        public MultiplayerMode[] newArray(int size) {
-            return (new MultiplayerMode[size]);
-        }
-
-    }
-    ;
-
-    protected MultiplayerMode(Parcel in) {
-        this.platform = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.offlinecoop = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.onlinecoop = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.lancoop = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.campaigncoop = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.splitscreenonline = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.splitscreen = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.dropin = ((Boolean) in.readValue((Boolean.class.getClassLoader())));
-        this.offlinecoopmax = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.onlinecoopmax = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.onlinemax = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.offlinemax = ((Integer) in.readValue((Integer.class.getClassLoader())));
-    }
+    private Long offlinemax;
 
     /**
      * No args constructor for use in serialization
@@ -100,7 +65,7 @@ public class MultiplayerMode implements Parcelable
      * @param offlinecoopmax
      * @param offlinecoop
      */
-    public MultiplayerMode(Integer platform, Boolean offlinecoop, Boolean onlinecoop, Boolean lancoop, Boolean campaigncoop, Boolean splitscreenonline, Boolean splitscreen, Boolean dropin, Integer offlinecoopmax, Integer onlinecoopmax, Integer onlinemax, Integer offlinemax) {
+    public MultiplayerMode(Long platform, Boolean offlinecoop, Boolean onlinecoop, Boolean lancoop, Boolean campaigncoop, Boolean splitscreenonline, Boolean splitscreen, Boolean dropin, Long offlinecoopmax, Long onlinecoopmax, Long onlinemax, Long offlinemax) {
         super();
         this.platform = platform;
         this.offlinecoop = offlinecoop;
@@ -116,11 +81,11 @@ public class MultiplayerMode implements Parcelable
         this.offlinemax = offlinemax;
     }
 
-    public Integer getPlatform() {
+    public Long getPlatform() {
         return platform;
     }
 
-    public void setPlatform(Integer platform) {
+    public void setPlatform(Long platform) {
         this.platform = platform;
     }
 
@@ -180,55 +145,36 @@ public class MultiplayerMode implements Parcelable
         this.dropin = dropin;
     }
 
-    public Integer getOfflinecoopmax() {
+    public Long getOfflinecoopmax() {
         return offlinecoopmax;
     }
 
-    public void setOfflinecoopmax(Integer offlinecoopmax) {
+    public void setOfflinecoopmax(Long offlinecoopmax) {
         this.offlinecoopmax = offlinecoopmax;
     }
 
-    public Integer getOnlinecoopmax() {
+    public Long getOnlinecoopmax() {
         return onlinecoopmax;
     }
 
-    public void setOnlinecoopmax(Integer onlinecoopmax) {
+    public void setOnlinecoopmax(Long onlinecoopmax) {
         this.onlinecoopmax = onlinecoopmax;
     }
 
-    public Integer getOnlinemax() {
+    public Long getOnlinemax() {
         return onlinemax;
     }
 
-    public void setOnlinemax(Integer onlinemax) {
+    public void setOnlinemax(Long onlinemax) {
         this.onlinemax = onlinemax;
     }
 
-    public Integer getOfflinemax() {
+    public Long getOfflinemax() {
         return offlinemax;
     }
 
-    public void setOfflinemax(Integer offlinemax) {
+    public void setOfflinemax(Long offlinemax) {
         this.offlinemax = offlinemax;
-    }
-
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(platform);
-        dest.writeValue(offlinecoop);
-        dest.writeValue(onlinecoop);
-        dest.writeValue(lancoop);
-        dest.writeValue(campaigncoop);
-        dest.writeValue(splitscreenonline);
-        dest.writeValue(splitscreen);
-        dest.writeValue(dropin);
-        dest.writeValue(offlinecoopmax);
-        dest.writeValue(onlinecoopmax);
-        dest.writeValue(onlinemax);
-        dest.writeValue(offlinemax);
-    }
-
-    public int describeContents() {
-        return  0;
     }
 
 }

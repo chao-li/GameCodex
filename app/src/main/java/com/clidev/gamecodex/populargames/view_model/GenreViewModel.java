@@ -3,11 +3,10 @@ package com.clidev.gamecodex.populargames.view_model;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.content.Context;
 
-import com.clidev.gamecodex.populargames.model.GenreRepository;
-import com.clidev.gamecodex.populargames.model.room.Genre;
-import com.clidev.gamecodex.populargames.model.room.GenreDatabase;
+import com.clidev.gamecodex.populargames.model.repositories.GenreRepository;
+import com.clidev.gamecodex.populargames.model.room.genre.Genre;
+import com.clidev.gamecodex.populargames.model.room.genre.GenreDatabase;
 
 import java.util.List;
 

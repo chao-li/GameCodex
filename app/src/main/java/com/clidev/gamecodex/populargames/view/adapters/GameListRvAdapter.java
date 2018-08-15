@@ -1,8 +1,6 @@
 package com.clidev.gamecodex.populargames.view.adapters;
 
-import android.content.ClipData;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -16,11 +14,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.clidev.gamecodex.R;
-import com.clidev.gamecodex.gamedetails.view.GameDetails;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
-import com.clidev.gamecodex.populargames.model.modeldata.ReleaseDate;
-import com.clidev.gamecodex.populargames.model.room.Genre;
-import com.clidev.gamecodex.populargames.view.PopularGamesActivity;
+import com.clidev.gamecodex.populargames.model.room.genre.Genre;
 import com.clidev.gamecodex.utilities.HexColorArray;
 import com.clidev.gamecodex.utilities.ImageUrlEditor;
 
@@ -29,7 +24,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.GameListViewHolder> {
 
@@ -130,11 +124,11 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
     private void loadGameGenre(@NonNull GameListViewHolder holder, int position) {
         if (mGenreList != null && mGenreList.isEmpty() != true) {
             if (mGameList.get(position).getGenres() != null) {
-                List<Integer> genreIds = mGameList.get(position).getGenres();
+                List<Long> genreIds = mGameList.get(position).getGenres();
 
                 String genreString = "";
 
-                for (Integer genreId : genreIds) {
+                for (Long genreId : genreIds) {
                     Integer index = mGenreIds.indexOf(genreId);
 
                     // only if a match is found, and the genre is not null

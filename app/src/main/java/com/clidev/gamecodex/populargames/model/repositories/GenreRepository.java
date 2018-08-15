@@ -1,13 +1,11 @@
-package com.clidev.gamecodex.populargames.model;
+package com.clidev.gamecodex.populargames.model.repositories;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.content.Context;
 
+import com.clidev.gamecodex.populargames.model.RetrofitClient;
 import com.clidev.gamecodex.populargames.model.room.AppExecutors;
-import com.clidev.gamecodex.populargames.model.room.Genre;
-import com.clidev.gamecodex.populargames.model.room.GenreDatabase;
-import com.clidev.gamecodex.utilities.NetworkUtilities;
+import com.clidev.gamecodex.populargames.model.room.genre.Genre;
+import com.clidev.gamecodex.populargames.model.room.genre.GenreDatabase;
 
 import java.util.List;
 

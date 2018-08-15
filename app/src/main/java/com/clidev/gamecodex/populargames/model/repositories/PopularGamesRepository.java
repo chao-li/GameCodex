@@ -1,8 +1,9 @@
-package com.clidev.gamecodex.populargames.model;
+package com.clidev.gamecodex.populargames.model.repositories;
 
 import android.arch.lifecycle.MutableLiveData;
 
 
+import com.clidev.gamecodex.populargames.model.RetrofitClient;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
 
 import java.text.SimpleDateFormat;

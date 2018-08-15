@@ -1,4 +1,4 @@
-package com.clidev.gamecodex.populargames.model.typeconverters;
+package com.clidev.gamecodex.populargames.model.room.typeconverters;
 
 import com.clidev.gamecodex.populargames.model.modeldata.Video;
 

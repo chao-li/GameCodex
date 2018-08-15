@@ -1,10 +1,6 @@
-package com.clidev.gamecodex.populargames.model.typeconverters;
-
-import android.arch.persistence.room.TypeConverter;
+package com.clidev.gamecodex.populargames.model.room.typeconverters;
 
 import com.clidev.gamecodex.populargames.model.modeldata.ReleaseDate;
-
-import java.util.Date;
 
 public class ReleaseDateConverter {
 

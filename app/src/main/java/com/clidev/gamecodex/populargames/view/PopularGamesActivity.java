@@ -42,8 +42,12 @@ public class PopularGamesActivity extends AppCompatActivity implements GameListR
 
     @Override
     public void onGameItemClicked(Game game) {
+
+
+
+
         Intent intent = new Intent(PopularGamesActivity.this, GameDetails.class);
-        intent.putExtra(SELECTED_GAME, game);
+
 
         startActivity(intent);
     }

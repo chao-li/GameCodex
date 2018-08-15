@@ -1,5 +1,5 @@
 
-package com.clidev.gamecodex.populargames.model.room;
+package com.clidev.gamecodex.populargames.model.room.genre;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;

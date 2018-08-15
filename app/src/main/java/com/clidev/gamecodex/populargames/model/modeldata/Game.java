@@ -1,20 +1,15 @@
 
 package com.clidev.gamecodex.populargames.model.modeldata;
 
-import java.util.ArrayList;
 import java.util.List;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Game implements Parcelable
-{
+public class Game {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private Long id;
     @SerializedName("name")
     @Expose
     private String name;
@@ -32,19 +27,19 @@ public class Game implements Parcelable
     private Double aggregatedRating;
     @SerializedName("developers")
     @Expose
-    private List<Integer> developers = null;
+    private List<Long> developers = null;
     @SerializedName("publishers")
     @Expose
-    private List<Integer> publishers = null;
+    private List<Long> publishers = null;
     @SerializedName("player_perspectives")
     @Expose
-    private List<Integer> playerPerspectives = null;
+    private List<Long> playerPerspectives = null;
     @SerializedName("game_modes")
     @Expose
-    private List<Integer> gameModes = null;
+    private List<Long> gameModes = null;
     @SerializedName("genres")
     @Expose
-    private List<Integer> genres = null;
+    private List<Long> genres = null;
     @SerializedName("first_release_date")
     @Expose
     private Long firstReleaseDate;
@@ -63,59 +58,6 @@ public class Game implements Parcelable
     @SerializedName("multiplayer_modes")
     @Expose
     private List<MultiplayerMode> multiplayerModes = null;
-    public final static Creator<Game> CREATOR = new Creator<Game>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Game createFromParcel(Parcel in) {
-            return new Game(in);
-        }
-
-        public Game[] newArray(int size) {
-            return (new Game[size]);
-        }
-
-    }
-    ;
-
-    protected Game(Parcel in) {
-        this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.name = ((String) in.readValue((String.class.getClassLoader())));
-        this.url = ((String) in.readValue((String.class.getClassLoader())));
-        this.summary = ((String) in.readValue((String.class.getClassLoader())));
-        this.popularity = ((Double) in.readValue((Integer.class.getClassLoader())));
-        this.aggregatedRating = ((Double) in.readValue((Double.class.getClassLoader())));
-
-
-        in.readList(this.developers, (Integer.class.getClassLoader()));
-
-        in.readList(this.publishers, (Integer.class.getClassLoader()));
-
-        in.readList(this.playerPerspectives, (Integer.class.getClassLoader()));
-
-
-        in.readList(this.gameModes, (Integer.class.getClassLoader()));
-
-
-        in.readList(this.genres, (Integer.class.getClassLoader()));
-
-
-        this.firstReleaseDate = ((Long) in.readLong());
-
-        in.readList(this.releaseDates, (com.clidev.gamecodex.populargames.model.modeldata.ReleaseDate.class.getClassLoader()));
-
-        in.readList(this.artworks, (Artwork.class.getClassLoader()));
-
-        in.readList(this.videos, (com.clidev.gamecodex.populargames.model.modeldata.Video.class.getClassLoader()));
-
-
-        this.cover = ((Cover) in.readValue((Cover.class.getClassLoader())));
-
-        in.readList(this.multiplayerModes, (com.clidev.gamecodex.populargames.model.modeldata.MultiplayerMode.class.getClassLoader()));
-
-    }
 
     /**
      * No args constructor for use in serialization
@@ -144,7 +86,7 @@ public class Game implements Parcelable
      * @param popularity
      * @param gameModes
      */
-    public Game(Integer id, String name, String url, String summary, Double popularity, Double aggregatedRating, List<Integer> developers, List<Integer> publishers, List<Integer> playerPerspectives, List<Integer> gameModes, List<Integer> genres, Long firstReleaseDate, List<ReleaseDate> releaseDates, List<Artwork> artworks, List<Video> videos, Cover cover, List<MultiplayerMode> multiplayerModes) {
+    public Game(Long id, String name, String url, String summary, Double popularity, Double aggregatedRating, List<Long> developers, List<Long> publishers, List<Long> playerPerspectives, List<Long> gameModes, List<Long> genres, Long firstReleaseDate, List<ReleaseDate> releaseDates, List<Artwork> artworks, List<Video> videos, Cover cover, List<MultiplayerMode> multiplayerModes) {
         super();
         this.id = id;
         this.name = name;
@@ -165,11 +107,11 @@ public class Game implements Parcelable
         this.multiplayerModes = multiplayerModes;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -213,43 +155,43 @@ public class Game implements Parcelable
         this.aggregatedRating = aggregatedRating;
     }
 
-    public List<Integer> getDevelopers() {
+    public List<Long> getDevelopers() {
         return developers;
     }
 
-    public void setDevelopers(List<Integer> developers) {
+    public void setDevelopers(List<Long> developers) {
         this.developers = developers;
     }
 
-    public List<Integer> getPublishers() {
+    public List<Long> getPublishers() {
         return publishers;
     }
 
-    public void setPublishers(List<Integer> publishers) {
+    public void setPublishers(List<Long> publishers) {
         this.publishers = publishers;
     }
 
-    public List<Integer> getPlayerPerspectives() {
+    public List<Long> getPlayerPerspectives() {
         return playerPerspectives;
     }
 
-    public void setPlayerPerspectives(List<Integer> playerPerspectives) {
+    public void setPlayerPerspectives(List<Long> playerPerspectives) {
         this.playerPerspectives = playerPerspectives;
     }
 
-    public List<Integer> getGameModes() {
+    public List<Long> getGameModes() {
         return gameModes;
     }
 
-    public void setGameModes(List<Integer> gameModes) {
+    public void setGameModes(List<Long> gameModes) {
         this.gameModes = gameModes;
     }
 
-    public List<Integer> getGenres() {
+    public List<Long> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Integer> genres) {
+    public void setGenres(List<Long> genres) {
         this.genres = genres;
     }
 
@@ -299,30 +241,6 @@ public class Game implements Parcelable
 
     public void setMultiplayerModes(List<MultiplayerMode> multiplayerModes) {
         this.multiplayerModes = multiplayerModes;
-    }
-
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(id);
-        dest.writeValue(name);
-        dest.writeValue(url);
-        dest.writeValue(summary);
-        dest.writeValue(popularity);
-        dest.writeValue(aggregatedRating);
-        dest.writeList(developers);
-        dest.writeList(publishers);
-        dest.writeList(playerPerspectives);
-        dest.writeList(gameModes);
-        dest.writeList(genres);
-        dest.writeLong(firstReleaseDate);
-        dest.writeList(releaseDates);
-        dest.writeList(artworks);
-        dest.writeList(videos);
-        dest.writeValue(cover);
-        dest.writeList(multiplayerModes);
-    }
-
-    public int describeContents() {
-        return  0;
     }
 
 }
