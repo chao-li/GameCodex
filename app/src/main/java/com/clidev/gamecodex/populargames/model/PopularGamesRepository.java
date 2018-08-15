@@ -22,7 +22,7 @@ public class PopularGamesRepository {
 
     // Constants
     private static final String igdbBaseUrl = "https://api-endpoint.igdb.com/";
-    private static final String FIELDS = "id,name,genres,cover,popularity";
+    private static final String FIELDS = "id,name,genres,url,summary,aggregated_rating,popularity,cover,developers,publishers,player_perspectives,game_modes,first_release_date,release_dates,artworks,videos,multiplayer_modes";
     private static final String ORDER = "popularity:desc";
     private static final int LIMIT = 30;
 

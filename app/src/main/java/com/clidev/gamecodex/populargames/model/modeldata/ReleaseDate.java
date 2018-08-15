@@ -18,7 +18,7 @@ public class ReleaseDate implements Parcelable
     private Integer platform;
     @SerializedName("date")
     @Expose
-    private Integer date;
+    private Long date;
     @SerializedName("region")
     @Expose
     private Integer region;
@@ -51,7 +51,7 @@ public class ReleaseDate implements Parcelable
     protected ReleaseDate(Parcel in) {
         this.category = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.platform = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.date = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.date = ((Long) in.readValue((Long.class.getClassLoader())));
         this.region = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.human = ((String) in.readValue((String.class.getClassLoader())));
         this.y = ((Integer) in.readValue((Integer.class.getClassLoader())));
@@ -75,7 +75,7 @@ public class ReleaseDate implements Parcelable
      * @param y
      * @param human
      */
-    public ReleaseDate(Integer category, Integer platform, Integer date, Integer region, String human, Integer y, Integer m) {
+    public ReleaseDate(Integer category, Integer platform, Long date, Integer region, String human, Integer y, Integer m) {
         super();
         this.category = category;
         this.platform = platform;
@@ -102,11 +102,11 @@ public class ReleaseDate implements Parcelable
         this.platform = platform;
     }
 
-    public Integer getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(Integer date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 

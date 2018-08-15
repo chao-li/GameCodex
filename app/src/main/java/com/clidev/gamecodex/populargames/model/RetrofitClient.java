@@ -14,6 +14,7 @@ import retrofit2.http.Query;
 
 public interface RetrofitClient {
 
+
     @Headers({
             ApiKeys.IGDB_API_KEY,
             "Accept: application/json"
@@ -26,6 +27,8 @@ public interface RetrofitClient {
             @Query("limit") int limit
 
     );
+
+
 
 
     @Headers({

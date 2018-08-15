@@ -46,7 +46,7 @@ public class Game implements Parcelable
     private List<Integer> genres = null;
     @SerializedName("first_release_date")
     @Expose
-    private Integer firstReleaseDate;
+    private Long firstReleaseDate;
     @SerializedName("release_dates")
     @Expose
     private List<ReleaseDate> releaseDates = null;
@@ -91,7 +91,7 @@ public class Game implements Parcelable
         in.readList(this.playerPerspectives, (Integer.class.getClassLoader()));
         in.readList(this.gameModes, (Integer.class.getClassLoader()));
         in.readList(this.genres, (Integer.class.getClassLoader()));
-        this.firstReleaseDate = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.firstReleaseDate = ((Long) in.readValue((Long.class.getClassLoader())));
         in.readList(this.releaseDates, (com.clidev.gamecodex.populargames.model.modeldata.ReleaseDate.class.getClassLoader()));
         in.readList(this.artworks, (Artwork.class.getClassLoader()));
         in.readList(this.videos, (com.clidev.gamecodex.populargames.model.modeldata.Video.class.getClassLoader()));
@@ -126,7 +126,7 @@ public class Game implements Parcelable
      * @param popularity
      * @param gameModes
      */
-    public Game(Integer id, String name, String url, String summary, Double popularity, Double aggregatedRating, List<Integer> developers, List<Integer> publishers, List<Integer> playerPerspectives, List<Integer> gameModes, List<Integer> genres, Integer firstReleaseDate, List<ReleaseDate> releaseDates, List<Artwork> artworks, List<Video> videos, Cover cover, List<MultiplayerMode> multiplayerModes) {
+    public Game(Integer id, String name, String url, String summary, Double popularity, Double aggregatedRating, List<Integer> developers, List<Integer> publishers, List<Integer> playerPerspectives, List<Integer> gameModes, List<Integer> genres, Long firstReleaseDate, List<ReleaseDate> releaseDates, List<Artwork> artworks, List<Video> videos, Cover cover, List<MultiplayerMode> multiplayerModes) {
         super();
         this.id = id;
         this.name = name;
@@ -235,11 +235,11 @@ public class Game implements Parcelable
         this.genres = genres;
     }
 
-    public Integer getFirstReleaseDate() {
+    public Long getFirstReleaseDate() {
         return firstReleaseDate;
     }
 
-    public void setFirstReleaseDate(Integer firstReleaseDate) {
+    public void setFirstReleaseDate(Long firstReleaseDate) {
         this.firstReleaseDate = firstReleaseDate;
     }
 
