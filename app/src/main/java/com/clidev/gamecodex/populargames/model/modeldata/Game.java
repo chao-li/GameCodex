@@ -88,48 +88,33 @@ public class Game implements Parcelable
         this.popularity = ((Double) in.readValue((Integer.class.getClassLoader())));
         this.aggregatedRating = ((Double) in.readValue((Double.class.getClassLoader())));
 
-        if (this.developers != null) {
-            in.readList(this.developers, (Integer.class.getClassLoader()));
-        } else {
-            List<Integer> dummyInteger = new ArrayList<>();
-            in.readList(dummyInteger, (Integer.class.getClassLoader()));
-        }
 
-        if (this.publishers != null) {
-            in.readList(this.publishers, (Integer.class.getClassLoader()));
-        }
+        in.readList(this.developers, (Integer.class.getClassLoader()));
 
-        if (this.playerPerspectives != null) {
-            in.readList(this.playerPerspectives, (Integer.class.getClassLoader()));
-        }
+        in.readList(this.publishers, (Integer.class.getClassLoader()));
 
-        if (this.gameModes != null) {
-            in.readList(this.gameModes, (Integer.class.getClassLoader()));
-        }
+        in.readList(this.playerPerspectives, (Integer.class.getClassLoader()));
 
-        if (this.genres != null) {
-            in.readList(this.genres, (Integer.class.getClassLoader()));
-        }
+
+        in.readList(this.gameModes, (Integer.class.getClassLoader()));
+
+
+        in.readList(this.genres, (Integer.class.getClassLoader()));
+
 
         this.firstReleaseDate = ((Long) in.readLong());
 
-        if (this.releaseDates != null) {
-            in.readList(this.releaseDates, (com.clidev.gamecodex.populargames.model.modeldata.ReleaseDate.class.getClassLoader()));
-        }
+        in.readList(this.releaseDates, (com.clidev.gamecodex.populargames.model.modeldata.ReleaseDate.class.getClassLoader()));
 
-        if (this.artworks != null) {
-            in.readList(this.artworks, (Artwork.class.getClassLoader()));
-        }
+        in.readList(this.artworks, (Artwork.class.getClassLoader()));
 
-        if (this.videos != null) {
-            in.readList(this.videos, (com.clidev.gamecodex.populargames.model.modeldata.Video.class.getClassLoader()));
-        }
+        in.readList(this.videos, (com.clidev.gamecodex.populargames.model.modeldata.Video.class.getClassLoader()));
+
 
         this.cover = ((Cover) in.readValue((Cover.class.getClassLoader())));
 
-        if (this.multiplayerModes != null) {
-            in.readList(this.multiplayerModes, (com.clidev.gamecodex.populargames.model.modeldata.MultiplayerMode.class.getClassLoader()));
-        }
+        in.readList(this.multiplayerModes, (com.clidev.gamecodex.populargames.model.modeldata.MultiplayerMode.class.getClassLoader()));
+
     }
 
     /**
