@@ -9,10 +9,9 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "game")
+//@Entity(tableName = "game")
 public class Game {
 
-    @PrimaryKey
     @SerializedName("id")
     @Expose
     private Long id;
@@ -69,7 +68,6 @@ public class Game {
      * No args constructor for use in serialization
      * 
      */
-    @Ignore
     public Game() {
     }
 

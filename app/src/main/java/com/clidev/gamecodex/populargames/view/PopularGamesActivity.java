@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.clidev.gamecodex.R;
-import com.clidev.gamecodex.gamedetails.view.GameDetails;
+import com.clidev.gamecodex.gamedetails.view.GameDetailsActivity;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
 import com.clidev.gamecodex.populargames.view.adapters.GameListRvAdapter;
 
@@ -14,7 +14,7 @@ public class PopularGamesActivity extends AppCompatActivity implements GameListR
 
     // Constants
     private static final String POPULAR_GAMES = "POPULAR_GAMES";
-    public static final String SELECTED_GAME = "SELECTED_GAME";
+    public static final String SELECTED_GAME_ID = "SELECTED_GAME_ID";
 
     // member variables
     private Fragment mFragment;
@@ -43,11 +43,9 @@ public class PopularGamesActivity extends AppCompatActivity implements GameListR
     @Override
     public void onGameItemClicked(Game game) {
 
-
-
-
-        Intent intent = new Intent(PopularGamesActivity.this, GameDetails.class);
-
+        Intent intent = new Intent(PopularGamesActivity.this, GameDetailsActivity.class);
+        Long gameId = game.getId();
+        intent.putExtra(SELECTED_GAME_ID, gameId);
 
         startActivity(intent);
     }

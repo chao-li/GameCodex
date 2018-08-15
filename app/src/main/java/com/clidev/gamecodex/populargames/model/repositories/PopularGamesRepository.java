@@ -3,7 +3,8 @@ package com.clidev.gamecodex.populargames.model.repositories;
 import android.arch.lifecycle.MutableLiveData;
 
 
-import com.clidev.gamecodex.populargames.model.RetrofitClient;
+import com.clidev.gamecodex.Constants.RetrofitConstantFields;
+import com.clidev.gamecodex.populargames.model.PopularGamesRetrofitClient;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
 
 import java.text.SimpleDateFormat;
@@ -21,17 +22,11 @@ import timber.log.Timber;
 
 public class PopularGamesRepository {
 
-    // Constants
-    private static final String igdbBaseUrl = "https://api-endpoint.igdb.com/";
-    private static final String FIELDS = "id,name,genres,url,summary,aggregated_rating,popularity,cover,developers,publishers,player_perspectives,game_modes,first_release_date,release_dates,artworks,videos,multiplayer_modes";
-    private static final String ORDER = "popularity:desc";
-    private static final int LIMIT = 30;
-
 
     // Retrofit fields
-    Retrofit.Builder mBuilder;
-    Retrofit mRetrofit;
-    RetrofitClient mClient;
+    private Retrofit.Builder mBuilder;
+    private Retrofit mRetrofit;
+    private PopularGamesRetrofitClient mClient;
 
     // Gamelist fields
     private MutableLiveData<List<Game>> mLiveDataGameList = new MutableLiveData<>();
@@ -41,14 +36,14 @@ public class PopularGamesRepository {
     public PopularGamesRepository() {
         // Create retrofit builder
         mBuilder = new Retrofit.Builder()
-                .baseUrl(igdbBaseUrl)
+                .baseUrl(RetrofitConstantFields.igdbBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create());
 
         // Build retrofit
         mRetrofit = mBuilder.build();
 
         // Create the retrofit client
-        mClient = mRetrofit.create(RetrofitClient.class);
+        mClient = mRetrofit.create(PopularGamesRetrofitClient.class);
     }
 
     // Retrieve popular movie data Retrofit
@@ -61,10 +56,10 @@ public class PopularGamesRepository {
         String releaseAfterDate = dateFormat.format(currentTime);
 
         // Create call
-        Call<List<Game>> call = mClient.getGame(FIELDS,
+        Call<List<Game>> call = mClient.getGame(RetrofitConstantFields.FIELDS,
                 releaseAfterDate,
-                ORDER,
-                LIMIT);
+                RetrofitConstantFields.ORDER,
+                RetrofitConstantFields.LIMIT);
 
 
         // Perform the call for popular movie list
@@ -101,13 +96,13 @@ public class PopularGamesRepository {
         String releaseAfterDate = dateFormat.format(currentTime);
 
         // Create call
-        Call<List<Game>> call = mClient.getNextSetGame(FIELDS,
+        Call<List<Game>> call = mClient.getNextSetGame(RetrofitConstantFields.FIELDS,
                 releaseAfterDate,
-                ORDER,
-                LIMIT,
-                LIMIT*scrollCount);
+                RetrofitConstantFields.ORDER,
+                RetrofitConstantFields.LIMIT,
+                RetrofitConstantFields.LIMIT*scrollCount);
 
-        Timber.d("Call offset by: " + LIMIT*scrollCount);
+        Timber.d("Call offset by: " + RetrofitConstantFields.LIMIT*scrollCount);
 
         // begin the callback;
         call.enqueue(new Callback<List<Game>>() {

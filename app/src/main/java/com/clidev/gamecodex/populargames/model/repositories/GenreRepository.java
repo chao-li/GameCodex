@@ -2,7 +2,7 @@ package com.clidev.gamecodex.populargames.model.repositories;
 
 import android.arch.lifecycle.MutableLiveData;
 
-import com.clidev.gamecodex.populargames.model.RetrofitClient;
+import com.clidev.gamecodex.populargames.model.PopularGamesRetrofitClient;
 import com.clidev.gamecodex.populargames.model.room.AppExecutors;
 import com.clidev.gamecodex.populargames.model.room.genre.Genre;
 import com.clidev.gamecodex.populargames.model.room.genre.GenreDatabase;
@@ -72,7 +72,7 @@ public class GenreRepository {
         Retrofit retrofit = builder.build();
 
         // Create the retrofit client
-        RetrofitClient client = retrofit.create(RetrofitClient.class);
+        PopularGamesRetrofitClient client = retrofit.create(PopularGamesRetrofitClient.class);
         Call<List<Genre>> call = client.getGenres(NAME, LIMIT);
 
         // perform the call for list of genres

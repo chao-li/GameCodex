@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".gamedetails.view.GameDetails"></activity>
+        <activity android:name=".gamedetails.view.GameDetailsActivity"></activity>
     </application>
 
 </manifest>
