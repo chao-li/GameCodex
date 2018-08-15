@@ -17,8 +17,8 @@ public interface GameDetailsRetrofitClient {
             ApiKeys.IGDB_API_KEY,
             "Accept: application/json"
     })
-    @GET("/games/{id}")
-    Call<Game> getThisGame(
+    @GET("/games/{id}/")
+    Call<List<Game>> getThisGame(
             @Path("id") Long id,
             @Query("fields") String fields
     );

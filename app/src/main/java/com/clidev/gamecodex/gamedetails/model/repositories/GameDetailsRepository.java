@@ -7,6 +7,8 @@ import com.clidev.gamecodex.gamedetails.model.GameDetailsRetrofitClient;
 import com.clidev.gamecodex.populargames.model.PopularGamesRetrofitClient;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,24 +45,24 @@ public class GameDetailsRepository {
 
     public MutableLiveData<Game> getGame(Long gameId) {
         // Create the call
-        Call<Game> call = mClient.getThisGame(gameId,
+        Call<List<Game>> call = mClient.getThisGame(gameId,
                 RetrofitConstantFields.FIELDS);
 
         // Perform the call
-        call.enqueue(new Callback<Game>() {
+        call.enqueue(new Callback<List<Game>>() {
             @Override
-            public void onResponse(Call<Game> call, Response<Game> response) {
+            public void onResponse(Call<List<Game>> call, Response<List<Game>> response) {
                 if (response.isSuccessful()) {
                     Timber.d("Api call successful");
 
-                    mGameLiveData.setValue(response.body());
+                    mGameLiveData.setValue(response.body().get(0));
                 } else {
                     Timber.d("response not successful");
                 }
             }
 
             @Override
-            public void onFailure(Call<Game> call, Throwable t) {
+            public void onFailure(Call<List<Game>> call, Throwable t) {
                 Timber.d("Api call failed");
             }
         });
