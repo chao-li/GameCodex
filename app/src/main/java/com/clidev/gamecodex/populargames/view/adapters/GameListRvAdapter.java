@@ -30,7 +30,7 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
     private Context mContext;
     private List<Game> mGameList = new ArrayList<>();
     private List<Genre> mGenreList;
-    private List<Integer> mGenreIds;
+    private List<Long> mGenreIds;
     private List<String> mColorList;
     //private float mScreenWidth;
     private ItemClickHandler mItemClickHandler;
@@ -73,7 +73,7 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
         if (genreList != null && genreList.isEmpty() != true) {
             mGenreList = genreList;
 
-            List<Integer> genreIds = new ArrayList<>();
+            List<Long> genreIds = new ArrayList<>();
             for (Genre genre : mGenreList) {
                 genreIds.add(genre.getId());
             }

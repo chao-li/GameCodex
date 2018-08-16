@@ -3,7 +3,7 @@ package com.clidev.gamecodex.populargames.model.repositories;
 import android.arch.lifecycle.MutableLiveData;
 
 
-import com.clidev.gamecodex.Constants.RetrofitConstantFields;
+import com.clidev.gamecodex.constants.RetrofitConstantFields;
 import com.clidev.gamecodex.populargames.model.PopularGamesRetrofitClient;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
 

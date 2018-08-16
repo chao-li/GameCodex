@@ -25,5 +25,5 @@ public interface GenreDao {
     void deleteGenre(Genre genre);
 
     @Query("SELECT * FROM genre WHERE id = :id")
-    Genre loadGenreById(int id);
+    Genre loadGenreById(Long id);
 }

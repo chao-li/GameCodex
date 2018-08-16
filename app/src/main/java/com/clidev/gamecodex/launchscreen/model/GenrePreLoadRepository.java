@@ -1,9 +1,8 @@
-package com.clidev.gamecodex.populargames.model.repositories;
-
-import android.arch.lifecycle.MutableLiveData;
+package com.clidev.gamecodex.launchscreen.model;
 
 import com.clidev.gamecodex.constants.RetrofitConstantFields;
 import com.clidev.gamecodex.populargames.model.PopularGamesRetrofitClient;
+import com.clidev.gamecodex.populargames.model.repositories.GenreRepository;
 import com.clidev.gamecodex.populargames.model.room.AppExecutors;
 import com.clidev.gamecodex.populargames.model.room.genre.Genre;
 import com.clidev.gamecodex.populargames.model.room.genre.GenreDatabase;
@@ -17,24 +16,27 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
-public class GenreRepository {
+public class GenrePreLoadRepository {
 
 
     private GenreDatabase mGenreDb;
-    private MutableLiveData<List<Genre>> mGenres = new MutableLiveData<>();
+    private GenrePreLoadHandler mGenrePreLoadHandler;
 
-    public GenreRepository(GenreDatabase genreDatabase) {
+
+    public interface GenrePreLoadHandler {
+        void onGenreLoadComplete();
+        void onGenreLoadFailed();
+    }
+
+
+    public GenrePreLoadRepository(GenreDatabase genreDatabase, GenrePreLoadHandler genrePreLoadHandler) {
         mGenreDb = genreDatabase;
+        mGenrePreLoadHandler = genrePreLoadHandler;
     }
-
-    public MutableLiveData<List<Genre>> getGenreList() {
-        return mGenres;
-    }
-
 
 
     public void checkGenreList() {
-        //  Check if database exists,
+
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
@@ -43,9 +45,11 @@ public class GenreRepository {
 
                 if (genres != null && genres.isEmpty() != true) {
                     // if database exists, set genre data
-                    mGenres.postValue(genres);
+                    // TODO inform view to move onto next objective
 
                     Timber.d("Genre database already exists, loading current database");
+
+                    mGenrePreLoadHandler.onGenreLoadComplete();
 
                 } else {
                     // if database don't exist, query genre data, then set data
@@ -59,7 +63,7 @@ public class GenreRepository {
 
     }
 
-    // Retrieve list of genres
+
     private void queryGameGenres() {
 
         // Create retrofit builder
@@ -82,20 +86,22 @@ public class GenreRepository {
                     Timber.d("Genre api call successful.");
                     List<Genre> genres = response.body();
 
-                    // set Genres to member field
-                    mGenres.setValue(genres);
-
-
                     addGenresToDatabase(genres);
 
                 } else {
                     Timber.d("Genre call failed");
+
+                    // TODO: inform view that genre download failed.
+                    mGenrePreLoadHandler.onGenreLoadFailed();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Genre>> call, Throwable t) {
                 Timber.d("Genre call failed");
+
+                // TODO: inform view that the genre download failed.
+                mGenrePreLoadHandler.onGenreLoadFailed();
             }
         });
 
@@ -122,9 +128,8 @@ public class GenreRepository {
             });
         }
 
+        // TODO: inform view that process is complete, move to next task.
+        mGenrePreLoadHandler.onGenreLoadComplete();
     }
-
-
-
 
 }

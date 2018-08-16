@@ -95,6 +95,8 @@ public class PopularGamesFragment extends Fragment {
                 Timber.d("Genre list successfully loaded");
                 mGenres = genres;
 
+                mGameListRvAdapter.setGenreList(mGenres);
+
                 genreViewModel.getGenres().removeObserver(this);
             }
         });
@@ -181,7 +183,7 @@ public class PopularGamesFragment extends Fragment {
         //float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
         mGameListRvAdapter.setGameList(gameList);
-        mGameListRvAdapter.setGenreList(mGenres);
+
 
     }
 
