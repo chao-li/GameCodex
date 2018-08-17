@@ -153,14 +153,19 @@ public class GameDetailsFragment extends Fragment {
             List<Video> videos = game.getVideos();
             if (videos != null && videos.isEmpty() != true) {
 
+                // get a list of video cover image.
                 List<String> videoImageUrl = new ArrayList<>();
                 for (Video video : videos) {
                     String id = video.getVideoId();
                     String url = "https://img.youtube.com/vi/" + id +"/0.jpg";
                     videoImageUrl.add(url);
                 }
+
+                // TODO: pass this image url list and video list into the recycler view adapter
             }
+            // TODO: create image banner instead.
         }
+        // TODO: create image banner instead.
 
 
     }
