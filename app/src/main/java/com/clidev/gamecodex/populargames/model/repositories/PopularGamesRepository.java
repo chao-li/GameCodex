@@ -4,7 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 
 
 import com.clidev.gamecodex.constants.RetrofitConstantFields;
-import com.clidev.gamecodex.populargames.model.retrofit.PopularGamesRetrofitClient;
+import com.clidev.gamecodex.retrofit.PopularGamesRetrofitClient;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
 
 import java.text.SimpleDateFormat;

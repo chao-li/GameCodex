@@ -16,7 +16,8 @@
         <activity android:name=".populargames.view.PopularGamesActivity"></activity>
         <activity android:name=".gamedetails.view.GameDetailsActivity" />
         <activity android:name=".launchscreen.view.LaunchActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

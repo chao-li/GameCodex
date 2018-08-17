@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.clidev.gamecodex.R;
-import com.clidev.gamecodex.launchscreen.model.GenrePreLoadRepository;
+import com.clidev.gamecodex.launchscreen.model.repositories.GenrePreLoadRepository;
 import com.clidev.gamecodex.room.database.GenreDatabase;
 import com.clidev.gamecodex.populargames.view.PopularGamesActivity;
 
@@ -27,10 +27,10 @@ public class LaunchActivity extends AppCompatActivity implements GenrePreLoadRep
         loadGenreData();
 
 
-        // TODO: load developer data
+        // TODO: load developer data // TODO: load publisher data
         loadCompanyData();
 
-        // TODO: load publisher data
+
 
         // TODO: load player perspectives data
 
@@ -71,7 +71,7 @@ public class LaunchActivity extends AppCompatActivity implements GenrePreLoadRep
 
     // LOADING DEVELOPER DAA
     private void loadCompanyData() {
-        // TODO: create load developer data repositoryg
+        // TODO: This is no longer required. Too many company data, not feasible to load at launch.
     }
 
 

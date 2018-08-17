@@ -1,7 +1,7 @@
-package com.clidev.gamecodex.launchscreen.model;
+package com.clidev.gamecodex.launchscreen.model.repositories;
 
 import com.clidev.gamecodex.constants.RetrofitConstantFields;
-import com.clidev.gamecodex.populargames.model.retrofit.PopularGamesRetrofitClient;
+import com.clidev.gamecodex.retrofit.PopularGamesRetrofitClient;
 import com.clidev.gamecodex.utilities.AppExecutors;
 import com.clidev.gamecodex.room.entities.Genre;
 import com.clidev.gamecodex.room.database.GenreDatabase;
@@ -44,10 +44,10 @@ public class GenrePreLoadRepository {
 
                 if (genres != null && genres.isEmpty() != true) {
                     // if database exists, set genre data
-                    // TODO inform view to move onto next objective
 
                     Timber.d("Genre database already exists, loading current database");
 
+                    // inform view to move onto next objective
                     mGenrePreLoadHandler.onGenreLoadComplete();
 
                 } else {
