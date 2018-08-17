@@ -3,7 +3,9 @@ package com.clidev.gamecodex.gamedetails.view;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,9 +24,11 @@ import com.clidev.gamecodex.R;
 import com.clidev.gamecodex.gamedetails.view_model.GameDetailsViewModel;
 import com.clidev.gamecodex.gamedetails.view_model.GameDetailsViewModelFactory;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
+import com.clidev.gamecodex.populargames.model.modeldata.Video;
 import com.clidev.gamecodex.populargames.view.PopularGamesActivity;
 import com.clidev.gamecodex.utilities.ImageUrlEditor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,6 +51,7 @@ public class GameDetailsFragment extends Fragment {
     @BindView(R.id.game_detail_summary_title) TextView mSummaryTitle;
     @BindView(R.id.game_detail_summary_detail) TextView mSummaryText;
     @BindView(R.id.game_detail_loading_bar) ProgressBar mLoadingBar;
+    @BindView(R.id.game_detail_trailer_cover) ImageView mTrailerCover;
 
 
     @Nullable
@@ -86,6 +91,8 @@ public class GameDetailsFragment extends Fragment {
 
                 mLoadingBar.setVisibility(View.INVISIBLE);
 
+                //setTrailerCover(game);
+
                 setTrailerRecyclerView(game);
 
                 setCoverPoster(game);
@@ -106,7 +113,56 @@ public class GameDetailsFragment extends Fragment {
         });
     }
 
+    private void setTrailerCover(Game game) {
+        if (game.getVideos() != null) {
+            List<Video> videos = game.getVideos();
+            if (videos != null && videos.isEmpty() != true) {
+                final String videoId1 = videos.get(0).getVideoId();
+                String coverUrl = "https://img.youtube.com/vi/" + videoId1 +"/0.jpg";
+
+                RequestOptions options = new RequestOptions();
+                options.centerCrop();
+                options.override(500,300);
+                options.placeholder(R.drawable.image_loading);
+
+                Glide.with(getContext())
+                        .load(coverUrl)
+                        .apply(options)
+                        .into(mTrailerCover);
+
+                mTrailerCover.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + videoId1));
+                        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                                Uri.parse("http://www.youtube.com/watch?v=" + videoId1));
+                        try {
+                            getContext().startActivity(appIntent);
+                        } catch (ActivityNotFoundException ex) {
+                            getContext().startActivity(webIntent);
+                        }
+                    }
+                });
+
+            }
+        }
+    }
+
     private void setTrailerRecyclerView(Game game) {
+        if (game.getVideos() != null) {
+            List<Video> videos = game.getVideos();
+            if (videos != null && videos.isEmpty() != true) {
+
+                List<String> videoImageUrl = new ArrayList<>();
+                for (Video video : videos) {
+                    String id = video.getVideoId();
+                    String url = "https://img.youtube.com/vi/" + id +"/0.jpg";
+                    videoImageUrl.add(url);
+                }
+            }
+        }
+
+
     }
 
     private void setCoverPoster(Game game) {
