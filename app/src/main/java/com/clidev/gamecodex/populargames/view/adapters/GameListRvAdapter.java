@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.clidev.gamecodex.R;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
-import com.clidev.gamecodex.populargames.model.room.genre.Genre;
+import com.clidev.gamecodex.room.entities.Genre;
 import com.clidev.gamecodex.utilities.HexColorArray;
 import com.clidev.gamecodex.utilities.ImageUrlEditor;
 

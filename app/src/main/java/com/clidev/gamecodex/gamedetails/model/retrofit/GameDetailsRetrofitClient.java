@@ -1,4 +1,4 @@
-package com.clidev.gamecodex.gamedetails.model;
+package com.clidev.gamecodex.gamedetails.model.retrofit;
 
 import com.clidev.gamecodex.ApiKeys;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;

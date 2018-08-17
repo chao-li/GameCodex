@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 
 import com.clidev.gamecodex.R;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
-import com.clidev.gamecodex.populargames.model.room.genre.Genre;
-import com.clidev.gamecodex.populargames.model.room.genre.GenreDatabase;
+import com.clidev.gamecodex.room.entities.Genre;
+import com.clidev.gamecodex.room.database.GenreDatabase;
 import com.clidev.gamecodex.populargames.view.adapters.GameListRvAdapter;
 import com.clidev.gamecodex.populargames.view_model.GenreViewModel;
 import com.clidev.gamecodex.populargames.view_model.GenreViewModelFactory;

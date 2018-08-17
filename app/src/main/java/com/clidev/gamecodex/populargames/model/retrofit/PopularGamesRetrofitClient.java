@@ -1,9 +1,9 @@
-package com.clidev.gamecodex.populargames.model;
+package com.clidev.gamecodex.populargames.model.retrofit;
 
 
 import com.clidev.gamecodex.ApiKeys;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
-import com.clidev.gamecodex.populargames.model.room.genre.Genre;
+import com.clidev.gamecodex.room.entities.Genre;
 
 import java.util.List;
 

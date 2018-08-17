@@ -15,7 +15,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".populargames.view.PopularGamesActivity"></activity>
         <activity android:name=".gamedetails.view.GameDetailsActivity" />
-        <activity android:name=".launchscreen.view.LaunchActivity">
+        <activity android:name=".launchscreen.view.LaunchActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

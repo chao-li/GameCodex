@@ -1,11 +1,10 @@
 package com.clidev.gamecodex.launchscreen.model;
 
 import com.clidev.gamecodex.constants.RetrofitConstantFields;
-import com.clidev.gamecodex.populargames.model.PopularGamesRetrofitClient;
-import com.clidev.gamecodex.populargames.model.repositories.GenreRepository;
-import com.clidev.gamecodex.populargames.model.room.AppExecutors;
-import com.clidev.gamecodex.populargames.model.room.genre.Genre;
-import com.clidev.gamecodex.populargames.model.room.genre.GenreDatabase;
+import com.clidev.gamecodex.populargames.model.retrofit.PopularGamesRetrofitClient;
+import com.clidev.gamecodex.utilities.AppExecutors;
+import com.clidev.gamecodex.room.entities.Genre;
+import com.clidev.gamecodex.room.database.GenreDatabase;
 
 import java.util.List;
 

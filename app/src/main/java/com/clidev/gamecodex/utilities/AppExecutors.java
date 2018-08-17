@@ -1,4 +1,4 @@
-package com.clidev.gamecodex.populargames.model.room;
+package com.clidev.gamecodex.utilities;
 
 import android.os.Handler;
 import android.os.Looper;

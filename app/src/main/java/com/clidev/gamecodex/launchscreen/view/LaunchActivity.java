@@ -1,21 +1,13 @@
 package com.clidev.gamecodex.launchscreen.view;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.clidev.gamecodex.R;
 import com.clidev.gamecodex.launchscreen.model.GenrePreLoadRepository;
-import com.clidev.gamecodex.populargames.model.room.genre.Genre;
-import com.clidev.gamecodex.populargames.model.room.genre.GenreDatabase;
+import com.clidev.gamecodex.room.database.GenreDatabase;
 import com.clidev.gamecodex.populargames.view.PopularGamesActivity;
-import com.clidev.gamecodex.populargames.view_model.GenreViewModel;
-import com.clidev.gamecodex.populargames.view_model.GenreViewModelFactory;
-
-import java.util.List;
 
 import timber.log.Timber;
 
@@ -35,8 +27,8 @@ public class LaunchActivity extends AppCompatActivity implements GenrePreLoadRep
         loadGenreData();
 
 
-
         // TODO: load developer data
+        loadDeveloperData();
 
         // TODO: load publisher data
 
@@ -76,6 +68,11 @@ public class LaunchActivity extends AppCompatActivity implements GenrePreLoadRep
     }
     //.........................................................................
 
+
+    // LOADING DEVELOPER DAA
+    private void loadDeveloperData() {
+        // TODO: create load developer data repositoryg
+    }
 
 
     // PROCEED NEXT ACTIVITY ///////////////////////////////////

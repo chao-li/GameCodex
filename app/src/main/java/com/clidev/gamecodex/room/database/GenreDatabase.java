@@ -1,9 +1,12 @@
-package com.clidev.gamecodex.populargames.model.room.genre;
+package com.clidev.gamecodex.room.database;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+
+import com.clidev.gamecodex.room.dao.GenreDao;
+import com.clidev.gamecodex.room.entities.Genre;
 
 import timber.log.Timber;
 

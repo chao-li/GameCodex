@@ -5,8 +5,8 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.clidev.gamecodex.populargames.model.repositories.GenreRepository;
-import com.clidev.gamecodex.populargames.model.room.genre.Genre;
-import com.clidev.gamecodex.populargames.model.room.genre.GenreDatabase;
+import com.clidev.gamecodex.room.entities.Genre;
+import com.clidev.gamecodex.room.database.GenreDatabase;
 
 import java.util.List;
 
