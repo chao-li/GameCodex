@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.clidev.gamecodex.R;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
@@ -45,6 +46,7 @@ public class PopularGamesFragment extends Fragment {
     private boolean isLoading = false;
 
     @BindView(R.id.popular_games_rv) RecyclerView mGameListRv;
+    @BindView(R.id.loading_bar) ProgressBar mLoadingBar;
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -67,6 +69,8 @@ public class PopularGamesFragment extends Fragment {
             Timber.d("PreviousItemCount restored instance state: " + mPreviousTotalItemCount);
             Timber.d("isLoading restored instance state: " + isLoading);
         }
+
+        mLoadingBar.setVisibility(View.VISIBLE);
 
         prepareRecyclerView();
 
@@ -116,6 +120,8 @@ public class PopularGamesFragment extends Fragment {
                 // populate the RecyclerView
                 populateRecyclerView(gameList);
 
+                mLoadingBar.setVisibility(View.INVISIBLE);
+
             }
 
         });
@@ -159,6 +165,7 @@ public class PopularGamesFragment extends Fragment {
                         lastVisiblePosition >= totalItemCount - 25 &&
                         totalItemCount > 0) {
                     isLoading = true;
+                    //mLoadingBar.setVisibility(View.VISIBLE);
                     queryForMoreGames();
 
                     Timber.d("Scroll loading started");
@@ -167,6 +174,7 @@ public class PopularGamesFragment extends Fragment {
                 // if we are currently loading, check if loading has completed
                 if (isLoading == true && totalItemCount > mPreviousTotalItemCount) {
                     isLoading = false;
+                    //mLoadingBar.setVisibility(View.INVISIBLE);
                     mPreviousTotalItemCount = totalItemCount;
                     Timber.d("Scroll loading ended");
                 }
@@ -204,6 +212,7 @@ public class PopularGamesFragment extends Fragment {
     private void checkIfNetWorkIsAvailable() {
         if (NetworkUtilities.isNetworkAvailable(getContext()) == false) {
             NetworkUtilities.alertNetworkNotAvailable(getContext());
+            mLoadingBar.setVisibility(View.INVISIBLE);
         }
     }
 

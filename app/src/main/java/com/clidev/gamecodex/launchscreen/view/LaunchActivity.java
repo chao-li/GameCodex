@@ -3,6 +3,8 @@ package com.clidev.gamecodex.launchscreen.view;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.clidev.gamecodex.R;
 import com.clidev.gamecodex.launchscreen.model.repositories.GenrePreLoadRepository;
@@ -18,6 +20,9 @@ public class LaunchActivity extends AppCompatActivity implements GenrePreLoadRep
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_launch);
 
         // TODO: load genre data to database

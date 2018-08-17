@@ -22,7 +22,7 @@
         <LinearLayout
             android:id="@+id/rv_description_box"
             android:layout_width="0dp"
-            android:layout_height="65dp"
+            android:layout_height="70dp"
             android:background="#ffff0000"
             android:orientation="vertical"
             android:padding="4dp"
