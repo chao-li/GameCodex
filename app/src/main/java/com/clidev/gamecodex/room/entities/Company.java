@@ -1,15 +1,13 @@
-
 package com.clidev.gamecodex.room.entities;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "genre")
-public class Genre {
+@Entity(tableName = "company")
+public class Company {
 
     @PrimaryKey
     @SerializedName("id")
@@ -20,21 +18,7 @@ public class Genre {
     @Expose
     private String name;
 
-
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    @Ignore
-    public Genre() {
-
-    }
-
-    /**
-     * 
-     * @param id, name
-     */
-    public Genre(Long id, String name) {
+    public Company(Long id, String name) {
         this.id = id;
         this.name = name;
     }

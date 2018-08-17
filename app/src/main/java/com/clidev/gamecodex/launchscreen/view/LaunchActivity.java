@@ -28,7 +28,7 @@ public class LaunchActivity extends AppCompatActivity implements GenrePreLoadRep
 
 
         // TODO: load developer data
-        loadDeveloperData();
+        loadCompanyData();
 
         // TODO: load publisher data
 
@@ -70,7 +70,7 @@ public class LaunchActivity extends AppCompatActivity implements GenrePreLoadRep
 
 
     // LOADING DEVELOPER DAA
-    private void loadDeveloperData() {
+    private void loadCompanyData() {
         // TODO: create load developer data repositoryg
     }
 
