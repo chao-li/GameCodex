@@ -20,17 +20,18 @@
         android:layout_height="190dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="154dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/game_detail_trailer_rv"
-        app:srcCompat="@drawable/monster_hunter_world_cover" />
+        app:layout_constraintTop_toTopOf="@+id/game_detail_trailer_rv" />
 
     <TextView
         android:id="@+id/game_detail_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Monster Hunter: World"
         android:textColor="@color/cardview_light_background"
         android:textSize="18sp"
@@ -52,7 +53,7 @@
         app:layout_constraintTop_toBottomOf="@+id/game_detail_title" />
 
     <TextView
-        android:id="@+id/game_detail_plaforms"
+        android:id="@+id/game_detail_platform"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -79,32 +80,35 @@
         android:layout_marginTop="8dp"
         android:text="2018-Jan-26"
         android:textColor="@color/cardview_light_background"
-        app:layout_constraintStart_toStartOf="@+id/game_detail_plaforms"
-        app:layout_constraintTop_toBottomOf="@+id/game_detail_plaforms" />
+        app:layout_constraintStart_toStartOf="@+id/game_detail_platform"
+        app:layout_constraintTop_toBottomOf="@+id/game_detail_platform" />
+
+    <TextView
+        android:id="@+id/game_detail_summary_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Summary"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/game_detail_cover"
+        app:layout_constraintTop_toBottomOf="@+id/game_detail_cover" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/game_detail_cover"
-        tools:layout_editor_absoluteX="0dp"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:paddingRight="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_detail_summary_title"
+        tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/game_detail_summary_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Summary"
-                android:textColor="@color/cardview_light_background"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/game_detail_summary_detail"
@@ -114,5 +118,24 @@
                 android:textColor="@color/cardview_light_background" />
         </LinearLayout>
     </ScrollView>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:id="@+id/game_detail_loading_bar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="@android:color/background_light"
+            android:visibility="invisible" />
+
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>
