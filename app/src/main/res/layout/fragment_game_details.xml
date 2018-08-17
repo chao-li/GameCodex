@@ -1,6 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#323A45">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/game_detail_trailer_rv"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/game_detail_cover"
+        android:layout_width="150dp"
+        android:layout_height="190dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="154dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/game_detail_trailer_rv"
+        app:srcCompat="@drawable/monster_hunter_world_cover" />
+
+    <TextView
+        android:id="@+id/game_detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="Monster Hunter: World"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/game_detail_cover"
+        app:layout_constraintTop_toBottomOf="@+id/game_detail_trailer_rv" />
+
+    <TextView
+        android:id="@+id/game_detail_developer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="CAPCOM"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/game_detail_title"
+        app:layout_constraintTop_toBottomOf="@+id/game_detail_title" />
+
+    <TextView
+        android:id="@+id/game_detail_plaforms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="PS4,XBONE,PC"
+        android:textColor="@color/cardview_light_background"
+        app:layout_constraintStart_toStartOf="@+id/game_detail_title"
+        app:layout_constraintTop_toBottomOf="@+id/game_detail_developer" />
+
+    <TextView
+        android:id="@+id/game_detail_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="93/100"
+        android:textColor="#ec1c24"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/game_detail_title"
+        app:layout_constraintTop_toBottomOf="@+id/game_detail_release_date" />
+
+    <TextView
+        android:id="@+id/game_detail_release_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="2018-Jan-26"
+        android:textColor="@color/cardview_light_background"
+        app:layout_constraintStart_toStartOf="@+id/game_detail_plaforms"
+        app:layout_constraintTop_toBottomOf="@+id/game_detail_plaforms" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_detail_cover"
+        tools:layout_editor_absoluteX="0dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/game_detail_summary_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Summary"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/game_detail_summary_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Monster Hunter: World sees players take on the role of a hunter that completes various quests to hunt and slay monsters within a lively living and breathing eco-system full of predators…. and prey. In the video you can see some of the creatures you can expect to come across within the New World, the newly discovered continent where Monster Hunter: World is set, including the Great Jagras which has the ability to swallow its prey whole and one of the Monster Hunter series favourites, Rathalos. \n \nPlayers are able to utilise survival tools such as the slinger and Scoutfly to aid them in their hunt. By using these skills to their advantage hunters can lure monsters into traps and even pit them against each other in an epic fierce battle. Can our hunter successfully survive the fight and slay the Anjanath? He’ll need to select his weapon choice carefully from 14 different weapon classes and think strategically about how to take the giant foe down. Don’t forget to pack the camouflaging ghillie suit!"
+                android:textColor="@color/cardview_light_background" />
+        </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

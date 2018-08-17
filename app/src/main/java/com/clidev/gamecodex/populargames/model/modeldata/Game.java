@@ -48,6 +48,9 @@ public class Game {
     @SerializedName("first_release_date")
     @Expose
     private Long firstReleaseDate;
+    @SerializedName("plaforms")
+    @Expose
+    private List<Integer> platforms = null;
     @SerializedName("release_dates")
     @Expose
     private List<ReleaseDate> releaseDates = null;
@@ -91,7 +94,7 @@ public class Game {
      * @param popularity
      * @param gameModes
      */
-    public Game(Long id, String name, String url, String summary, Double popularity, Double aggregatedRating, List<Long> developers, List<Long> publishers, List<Long> playerPerspectives, List<Long> gameModes, List<Long> genres, Long firstReleaseDate, List<ReleaseDate> releaseDates, List<Artwork> artworks, List<Video> videos, Cover cover, List<MultiplayerMode> multiplayerModes) {
+    public Game(Long id, String name, String url, String summary, Double popularity, Double aggregatedRating, List<Long> developers, List<Long> publishers, List<Long> playerPerspectives, List<Long> gameModes, List<Long> genres, Long firstReleaseDate,List<Integer> plaforms, List<ReleaseDate> releaseDates, List<Artwork> artworks, List<Video> videos, Cover cover, List<MultiplayerMode> multiplayerModes) {
         super();
         this.id = id;
         this.name = name;
@@ -105,6 +108,7 @@ public class Game {
         this.gameModes = gameModes;
         this.genres = genres;
         this.firstReleaseDate = firstReleaseDate;
+        this.platforms = plaforms;
         this.releaseDates = releaseDates;
         this.artworks = artworks;
         this.videos = videos;
@@ -206,6 +210,14 @@ public class Game {
 
     public void setFirstReleaseDate(Long firstReleaseDate) {
         this.firstReleaseDate = firstReleaseDate;
+    }
+
+    public List<Integer> getPlatforms() {
+        return platforms;
+    }
+
+    public void setPlatforms(List<Integer> platforms) {
+        this.platforms = platforms;
     }
 
     public List<ReleaseDate> getReleaseDates() {
