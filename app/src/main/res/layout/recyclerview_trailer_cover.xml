@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="170dp">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/rv_trailer_cover"
         android:layout_width="match_parent"
         android:layout_height="170dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/monster_hunter_world_cover" />
+
+    <ImageView
+        android:id="@+id/rv_play_youtube"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_trailer_cover"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rv_trailer_cover"
+        app:srcCompat="@drawable/ic_play_youtube" />
 </android.support.constraint.ConstraintLayout>
