@@ -1,7 +1,10 @@
 package com.clidev.gamecodex.gamedetails.view.adapters;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -115,6 +118,16 @@ public class TrailerRvAdapter extends RecyclerView.Adapter<TrailerRvAdapter.Trai
 
         @Override
         public void onClick(View view) {
+            int position = getAdapterPosition();
+
+            Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + mVideos.get(position).getVideoId()));
+            Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://www.youtube.com/watch?v=" + mVideos.get(position).getVideoId()));
+            try {
+                mContext.startActivity(appIntent);
+            } catch (ActivityNotFoundException ex) {
+                mContext.startActivity(webIntent);
+            }
 
         }
     }
