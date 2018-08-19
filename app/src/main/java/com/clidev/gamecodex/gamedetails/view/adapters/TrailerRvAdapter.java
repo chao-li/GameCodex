@@ -1,6 +1,7 @@
 package com.clidev.gamecodex.gamedetails.view.adapters;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -52,6 +53,7 @@ public class TrailerRvAdapter extends RecyclerView.Adapter<TrailerRvAdapter.Trai
 
     @Override
     public void onBindViewHolder(@NonNull TrailerViewHolder holder, int position) {
+        // Set the image
         if (position != RecyclerView.NO_POSITION) {
             String imageUrl = "";
             imageUrl = mTrailerUrls.get(position);
@@ -69,6 +71,23 @@ public class TrailerRvAdapter extends RecyclerView.Adapter<TrailerRvAdapter.Trai
             Glide.with(mContext).clear(holder.mTrailerCover);
             holder.mTrailerCover.setImageDrawable(null);
         }
+
+        // set the arrows
+        if (position == 0) {
+            if (mVideos.size() > 1) {
+                holder.mTrailerRight.setVisibility(View.VISIBLE);
+                holder.mTrailerLeft.setVisibility(View.INVISIBLE);
+            } else {
+                holder.mTrailerRight.setVisibility(View.INVISIBLE);
+                holder.mTrailerLeft.setVisibility(View.INVISIBLE);
+            }
+        } else if (position == mVideos.size()-1) {
+            holder.mTrailerRight.setVisibility(View.INVISIBLE);
+            holder.mTrailerLeft.setVisibility(View.VISIBLE);
+        } else {
+            holder.mTrailerRight.setVisibility(View.VISIBLE);
+            holder.mTrailerLeft.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -76,9 +95,15 @@ public class TrailerRvAdapter extends RecyclerView.Adapter<TrailerRvAdapter.Trai
         return mVideos.size();
     }
 
+
+
+
+
     public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.rv_trailer_cover) ImageView mTrailerCover;
+        @BindView(R.id.rv_trailer_right) ImageView mTrailerRight;
+        @BindView(R.id.rv_trailer_left) ImageView mTrailerLeft;
 
         public TrailerViewHolder(View itemView) {
             super(itemView);
