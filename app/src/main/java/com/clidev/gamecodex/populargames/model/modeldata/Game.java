@@ -54,6 +54,9 @@ public class Game {
     @SerializedName("release_dates")
     @Expose
     private List<ReleaseDate> releaseDates = null;
+    @SerializedName("screenshots")
+    @Expose
+    private List<Screenshot> screenShots = null;
     @SerializedName("artworks")
     @Expose
     private List<Artwork> artworks = null;
@@ -94,7 +97,7 @@ public class Game {
      * @param popularity
      * @param gameModes
      */
-    public Game(Long id, String name, String url, String summary, Double popularity, Double aggregatedRating, List<Long> developers, List<Long> publishers, List<Long> playerPerspectives, List<Long> gameModes, List<Long> genres, Long firstReleaseDate,List<Integer> plaforms, List<ReleaseDate> releaseDates, List<Artwork> artworks, List<Video> videos, Cover cover, List<MultiplayerMode> multiplayerModes) {
+    public Game(Long id, String name, String url, String summary, Double popularity, Double aggregatedRating, List<Long> developers, List<Long> publishers, List<Long> playerPerspectives, List<Long> gameModes, List<Long> genres, Long firstReleaseDate,List<Integer> plaforms, List<ReleaseDate> releaseDates,List<Screenshot> screenshots, List<Artwork> artworks, List<Video> videos, Cover cover, List<MultiplayerMode> multiplayerModes) {
         super();
         this.id = id;
         this.name = name;
@@ -110,6 +113,7 @@ public class Game {
         this.firstReleaseDate = firstReleaseDate;
         this.platforms = plaforms;
         this.releaseDates = releaseDates;
+        this.screenShots = screenshots;
         this.artworks = artworks;
         this.videos = videos;
         this.cover = cover;
@@ -226,6 +230,14 @@ public class Game {
 
     public void setReleaseDates(List<ReleaseDate> releaseDates) {
         this.releaseDates = releaseDates;
+    }
+
+    public List<Screenshot> getScreenShots() {
+        return screenShots;
+    }
+
+    public void setScreenShots(List<Screenshot> screenShots) {
+        this.screenShots = screenShots;
     }
 
     public List<Artwork> getArtworks() {

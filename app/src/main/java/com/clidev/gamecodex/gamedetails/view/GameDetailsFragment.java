@@ -156,6 +156,7 @@ public class GameDetailsFragment extends Fragment {
         if (game.getVideos() != null) {
             List<Video> videos = game.getVideos();
             if (videos != null && videos.isEmpty() != true) {
+                mTrailerCover.setVisibility(View.INVISIBLE);
 
                 // get a list of video cover image.
                 List<String> videoImageUrl = new ArrayList<>();
@@ -176,14 +177,51 @@ public class GameDetailsFragment extends Fragment {
 
                 trailerRvAdapter.setData(videos, videoImageUrl);
 
-
+                return;
             }
-            // TODO: create image banner instead.
 
+
+            setBannerInsteadOfTrailer(game);
+
+            return;
         }
-        // TODO: create image banner instead.
 
 
+        setBannerInsteadOfTrailer(game);
+
+
+    }
+
+    private void setBannerInsteadOfTrailer(Game game) {
+        if (game.getArtworks() != null) {
+            if (!game.getArtworks().isEmpty()) {
+                // TODO: display screenshot
+                String url = game.getArtworks().get(0).getUrl();
+                setTrailerCoverImage(url);
+            }
+        } else if (game.getScreenShots() != null){
+            if (!game.getScreenShots().isEmpty()) {
+                // TODO: display artwork
+                String url = game.getScreenShots().get(0).getUrl();
+                setTrailerCoverImage(url);
+            }
+        }
+    }
+
+    private void setTrailerCoverImage(String url) {
+        url = ImageUrlEditor.getBigCoverUrl(url);
+
+        RequestOptions options = new RequestOptions();
+        options.centerCrop();
+        options.override(500,300);
+        options.placeholder(R.drawable.image_loading);
+
+        Glide.with(getContext())
+                .load(url)
+                .apply(options)
+                .into(mTrailerCover);
+
+        mTrailerCover.setVisibility(View.VISIBLE);
     }
 
     private void setCoverPoster(Game game) {
