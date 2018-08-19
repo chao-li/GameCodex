@@ -23,8 +23,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.clidev.gamecodex.R;
+import com.clidev.gamecodex.gamedetails.model.Company;
 import com.clidev.gamecodex.gamedetails.view.adapters.TrailerRvAdapter;
 import com.clidev.gamecodex.gamedetails.view.adapters.TrailerSnapHelper;
+import com.clidev.gamecodex.gamedetails.view_model.CompanyViewModel;
+import com.clidev.gamecodex.gamedetails.view_model.CompanyViewModelFactory;
 import com.clidev.gamecodex.gamedetails.view_model.GameDetailsViewModel;
 import com.clidev.gamecodex.gamedetails.view_model.GameDetailsViewModelFactory;
 import com.clidev.gamecodex.populargames.model.modeldata.Game;
@@ -43,6 +46,7 @@ public class GameDetailsFragment extends Fragment {
 
     private Long mId;
     private GameDetailsViewModel mGameDetailsViewModel;
+    private CompanyViewModel mCompanyViewModel;
 
     // View Fields
     @BindView(R.id.game_detail_trailer_rv) RecyclerView mTrailerRv;
@@ -258,6 +262,27 @@ public class GameDetailsFragment extends Fragment {
             List<Long> developerIds = game.getDevelopers();
 
             // TODO: make retrofit call to get the developer names
+            CompanyViewModelFactory factory = new CompanyViewModelFactory(developerIds);
+
+            mCompanyViewModel = ViewModelProviders.of(this, factory).get(CompanyViewModel.class);
+
+            mCompanyViewModel.getCompanyLiveData().observe(this, new Observer<List<Company>>() {
+                @Override
+                public void onChanged(@Nullable List<Company> companies) {
+                    String companyText = "";
+                    for (Company company : companies) {
+                        if (companyText.matches("")) {
+                            companyText = company.getName();
+                        } else {
+                            companyText = companyText + "," + company.getName();
+                        }
+                    }
+
+                    mDeveloperText.setText(companyText);
+                }
+            });
+
+
         }
 
     }

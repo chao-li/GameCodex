@@ -11,6 +11,7 @@ public class RetrofitConstantFields {
     public static final String NAME = "name";
     public static final int GENRE_LIMIT = 50;
 
+    public static final String COMPANY_FIELDS = "id,name";
 
 
 }
