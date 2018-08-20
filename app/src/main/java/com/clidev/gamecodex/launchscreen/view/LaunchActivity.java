@@ -9,7 +9,7 @@ import android.view.WindowManager;
 import com.clidev.gamecodex.R;
 import com.clidev.gamecodex.launchscreen.model.repositories.GenrePreLoadRepository;
 import com.clidev.gamecodex.room.database.GenreDatabase;
-import com.clidev.gamecodex.populargames.view.PopularGamesActivity;
+import com.clidev.gamecodex.populargamescreen.view.PopularGamesActivity;
 
 import timber.log.Timber;
 

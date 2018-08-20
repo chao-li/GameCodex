@@ -5,7 +5,7 @@
     android:id="@+id/popular_games_fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".populargames.view.PopularGamesActivity">
+    tools:context=".populargamescreen.view.PopularGamesActivity">
 
 
 </FrameLayout>

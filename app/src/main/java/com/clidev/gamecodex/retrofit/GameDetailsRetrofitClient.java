@@ -1,8 +1,9 @@
 package com.clidev.gamecodex.retrofit;
 
 import com.clidev.gamecodex.ApiKeys;
-import com.clidev.gamecodex.gamedetails.model.Company;
-import com.clidev.gamecodex.populargames.model.modeldata.Game;
+import com.clidev.gamecodex.gamedetailscreen.model.modeldata.Company;
+import com.clidev.gamecodex.gamedetailscreen.model.modeldata.Platform;
+import com.clidev.gamecodex.populargamescreen.model.modeldata.Game;
 
 import java.util.List;
 
@@ -31,6 +32,16 @@ public interface GameDetailsRetrofitClient {
     })
     @GET("/companies/{id}/")
     Call<List<Company>> getTheseCompanies(
+            @Path("id") String id,
+            @Query("fields") String fields
+    );
+
+    @Headers({
+            ApiKeys.IGDB_API_KEY,
+            "Accept: application/json"
+    })
+    @GET("/platforms/{id}/")
+    Call<List<Platform>> getThesePlatforms(
             @Path("id") String id,
             @Query("fields") String fields
     );

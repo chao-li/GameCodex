@@ -2,7 +2,7 @@ package com.clidev.gamecodex.retrofit;
 
 
 import com.clidev.gamecodex.ApiKeys;
-import com.clidev.gamecodex.populargames.model.modeldata.Game;
+import com.clidev.gamecodex.populargamescreen.model.modeldata.Game;
 import com.clidev.gamecodex.room.entities.Genre;
 
 import java.util.List;

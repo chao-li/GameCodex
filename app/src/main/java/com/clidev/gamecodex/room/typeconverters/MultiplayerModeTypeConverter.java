@@ -1,6 +1,6 @@
 package com.clidev.gamecodex.room.typeconverters;
 
-import com.clidev.gamecodex.populargames.model.modeldata.MultiplayerMode;
+import com.clidev.gamecodex.populargamescreen.model.modeldata.MultiplayerMode;
 
 public class MultiplayerModeTypeConverter {
 

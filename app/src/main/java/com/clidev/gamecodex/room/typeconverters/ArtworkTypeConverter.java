@@ -1,6 +1,6 @@
 package com.clidev.gamecodex.room.typeconverters;
 
-import com.clidev.gamecodex.populargames.model.modeldata.Artwork;
+import com.clidev.gamecodex.populargamescreen.model.modeldata.Artwork;
 
 public class ArtworkTypeConverter {
 

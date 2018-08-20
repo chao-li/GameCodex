@@ -1,6 +1,6 @@
 package com.clidev.gamecodex.room.typeconverters;
 
-import com.clidev.gamecodex.populargames.model.modeldata.ReleaseDate;
+import com.clidev.gamecodex.populargamescreen.model.modeldata.ReleaseDate;
 
 public class ReleaseDateConverter {
 

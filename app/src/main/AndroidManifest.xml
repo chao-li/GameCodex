@@ -13,8 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".populargames.view.PopularGamesActivity"></activity>
-        <activity android:name=".gamedetails.view.GameDetailsActivity" />
+        <activity android:name=".populargamescreen.view.PopularGamesActivity"></activity>
+        <activity android:name=".gamedetailscreen.view.GameDetailsActivity" />
         <activity android:name=".launchscreen.view.LaunchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">

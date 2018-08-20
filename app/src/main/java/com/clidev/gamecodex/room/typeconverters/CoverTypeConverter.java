@@ -1,6 +1,6 @@
 package com.clidev.gamecodex.room.typeconverters;
 
-import com.clidev.gamecodex.populargames.model.modeldata.Cover;
+import com.clidev.gamecodex.populargamescreen.model.modeldata.Cover;
 
 public class CoverTypeConverter {
 
