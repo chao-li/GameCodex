@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -62,6 +63,8 @@ public class GameDetailsFragment extends Fragment {
     @BindView(R.id.game_detail_summary_detail) TextView mSummaryText;
     @BindView(R.id.game_detail_loading_bar) ProgressBar mLoadingBar;
     @BindView(R.id.game_detail_trailer_cover) ImageView mTrailerCover;
+    @BindView(R.id.game_detail_developer_loading) ProgressBar mDeveloperLoadingBar;
+    @BindView(R.id.game_detail_platform_loading) ProgressBar mPlatformLoadingBar;
 
 
     @Nullable
@@ -82,7 +85,18 @@ public class GameDetailsFragment extends Fragment {
             loadGameData();
         }
 
+        setSmallLoadingBarVisibility();
+
+
         return rootView;
+    }
+
+    private void setSmallLoadingBarVisibility() {
+        // set small loading circl color and visibility
+        mDeveloperLoadingBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
+        mPlatformLoadingBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
+        mDeveloperLoadingBar.setVisibility(View.INVISIBLE);
+        mPlatformLoadingBar.setVisibility(View.INVISIBLE);
     }
 
     private void loadGameData() {
@@ -100,6 +114,7 @@ public class GameDetailsFragment extends Fragment {
                 Timber.d("Game name: " + game.getName());
 
                 mLoadingBar.setVisibility(View.INVISIBLE);
+                mTrailerCover.setVisibility(View.VISIBLE);
 
                 //setTrailerCover(game);
 
@@ -201,13 +216,15 @@ public class GameDetailsFragment extends Fragment {
     private void setBannerInsteadOfTrailer(Game game) {
         if (game.getArtworks() != null) {
             if (!game.getArtworks().isEmpty()) {
-                // TODO: display screenshot
+                mTrailerCover.setVisibility(View.INVISIBLE);
+                //  display artwork
                 String url = game.getArtworks().get(0).getUrl();
                 setTrailerCoverImage(url);
             }
         } else if (game.getScreenShots() != null){
             if (!game.getScreenShots().isEmpty()) {
-                // TODO: display artwork
+                mTrailerCover.setVisibility(View.INVISIBLE);
+                // display screenshot
                 String url = game.getScreenShots().get(0).getUrl();
                 setTrailerCoverImage(url);
             }
@@ -259,8 +276,8 @@ public class GameDetailsFragment extends Fragment {
     }
 
     private void setDeveloperName(Game game) {
-        String developer = "";
         if (game.getDevelopers() != null) {
+            mDeveloperLoadingBar.setVisibility(View.VISIBLE);
             List<Long> developerIds = game.getDevelopers();
 
             // make retrofit call to get the developer names
@@ -280,11 +297,12 @@ public class GameDetailsFragment extends Fragment {
                         }
                     }
 
+                    mDeveloperLoadingBar.setVisibility(View.INVISIBLE);
                     mDeveloperText.setText(companyText);
                 }
             });
-
-
+        } else {
+            mDeveloperText.setText("Developer: N/A");
         }
 
     }
@@ -292,9 +310,10 @@ public class GameDetailsFragment extends Fragment {
     private void setPlatforms(Game game) {
         String platform = "";
         if (game.getPlatforms() != null) {
+            mPlatformLoadingBar.setVisibility(View.VISIBLE);
             List<Integer> platformIds = game.getPlatforms();
 
-            // TODO: make retrofit call to get platform names
+            // make retrofit call to get platform names
             PlatformViewModelFactory factory = new PlatformViewModelFactory(game);
 
             mPlatformViewModel = ViewModelProviders.of(this, factory).get(PlatformViewModel.class);
@@ -311,11 +330,12 @@ public class GameDetailsFragment extends Fragment {
                         }
                     }
 
+                    mPlatformLoadingBar.setVisibility(View.INVISIBLE);
                     mPlatformText.setText(platformText);
                 }
             });
-
-
+        } else {
+            mPlatformText.setText("Platform: N/A");
         }
     }
 
@@ -329,12 +349,16 @@ public class GameDetailsFragment extends Fragment {
     }
 
     private void setAggregatedRating(Game game) {
-        String rating = "";
         if (game.getAggregatedRating() != null) {
+            String rating = "";
             Double ratingNumber = game.getAggregatedRating();
             rating = String.format("%.2f", ratingNumber) + "/100";
+
+            mRatingText.setText(rating);
+        } else {
+            mRatingText.setText("Rating: N/A");
         }
-        mRatingText.setText(rating);
+
     }
 
     private void setSummary(Game game) {
