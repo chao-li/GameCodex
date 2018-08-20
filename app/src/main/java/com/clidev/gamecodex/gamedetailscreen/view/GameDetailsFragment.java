@@ -37,6 +37,7 @@ import com.clidev.gamecodex.populargamescreen.model.modeldata.Video;
 import com.clidev.gamecodex.populargamescreen.view.PopularGamesActivity;
 import com.clidev.gamecodex.utilities.ImageUrlEditor;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -340,11 +341,17 @@ public class GameDetailsFragment extends Fragment {
     }
 
     private void setFirstReleaseDate(Game game) {
-        String releaseDate = "";
         if (game.getFirstReleaseDate() != null ) {
             Long releaseDateInSec = game.getFirstReleaseDate();
 
             // TODO: convert to human format
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+
+            String date = simpleDateFormat.format(releaseDateInSec);
+
+            mReleaseDateText.setText(date);
+        } else {
+            mReleaseDateText.setText("Release Date: N/A");
         }
     }
 
