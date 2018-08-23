@@ -48,17 +48,20 @@ public class PopularGamesFragment extends Fragment {
     private static final String TOTAL_ITEM_COUNT = "TOTAL_ITEM_COUNT";
     private static final String ISLOADING = "ISLOADING";
     private static final String SEARCH_TYPE = "SEARCH_TYPE";
+    private static final String NOT_YET_FIRST_LOAD = "NOT_YEAT_FIRST_LOAD";
 
     private GameListRvAdapter mGameListRvAdapter;
     private GridLayoutManager mGridLayoutManager;
     private List<Genre> mGenres = new ArrayList<>();
     private PopularGamesViewModel mPopViewModel;
-    Observer<List<Game>> mObserver;
+    private Observer<List<Game>> mObserver;
+    private ActionBar mActionBar;
 
     // fields for scroll listener
     private String mSearchType;
     private int mPreviousTotalItemCount = 0;
     private boolean isLoading = false;
+    private boolean notYetFirstLoad = true;
 
     @BindView(R.id.popular_games_rv) RecyclerView mGameListRv;
     @BindView(R.id.loading_bar) ProgressBar mLoadingBar;
@@ -72,6 +75,7 @@ public class PopularGamesFragment extends Fragment {
         outState.putInt(TOTAL_ITEM_COUNT, mPreviousTotalItemCount);
         outState.putBoolean(ISLOADING, isLoading);
         outState.putString(SEARCH_TYPE, mSearchType);
+        outState.putBoolean(NOT_YET_FIRST_LOAD, notYetFirstLoad);
     }
 
 
@@ -80,7 +84,7 @@ public class PopularGamesFragment extends Fragment {
         switch (item.getItemId()) {
             case android.R.id.home:
                 //mDrawerLayout.openDrawer(GravityCompat.START);
-                Timber.d("Home Button Pressed");
+              //  Timber.d("Home Button Pressed");
                 mDrawerLayout.openDrawer(GravityCompat.START, true);
                 return true;
         }
@@ -96,10 +100,13 @@ public class PopularGamesFragment extends Fragment {
 
         mSearchType = SearchTypeConstants.PS4_POPULAR;
 
+
         if (savedInstanceState != null) {
             mPreviousTotalItemCount = savedInstanceState.getInt(TOTAL_ITEM_COUNT);
             isLoading = savedInstanceState.getBoolean(ISLOADING);
+            //isLoading = false;
             mSearchType = savedInstanceState.getString(SEARCH_TYPE);
+            notYetFirstLoad = savedInstanceState.getBoolean(NOT_YET_FIRST_LOAD);
 
             Timber.d("PreviousItemCount restored instance state: " + mPreviousTotalItemCount);
             Timber.d("isLoading restored instance state: " + isLoading);
@@ -123,10 +130,15 @@ public class PopularGamesFragment extends Fragment {
         // setting the navigation drawer
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+        mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
         setHasOptionsMenu(true);
+
+        mActionBar.setTitle("Most Popular - PS4");
+
+
+
 
 
         mNavigationView = rootView.findViewById(R.id.drawer_navigation_view);
@@ -170,6 +182,10 @@ public class PopularGamesFragment extends Fragment {
         // TODO: reset scrolling constants
         mPreviousTotalItemCount = 0;
         isLoading = false;
+        //notYetFirstLoad = true;
+
+        // TODO: clear scroll count in the view model
+        mPopViewModel.clearScrollCount();
 
         // TODO: remove the previous observer
         mPopViewModel.getGameList().removeObserver(mObserver);
@@ -194,7 +210,7 @@ public class PopularGamesFragment extends Fragment {
         genreViewModel.getGenres().observe(this, new Observer<List<Genre>>() {
             @Override
             public void onChanged(@Nullable List<Genre> genres) {
-                Timber.d("Genre list successfully loaded");
+             //   Timber.d("Genre list successfully loaded");
                 mGenres = genres;
 
                 mGameListRvAdapter.setGenreList(mGenres);
@@ -211,12 +227,15 @@ public class PopularGamesFragment extends Fragment {
 
         mPopViewModel = ViewModelProviders.of(this, factory).get(PopularGamesViewModel.class);
 
-        mPopViewModel.downloadGames(mSearchType);
+        if (notYetFirstLoad == true ) {
+            mPopViewModel.downloadGames(mSearchType);
+            notYetFirstLoad = false;
+        }
 
         mObserver = new Observer<List<Game>>() {
             @Override
             public void onChanged(@Nullable List<Game> gameList) {
-                Timber.d("Updated game list data observed, updating recycler view...");
+               // Timber.d("Updated game list data observed, updating recycler view...");
 
                 // populate the RecyclerView
                 populateRecyclerView(gameList);
@@ -250,7 +269,7 @@ public class PopularGamesFragment extends Fragment {
 
                 // Total items in the list
                 int totalItemCount = mGridLayoutManager.getItemCount();
-                //Timber.d("Total item count: " + totalItemCount);
+                Timber.d("Total item count: " + totalItemCount);
 
                 // the position of the last visible item on the list;
                 int lastVisiblePosition = mGridLayoutManager.findLastVisibleItemPosition();

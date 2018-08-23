@@ -10,6 +10,8 @@ import com.clidev.gamecodex.populargamescreen.model.modeldata.Game;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class PopularGamesViewModel extends ViewModel {
 
 
@@ -25,8 +27,11 @@ public class PopularGamesViewModel extends ViewModel {
 
     }
 
-    public void downloadGames(String searchCase) {
+    public void clearScrollCount() {
         mScrollCount = 0;
+    }
+
+    public void downloadGames(String searchCase) {
         switch(searchCase) {
             case SearchTypeConstants.PS4_POPULAR:
                 mGameList = mPopularGamesRepository
@@ -40,6 +45,7 @@ public class PopularGamesViewModel extends ViewModel {
         switch(searchCase) {
             case SearchTypeConstants.PS4_POPULAR:
                 mScrollCount++;
+                Timber.d("Scroll Count: " + mScrollCount);
                 mGameList = mPopularGamesRepository
                         .queryNextSetGames(mScrollCount,RetrofitConstantFields.PLAYSTATION_4,
                                 RetrofitConstantFields.ORDER_POPULARITY);
