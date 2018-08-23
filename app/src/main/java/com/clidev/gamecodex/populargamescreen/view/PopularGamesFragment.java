@@ -101,6 +101,7 @@ public class PopularGamesFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+        setHasOptionsMenu(true);
 
 
         NavigationView navigationView = rootView.findViewById(R.id.drawer_navigation_view);
@@ -111,6 +112,29 @@ public class PopularGamesFragment extends Fragment {
                 item.setChecked(true);
 
                 return true;
+            }
+        });
+
+        // TODO: fill this out
+        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
             }
         });
 
