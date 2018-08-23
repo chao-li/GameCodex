@@ -21,7 +21,7 @@ public class GameDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_details);
 
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
 
         if (savedInstanceState == null) {
 
