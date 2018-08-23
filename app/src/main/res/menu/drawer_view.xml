@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/sort_popular_games"
+            android:title="Popular Games" />
+        <item
+            android:id="@+id/sort_highest_rated_games"
+            android:title="Highest Rated Games" />
+        <item
+            android:id="@+id/sort_upcoming_games"
+            android:title="Upcoming Games" />
+
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/filter_all"
+            android:title="All Systems" />
+
+        <item
+            android:id="@+id/filter_pc"
+            android:title="PC" />
+        <item
+            android:id="@+id/filter_ps4"
+            android:title="Playstation 4" />
+        <item
+            android:id="@+id/filter_xbone"
+            android:title="Xbox One" />
+        <item
+            android:id="@+id/filter_switch"
+            android:title="Nintento Switch" />
+
+    </group>
+
+
+
+</menu>

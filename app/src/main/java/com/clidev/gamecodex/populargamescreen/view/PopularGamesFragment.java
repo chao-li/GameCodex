@@ -6,10 +6,13 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -36,6 +39,7 @@ public class PopularGamesFragment extends Fragment {
 
     private static final String TOTAL_ITEM_COUNT = "TOTAL_ITEM_COUNT";
     private static final String ISLOADING = "ISLOADING";
+
     private GameListRvAdapter mGameListRvAdapter;
     private GridLayoutManager mGridLayoutManager;
     private List<Genre> mGenres = new ArrayList<>();
@@ -47,6 +51,8 @@ public class PopularGamesFragment extends Fragment {
 
     @BindView(R.id.popular_games_rv) RecyclerView mGameListRv;
     @BindView(R.id.loading_bar) ProgressBar mLoadingBar;
+    @BindView(R.id.drawer_navigation_view) NavigationView mNavigationView;
+    @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -69,6 +75,23 @@ public class PopularGamesFragment extends Fragment {
             Timber.d("PreviousItemCount restored instance state: " + mPreviousTotalItemCount);
             Timber.d("isLoading restored instance state: " + isLoading);
         }
+
+        // TODO: setting the navigation drawer
+
+        NavigationView navigationView = rootView.findViewById(R.id.drawer_navigation_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                item.setChecked(true);
+
+                return true;
+            }
+        });
+
+
+
+
 
         mLoadingBar.setVisibility(View.VISIBLE);
 
