@@ -83,6 +83,12 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
             notifyDataSetChanged();
         }
     }
+
+    public void clearGameList() {
+        if (mGameList.isEmpty() == false) {
+            mGameList.clear();
+        }
+    }
     //.......................................
 
     @NonNull

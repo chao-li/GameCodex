@@ -25,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.clidev.gamecodex.R;
+import com.clidev.gamecodex.constants.SearchTypeConstants;
 import com.clidev.gamecodex.populargamescreen.model.modeldata.Game;
 import com.clidev.gamecodex.room.entities.Genre;
 import com.clidev.gamecodex.room.database.GenreDatabase;
@@ -46,13 +47,16 @@ public class PopularGamesFragment extends Fragment {
 
     private static final String TOTAL_ITEM_COUNT = "TOTAL_ITEM_COUNT";
     private static final String ISLOADING = "ISLOADING";
+    private static final String SEARCH_TYPE = "SEARCH_TYPE";
 
     private GameListRvAdapter mGameListRvAdapter;
     private GridLayoutManager mGridLayoutManager;
     private List<Genre> mGenres = new ArrayList<>();
     private PopularGamesViewModel mPopViewModel;
+    Observer<List<Game>> mObserver;
 
     // fields for scroll listener
+    private String mSearchType;
     private int mPreviousTotalItemCount = 0;
     private boolean isLoading = false;
 
@@ -67,6 +71,7 @@ public class PopularGamesFragment extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putInt(TOTAL_ITEM_COUNT, mPreviousTotalItemCount);
         outState.putBoolean(ISLOADING, isLoading);
+        outState.putString(SEARCH_TYPE, mSearchType);
     }
 
 
@@ -89,9 +94,12 @@ public class PopularGamesFragment extends Fragment {
 
         ButterKnife.bind(this, rootView);
 
+        mSearchType = SearchTypeConstants.PS4_POPULAR;
+
         if (savedInstanceState != null) {
             mPreviousTotalItemCount = savedInstanceState.getInt(TOTAL_ITEM_COUNT);
             isLoading = savedInstanceState.getBoolean(ISLOADING);
+            mSearchType = savedInstanceState.getString(SEARCH_TYPE);
 
             Timber.d("PreviousItemCount restored instance state: " + mPreviousTotalItemCount);
             Timber.d("isLoading restored instance state: " + isLoading);
@@ -125,6 +133,8 @@ public class PopularGamesFragment extends Fragment {
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                resetScreen();
+
                 switch(item.getItemId()) {
 
                     case R.id.ps4_popular:
@@ -142,10 +152,30 @@ public class PopularGamesFragment extends Fragment {
     }
 
     private void searchPs4PopularGames() {
+        // TODO: set new SearchType
+        mSearchType = SearchTypeConstants.PS4_POPULAR;
 
+        // TODO: request new download
+        mPopViewModel.downloadGames(mSearchType);
 
+        // TODO: attach new observer
+        mPopViewModel.getGameList().observe(this, mObserver);
 
+    }
 
+    private void resetScreen() {
+        // TODO: turn on progressbar
+        mLoadingBar.setVisibility(View.VISIBLE);
+
+        // TODO: reset scrolling constants
+        mPreviousTotalItemCount = 0;
+        isLoading = false;
+
+        // TODO: remove the previous observer
+        mPopViewModel.getGameList().removeObserver(mObserver);
+
+        // TODO: clear recyclerview adapter
+        mGameListRvAdapter.clearGameList();
     }
 
     //..................................................................................................................
@@ -181,7 +211,9 @@ public class PopularGamesFragment extends Fragment {
 
         mPopViewModel = ViewModelProviders.of(this, factory).get(PopularGamesViewModel.class);
 
-        mPopViewModel.getGameList().observe(this, new Observer<List<Game>>() {
+        mPopViewModel.downloadGames(mSearchType);
+
+        mObserver = new Observer<List<Game>>() {
             @Override
             public void onChanged(@Nullable List<Game> gameList) {
                 Timber.d("Updated game list data observed, updating recycler view...");
@@ -190,10 +222,10 @@ public class PopularGamesFragment extends Fragment {
                 populateRecyclerView(gameList);
 
                 mLoadingBar.setVisibility(View.INVISIBLE);
-
             }
+        };
 
-        });
+        mPopViewModel.getGameList().observe(this, mObserver);
     }
 
 
@@ -266,12 +298,11 @@ public class PopularGamesFragment extends Fragment {
 
 
     private void queryForMoreGames() {
-        mPopViewModel.downloadNextSetOfGames();
+        mPopViewModel.downloadNextSetOfGames(mSearchType);
     }
 
 
-
-
+    // NETWORK CHECK ////////////////////////////////////
     @Override
     public void onResume() {
         super.onResume();
@@ -284,6 +315,7 @@ public class PopularGamesFragment extends Fragment {
             mLoadingBar.setVisibility(View.INVISIBLE);
         }
     }
+    //...........................................................
 
 
 

@@ -56,8 +56,9 @@ public class PopularGamesRepository {
         String releaseAfterDate = dateFormat.format(currentTime);
 
         // Create call
-        Call<List<Game>> call = mClient.getGame(RetrofitConstantFields.FIELDS,
+        Call<List<Game>> call = mClient.getReleasedGames(RetrofitConstantFields.FIELDS,
                 releaseAfterDate,
+                RetrofitConstantFields.DEFAULT_PLATFORM,
                 RetrofitConstantFields.ORDER,
                 RetrofitConstantFields.LIMIT);
 
@@ -96,9 +97,90 @@ public class PopularGamesRepository {
         String releaseAfterDate = dateFormat.format(currentTime);
 
         // Create call
-        Call<List<Game>> call = mClient.getNextSetGame(RetrofitConstantFields.FIELDS,
+        Call<List<Game>> call = mClient.getNextSetReleasedGames(RetrofitConstantFields.FIELDS,
                 releaseAfterDate,
+                RetrofitConstantFields.DEFAULT_PLATFORM,
                 RetrofitConstantFields.ORDER,
+                RetrofitConstantFields.LIMIT,
+                RetrofitConstantFields.LIMIT*scrollCount);
+
+        Timber.d("Call offset by: " + RetrofitConstantFields.LIMIT*scrollCount);
+
+        // begin the callback;
+        call.enqueue(new Callback<List<Game>>() {
+            @Override
+            public void onResponse(Call<List<Game>> call, Response<List<Game>> response) {
+                if (response.isSuccessful()) {
+                    mGameList.addAll(response.body());
+                    mLiveDataGameList.setValue(mGameList);
+                } else {
+                    Timber.d("Scroll call failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Game>> call, Throwable t) {
+                Timber.d("Scroll call failed");
+            }
+        });
+
+        return mLiveDataGameList;
+    }
+
+
+    public MutableLiveData<List<Game>> queryGames(int platformId, String sortBy) {
+        // Get current time and date
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String releaseAfterDate = dateFormat.format(currentTime);
+
+        // Create call
+        Call<List<Game>> call = mClient.getReleasedGames(RetrofitConstantFields.FIELDS,
+                releaseAfterDate,
+                platformId,
+                sortBy,
+                RetrofitConstantFields.LIMIT);
+
+
+        // Perform the call for popular movie list
+        call.enqueue(new Callback<List<Game>>() {
+            @Override
+            public void onResponse(Call<List<Game>> call, Response<List<Game>> response) {
+                if (response.isSuccessful()) {
+
+                    Timber.d("api call success");
+                    Timber.d("First game: " + response.body().get(0).getName());
+
+                    mGameList = response.body();
+                    mLiveDataGameList.setValue(response.body());
+                } else {
+                    Timber.d("api call not successful");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Game>> call, Throwable t) {
+                Timber.d("api call failed");
+            }
+        });
+
+        return mLiveDataGameList;
+
+    }
+
+    // create method to query the next set of games data
+    public MutableLiveData<List<Game>> queryNextSetGames(int scrollCount, int platformId, String sortBy) {
+        // Get current time and date
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String releaseAfterDate = dateFormat.format(currentTime);
+
+        // Create call
+        Call<List<Game>> call = mClient.getNextSetReleasedGames(RetrofitConstantFields.FIELDS,
+                releaseAfterDate,
+                platformId,
+                sortBy,
                 RetrofitConstantFields.LIMIT,
                 RetrofitConstantFields.LIMIT*scrollCount);
 
