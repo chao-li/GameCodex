@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.clidev.gamecodex.R;
 import com.clidev.gamecodex.populargamescreen.model.modeldata.Game;
@@ -60,6 +61,7 @@ public class PopularGamesFragment extends Fragment {
     @BindView(R.id.drawer_navigation_view) NavigationView mNavigationView;
     @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
 
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -95,54 +97,9 @@ public class PopularGamesFragment extends Fragment {
             Timber.d("isLoading restored instance state: " + isLoading);
         }
 
-        // TODO: setting the navigation drawer
-        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
-        setHasOptionsMenu(true);
-
-
-        NavigationView navigationView = rootView.findViewById(R.id.drawer_navigation_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                item.setChecked(true);
-
-                return true;
-            }
-        });
-
-        // TODO: fill this out
-        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-
-            }
-
-            @Override
-            public void onDrawerOpened(@NonNull View drawerView) {
-
-            }
-
-            @Override
-            public void onDrawerClosed(@NonNull View drawerView) {
-
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-
-            }
-        });
-
-
-
-
-
         mLoadingBar.setVisibility(View.VISIBLE);
+
+        setNavigationDrawer(rootView);
 
         prepareRecyclerView();
 
@@ -153,6 +110,45 @@ public class PopularGamesFragment extends Fragment {
         return rootView;
     }
 
+    // SETTING UP NAVIGATION DRAWER AND ITS FUNCTIONALITY ////////////////////////////////////////////////////////////
+    private void setNavigationDrawer(View rootView) {
+        // setting the navigation drawer
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+        setHasOptionsMenu(true);
+
+
+        mNavigationView = rootView.findViewById(R.id.drawer_navigation_view);
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()) {
+
+                    case R.id.ps4_popular:
+                        Toast.makeText(getContext(), "Ps4 sort by popular game", Toast.LENGTH_SHORT).show();
+
+                        // TODO: search for playstation game sorted by popular
+                        searchPs4PopularGames();
+                        break;
+                }
+
+                mDrawerLayout.closeDrawers();
+                return true;
+            }
+        });
+    }
+
+    private void searchPs4PopularGames() {
+
+
+
+
+    }
+
+    //..................................................................................................................
 
     private void loadGameGenres() {
         // Destroys database.
@@ -178,6 +174,7 @@ public class PopularGamesFragment extends Fragment {
         });
 
     }
+
 
     private void loadPopularGames() {
         PopularGamesViewModelFactory factory = new PopularGamesViewModelFactory();
@@ -287,8 +284,6 @@ public class PopularGamesFragment extends Fragment {
             mLoadingBar.setVisibility(View.INVISIBLE);
         }
     }
-
-
 
 
 

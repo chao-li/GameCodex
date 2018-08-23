@@ -1,38 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/sort_popular_games"
-            android:title="Popular Games" />
-        <item
-            android:id="@+id/sort_highest_rated_games"
-            android:title="Highest Rated Games" />
-        <item
-            android:id="@+id/sort_upcoming_games"
-            android:title="Upcoming Games" />
+    <item android:title="Playstation 4">
+        <menu>
+            <group android:checkableBehavior="single"
+                android:id="@+id/ps4_group">
+                <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                <item
+                    android:id="@+id/ps4_popular"
+                    android:icon="@drawable/ps4"
+                    android:title="Most Popular"/>
 
-    </group>
+                <item
+                    android:id="@+id/ps4_rated"
+                    android:icon="@drawable/ps4"
+                    android:title="Highest Rated" />
+                <item
+                    android:id="@+id/p4_upcoming"
+                    android:icon="@drawable/ps4"
+                    android:title="Upcoming Games" />
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/filter_all"
-            android:title="All Systems" />
+            </group>
+        </menu>
+    </item>
 
-        <item
-            android:id="@+id/filter_pc"
-            android:title="PC" />
-        <item
-            android:id="@+id/filter_ps4"
-            android:title="Playstation 4" />
-        <item
-            android:id="@+id/filter_xbone"
-            android:title="Xbox One" />
-        <item
-            android:id="@+id/filter_switch"
-            android:title="Nintento Switch" />
+    <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+    <item android:title="Xbox One">
+        <menu>
+            <group android:checkableBehavior="single"
+                android:id="@+id/xb1_group">
+                <item
+                    android:id="@+id/xb1_popular"
+                    android:icon="@drawable/xbox"
+                    android:title="Most Popular" />
+                <item
+                    android:id="@+id/xb1_rated"
+                    android:icon="@drawable/xbox"
+                    android:title="Highest Rated" />
+                <item
+                    android:id="@+id/xb1_upcoming"
+                    android:icon="@drawable/xbox"
+                    android:title="Upcoming Games" />
+            </group>
+        </menu>
+    </item>
 
-    </group>
+    <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+    <item android:title="Nintendo Switch">
+        <menu>
+            <group android:checkableBehavior="single"
+                android:id="@+id/switch_group">
+                <item
+                    android:id="@+id/switch_popular"
+                    android:icon="@drawable/nds"
+                    android:title="Most Popular" />
+                <item
+                    android:id="@+id/switch_rated"
+                    android:icon="@drawable/nds"
+                    android:title="Highest Rated" />
+                <item
+                    android:id="@+id/switch_upcoming"
+                    android:icon="@drawable/nds"
+                    android:title="Upcoming Games" />
+            </group>
+        </menu>
+    </item>
+
+
 
 
 

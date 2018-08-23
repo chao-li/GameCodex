@@ -42,9 +42,7 @@ public interface PopularGamesRetrofitClient {
             @Query("order") String order,
             @Query("limit") int limit,
             @Query("offset") int offset
-
     );
-
 
 
 
