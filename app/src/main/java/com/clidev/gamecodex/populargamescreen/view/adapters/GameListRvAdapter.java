@@ -173,7 +173,7 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
             RequestOptions options = new RequestOptions();
             options.centerCrop();
             options.override(150, 200);
-            options.placeholder(R.drawable.image_loading);
+            options.placeholder(R.drawable.placeholder);
 
             // load image with glide
             Glide.with(mContext)

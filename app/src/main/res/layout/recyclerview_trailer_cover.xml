@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="170dp">
+    android:layout_height="185dp">
 
     <ImageView
         android:id="@+id/rv_trailer_cover"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/monster_hunter_world_cover" />
@@ -33,11 +33,11 @@
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rv_trailer_cover"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_trailer_right"
-        android:visibility="invisible"/>
+        app:srcCompat="@drawable/ic_trailer_right" />
 
     <ImageView
         android:id="@+id/rv_trailer_left"
@@ -45,9 +45,9 @@
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_trailer_left"
-        android:visibility="invisible"/>
+        app:srcCompat="@drawable/ic_trailer_left" />
 </android.support.constraint.ConstraintLayout>

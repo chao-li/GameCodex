@@ -159,6 +159,30 @@ public class PopularGamesViewModel extends ViewModel {
                                 false);
                 break;
 
+            case R.id.pc_popular:
+                mGameList = mPopularGamesRepository
+                        .queryGames(RetrofitConstantFields.PC,
+                                RetrofitConstantFields.ORDER_POPULARITY,
+                                mScrollCount,
+                                true);
+                break;
+
+            case R.id.pc_rated:
+                mGameList = mPopularGamesRepository
+                        .queryGames(RetrofitConstantFields.PC,
+                                RetrofitConstantFields.ORDER_AGGREGATED_RATING,
+                                mScrollCount,
+                                true);
+                break;
+
+            case R.id.pc_upcoming:
+                mGameList = mPopularGamesRepository
+                        .queryGames(RetrofitConstantFields.PC,
+                                RetrofitConstantFields.ORDER_RELEASE_DATE,
+                                mScrollCount,
+                                false);
+                break;
+
             default:
                 Timber.d("Search type not supported");
         }

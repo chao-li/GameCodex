@@ -20,9 +20,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.clidev.gamecodex.R;
 import com.clidev.gamecodex.constants.SearchTypeConstants;
 import com.clidev.gamecodex.gamedetailscreen.view.GameDetailsActivity;
@@ -34,6 +37,9 @@ import com.clidev.gamecodex.populargamescreen.view_model.GenreViewModel;
 import com.clidev.gamecodex.populargamescreen.view_model.GenreViewModelFactory;
 import com.clidev.gamecodex.populargamescreen.view_model.PopularGamesViewModel;
 import com.clidev.gamecodex.populargamescreen.view_model.PopularGamesViewModelFactory;
+import com.clidev.gamecodex.utilities.DpAndPxConversion;
+import com.clidev.gamecodex.utilities.GridSpacingItemDecoration;
+import com.clidev.gamecodex.utilities.NavHeadImageRandomizer;
 import com.clidev.gamecodex.utilities.NetworkUtilities;
 
 import java.util.ArrayList;
@@ -56,6 +62,10 @@ public class PopularGamesFragment extends Fragment implements GameListRvAdapter.
     private Observer<List<Game>> mObserver;
     private ActionBar mActionBar;
     private Integer mSearchTypeId;
+    private int spanCount = 2;
+    private float spacingInDp = 2;
+    private float spacingInPx;
+    private boolean includeEdge = false;
 
     //private boolean notYetFirstLoad = true;
 
@@ -78,6 +88,8 @@ public class PopularGamesFragment extends Fragment implements GameListRvAdapter.
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -85,11 +97,15 @@ public class PopularGamesFragment extends Fragment implements GameListRvAdapter.
 
         ButterKnife.bind(this, rootView);
 
+        spacingInPx = DpAndPxConversion.convertDpToPixel(spacingInDp, getContext());
+
         mLoadingBar.setVisibility(View.VISIBLE);
 
         initiatePopularGameViewModel(savedInstanceState);
 
         setNavigationDrawer(rootView);
+
+        setNavHeadImage();
 
         prepareRecyclerView();
 
@@ -153,9 +169,29 @@ public class PopularGamesFragment extends Fragment implements GameListRvAdapter.
 
         // clear recyclerview adapter
         mGameListRvAdapter.clearGameList();
+
+        // set a different nav head image
+        setNavHeadImage();
     }
 
     //..................................................................................................................
+
+    private void setNavHeadImage() {
+        View navView = mNavigationView.getHeaderView(0);
+        ImageView headImage = navView.findViewById(R.id.nav_head_image);
+
+        // Set the property of glide loading
+        RequestOptions options = new RequestOptions();
+        options.centerCrop();
+        options.override(300,200);
+
+        // load image with glide
+        Glide.with(getContext())
+                .load(NavHeadImageRandomizer.getRandomImage())
+                .apply(options)
+                .into(headImage);
+    }
+
 
     private void prepareRecyclerView() {
         mGameListRvAdapter = new GameListRvAdapter(getContext(), this);
@@ -170,6 +206,8 @@ public class PopularGamesFragment extends Fragment implements GameListRvAdapter.
 
         mGameListRv.setAdapter(mGameListRvAdapter);
         mGameListRv.setLayoutManager(mGridLayoutManager);
+
+        mGameListRv.addItemDecoration(new GridSpacingItemDecoration(spanCount, (int) spacingInPx, includeEdge));
 
         mGameListRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -186,33 +224,6 @@ public class PopularGamesFragment extends Fragment implements GameListRvAdapter.
                 //Timber.d("Current scroll position's last item: " + lastVisiblePosition);
 
                 mPopViewModel.scrollDetected(totalItemCount, lastVisiblePosition);
-
-                /*
-                // initiate previousTotalItemCount
-                if (mPreviousTotalItemCount == 0) {
-                    mPreviousTotalItemCount = totalItemCount;
-                }
-
-                // if not loading, and we are near the bottom of the list, initiate loading.
-                if (isLoading == false &&
-                        lastVisiblePosition >= totalItemCount - 25 &&
-                        totalItemCount > 0) {
-                    isLoading = true;
-                    //mLoadingBar.setVisibility(View.VISIBLE);
-                    queryForMoreGames();
-
-                    Timber.d("Scroll loading started");
-                }
-
-                // if we are currently loading, check if loading has completed
-                if (isLoading == true && totalItemCount > mPreviousTotalItemCount) {
-                    isLoading = false;
-                    //mLoadingBar.setVisibility(View.INVISIBLE);
-                    mPreviousTotalItemCount = totalItemCount;
-                    Timber.d("Scroll loading ended");
-                }
-                */
-
             }
         });
     }
@@ -310,6 +321,18 @@ public class PopularGamesFragment extends Fragment implements GameListRvAdapter.
 
                     case R.id.switch_upcoming:
                         mActionBar.setTitle("Upcoming - SWITCH");
+                        break;
+
+                    case R.id.pc_popular:
+                        mActionBar.setTitle("Most Popular - PC");
+                        break;
+
+                    case R.id.pc_rated:
+                        mActionBar.setTitle("Highest Rated - PC");
+                        break;
+
+                    case R.id.pc_upcoming:
+                        mActionBar.setTitle("Upcoming - PC");
                         break;
 
                     default:

@@ -315,7 +315,7 @@ public class GameDetailsFragment extends Fragment {
     }
 
     private void setPlatforms(Game game) {
-        String platform = "";
+        final String platform = "";
         if (game.getPlatforms() != null) {
             mPlatformLoadingBar.setVisibility(View.VISIBLE);
             List<Integer> platformIds = game.getPlatforms();
@@ -330,10 +330,17 @@ public class GameDetailsFragment extends Fragment {
                 public void onChanged(@Nullable List<Platform> platforms) {
                     String platformText = "";
                     for (Platform platform : platforms) {
-                        if (platformText.matches("")) {
-                            platformText = platform.getName();
-                        } else {
-                            platformText = platformText + "\n" + platform.getName();
+                        // ONLY OUTPUT THE PLATFORM IF IT MATCHES ONE OF THE 4 APPROVED PLATFORM
+                        if (platform.getId() == 6
+                                || platform.getId() == 48
+                                || platform.getId() == 49
+                                || platform.getId() == 130) {
+
+                            if (platformText.matches("")) {
+                                platformText = platform.getName();
+                            } else {
+                                platformText = platformText + "\n" + platform.getName();
+                            }
                         }
                     }
 
@@ -380,6 +387,10 @@ public class GameDetailsFragment extends Fragment {
                         || mSearchTypeId.equals(R.id.switch_rated)
                         || mSearchTypeId.equals(R.id.switch_upcoming)) {
                     requiredPlatformId = 130; // Switch
+                } else if (mSearchTypeId.equals(R.id.pc_popular)
+                        || mSearchTypeId.equals(R.id.pc_rated)
+                        || mSearchTypeId.equals(R.id.pc_upcoming)) {
+                    requiredPlatformId = 6; // Switch
                 }
 
                 // create an equal sized list of just platform ids
@@ -408,9 +419,12 @@ public class GameDetailsFragment extends Fragment {
                     // convert to human format
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
 
-                    String date = simpleDateFormat.format(releaseDateInSec);
+                    if (releaseDateInSec != null) {
+                        String date = simpleDateFormat.format(releaseDateInSec);
+                        mReleaseDateText.setText(date);
+                    }
 
-                    mReleaseDateText.setText(date);
+
                 }
 
             }

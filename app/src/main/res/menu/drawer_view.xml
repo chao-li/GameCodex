@@ -66,6 +66,27 @@
         </menu>
     </item>
 
+    <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/icomoon" title="Icomoon">Icomoon</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+    <item android:title="Window PC">
+        <menu>
+            <group android:checkableBehavior="single"
+                android:id="@+id/pc_group">
+                <item
+                    android:id="@+id/pc_popular"
+                    android:icon="@drawable/pc"
+                    android:title="Most Popular" />
+                <item
+                    android:id="@+id/pc_rated"
+                    android:icon="@drawable/pc"
+                    android:title="Highest Rated" />
+                <item
+                    android:id="@+id/pc_upcoming"
+                    android:icon="@drawable/pc"
+                    android:title="Upcoming Games" />
+            </group>
+        </menu>
+    </item>
+
 
 
 
