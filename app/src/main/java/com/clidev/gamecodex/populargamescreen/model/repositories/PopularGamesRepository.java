@@ -48,19 +48,31 @@ public class PopularGamesRepository {
 
 
 
-    public MutableLiveData<List<Game>> queryGames(int platformId, String sortBy, int scrollCount) {
+    public MutableLiveData<List<Game>> queryGames(int platformId, String sortBy, int scrollCount,
+                                                  boolean isReleased) {
         // Get current time and date
         Date currentTime = Calendar.getInstance().getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String releaseAfterDate = dateFormat.format(currentTime);
+        String currentDate = dateFormat.format(currentTime);
 
-        // Create call
-        Call<List<Game>> call = mClient.getReleasedGames(RetrofitConstantFields.FIELDS,
-                releaseAfterDate,
-                platformId,
-                sortBy,
-                RetrofitConstantFields.LIMIT,
-                RetrofitConstantFields.LIMIT*scrollCount);
+        Call<List<Game>> call;
+
+        if (isReleased) {
+            // Create call
+            call = mClient.getReleasedGames(RetrofitConstantFields.FIELDS,
+                    currentDate,
+                    platformId,
+                    sortBy,
+                    RetrofitConstantFields.LIMIT,
+                    RetrofitConstantFields.LIMIT * scrollCount);
+        } else {
+            call = mClient.getUpComingGames(RetrofitConstantFields.FIELDS,
+                    currentDate,
+                    platformId,
+                    sortBy,
+                    RetrofitConstantFields.LIMIT,
+                    RetrofitConstantFields.LIMIT * scrollCount);
+        }
 
         Timber.d("Call offset by: " + RetrofitConstantFields.LIMIT*scrollCount);
 

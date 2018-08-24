@@ -17,6 +17,7 @@ public class PopularGamesViewModel extends ViewModel {
 
 
     private MutableLiveData<List<Game>> mGameList = new MutableLiveData<>();
+    private MutableLiveData<Integer> mSearchTypeLiveData = new MutableLiveData<>();
     private PopularGamesRepository mPopularGamesRepository;
     private int mScrollCount = 0;
     private int mPreviousTotalItemCount = 0;
@@ -39,13 +40,30 @@ public class PopularGamesViewModel extends ViewModel {
 
     public void downloadGames(int searchType) {
         mSearchType = searchType;
+        mSearchTypeLiveData.setValue(searchType);
         switch(mSearchType) {
             case R.id.ps4_popular:
                 mGameList = mPopularGamesRepository
                         .queryGames(RetrofitConstantFields.PLAYSTATION_4,
                                 RetrofitConstantFields.ORDER_POPULARITY,
-                                mScrollCount);
+                                mScrollCount,
+                                true);
                 break;
+
+            case R.id.ps4_rated:
+                mGameList = mPopularGamesRepository
+                        .queryGames(RetrofitConstantFields.PLAYSTATION_4,
+                                RetrofitConstantFields.ORDER_AGGREGATED_RATING,
+                                mScrollCount,
+                                true);
+
+            case R.id.ps4_upcoming:
+                mGameList = mPopularGamesRepository
+                        .queryGames(RetrofitConstantFields.PLAYSTATION_4,
+                                RetrofitConstantFields.ORDER_RELEASE_DATE,
+                                mScrollCount,
+                                false);
+
 
             default:
                 Timber.d("Search type not supported");
@@ -85,4 +103,7 @@ public class PopularGamesViewModel extends ViewModel {
         return mGameList;
     }
 
+    public MutableLiveData<Integer> getSearchTypeLiveData() {
+        return mSearchTypeLiveData;
+    }
 }

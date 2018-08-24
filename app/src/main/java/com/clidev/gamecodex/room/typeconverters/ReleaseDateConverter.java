@@ -6,10 +6,11 @@ public class ReleaseDateConverter {
 
     public static String toString(ReleaseDate releaseDate) {
         if (releaseDate != null) {
+            Integer platform = releaseDate.getPlatform();
             Long date = releaseDate.getDate();
             String human = releaseDate.getHuman();
 
-            String result = date + "," + human;
+            String result = platform + "," + date + "," + human;
             return result;
         }
 
@@ -22,9 +23,10 @@ public class ReleaseDateConverter {
             return null;
         } else {
             String[] split = releaseDateString.split(",");
-            Long date = Long.parseLong(split[0]);
-            String human = split[1];
-            ReleaseDate releaseDate = new ReleaseDate(date,human);
+            Integer platform = Integer.parseInt(split[0]);
+            Long date = Long.parseLong(split[1]);
+            String human = split[2];
+            ReleaseDate releaseDate = new ReleaseDate(platform,date,human);
             return releaseDate;
         }
     }

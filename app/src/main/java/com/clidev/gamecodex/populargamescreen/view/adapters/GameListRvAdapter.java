@@ -40,9 +40,9 @@ public class GameListRvAdapter extends RecyclerView.Adapter<GameListRvAdapter.Ga
     }
 
     // Constructor
-    public GameListRvAdapter(Context context) {
+    public GameListRvAdapter(Context context, ItemClickHandler itemClickHandler) {
         mContext = context;
-        mItemClickHandler = (ItemClickHandler) context;
+        mItemClickHandler = itemClickHandler;
     }
 
     // Custom PUBLIC methods /////////////////////////////////////////

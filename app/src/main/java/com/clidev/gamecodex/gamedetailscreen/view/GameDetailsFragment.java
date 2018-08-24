@@ -33,8 +33,10 @@ import com.clidev.gamecodex.gamedetailscreen.view_model.GameDetailsViewModelFact
 import com.clidev.gamecodex.gamedetailscreen.view_model.PlatformViewModel;
 import com.clidev.gamecodex.gamedetailscreen.view_model.PlatformViewModelFactory;
 import com.clidev.gamecodex.populargamescreen.model.modeldata.Game;
+import com.clidev.gamecodex.populargamescreen.model.modeldata.ReleaseDate;
 import com.clidev.gamecodex.populargamescreen.model.modeldata.Video;
 import com.clidev.gamecodex.populargamescreen.view.PopularGamesActivity;
+import com.clidev.gamecodex.populargamescreen.view.PopularGamesFragment;
 import com.clidev.gamecodex.utilities.ImageUrlEditor;
 
 import java.text.SimpleDateFormat;
@@ -51,6 +53,7 @@ public class GameDetailsFragment extends Fragment {
     private GameDetailsViewModel mGameDetailsViewModel;
     private CompanyViewModel mCompanyViewModel;
     private PlatformViewModel mPlatformViewModel;
+    private Integer mSearchTypeId;
 
     // View Fields
     @BindView(R.id.game_detail_trailer_rv) RecyclerView mTrailerRv;
@@ -78,7 +81,9 @@ public class GameDetailsFragment extends Fragment {
         clearViews();
 
         Intent intent = getActivity().getIntent();
-        mId = intent.getLongExtra(PopularGamesActivity.SELECTED_GAME_ID, 0);
+        mSearchTypeId = intent.getIntExtra(PopularGamesFragment.SEARCH_TYPE_ID,0);
+        mId = intent.getLongExtra(PopularGamesFragment.SELECTED_GAME_ID, 0);
+
 
         Timber.d("Selected game id is: " + mId);
 
@@ -129,7 +134,8 @@ public class GameDetailsFragment extends Fragment {
 
                 setPlatforms(game);
 
-                setFirstReleaseDate(game);
+                //setFirstReleaseDate(game);
+                setReleaseDate(game);
 
                 setAggregatedRating(game);
 
@@ -344,7 +350,7 @@ public class GameDetailsFragment extends Fragment {
         if (game.getFirstReleaseDate() != null ) {
             Long releaseDateInSec = game.getFirstReleaseDate();
 
-            // TODO: convert to human format
+            // convert to human format
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
 
             String date = simpleDateFormat.format(releaseDateInSec);
@@ -353,6 +359,57 @@ public class GameDetailsFragment extends Fragment {
         } else {
             mReleaseDateText.setText("Release Date: N/A");
         }
+    }
+
+    private void setReleaseDate(Game game) {
+        mReleaseDateText.setText("Release Date: N/A");
+        if (game.getReleaseDates() != null) {
+            if (game.getReleaseDates().isEmpty() == false) {
+
+                // get required platform id based on the search method that was used
+                Integer requiredPlatformId = 0;
+                if (mSearchTypeId.equals(R.id.ps4_popular)
+                        || mSearchTypeId.equals(R.id.ps4_rated)
+                        || mSearchTypeId.equals(R.id.ps4_upcoming)) {
+                    requiredPlatformId = 48; // PLAYSTATION 4
+                }
+
+                // create an equal sized list of just platform ids
+                List<ReleaseDate> releaseDates = game.getReleaseDates();
+                List<Integer> platformIds = new ArrayList<>();
+
+                for (ReleaseDate releaseDate : releaseDates) {
+                    Integer id = releaseDate.getPlatform();
+                    platformIds.add(id);
+                }
+
+                // if the list of platformIds contains the required platform id, get the corresponding index.
+                int index = -1;
+                if (platformIds.contains(requiredPlatformId)) {
+                    index = platformIds.indexOf(requiredPlatformId);
+                }
+
+                // if index is not invalid, get the corresponding releaseDate object
+                ReleaseDate requiredReleaseDate;
+                if (index != -1) {
+                    requiredReleaseDate = releaseDates.get(index);
+
+                    // get the release date in sec and then convert it to human time.
+                    Long releaseDateInSec = requiredReleaseDate.getDate();
+
+                    // convert to human format
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+
+                    String date = simpleDateFormat.format(releaseDateInSec);
+
+                    mReleaseDateText.setText(date);
+                }
+
+            }
+        }
+
+
+
     }
 
     private void setAggregatedRating(Game game) {

@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class ReleaseDate {
 
+    @SerializedName("platform")
+    @Expose
+    private Integer platform;
     @SerializedName("date")
     @Expose
     private Long date;
@@ -28,15 +31,23 @@ public class ReleaseDate {
 
      * @param human
      */
-    public ReleaseDate(Long date, String human) {
+    public ReleaseDate(Integer platform, Long date, String human) {
         super();
 
+        this.platform = platform;
         this.date = date;
         this.human = human;
 
     }
 
 
+    public Integer getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(Integer platform) {
+        this.platform = platform;
+    }
 
     public Long getDate() {
         return date;

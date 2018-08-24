@@ -16,7 +16,7 @@
                     android:icon="@drawable/ps4"
                     android:title="Highest Rated" />
                 <item
-                    android:id="@+id/p4_upcoming"
+                    android:id="@+id/ps4_upcoming"
                     android:icon="@drawable/ps4"
                     android:title="Upcoming Games" />
 

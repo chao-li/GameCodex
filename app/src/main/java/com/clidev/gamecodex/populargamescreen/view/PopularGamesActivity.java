@@ -10,11 +10,11 @@ import com.clidev.gamecodex.gamedetailscreen.view.GameDetailsActivity;
 import com.clidev.gamecodex.populargamescreen.model.modeldata.Game;
 import com.clidev.gamecodex.populargamescreen.view.adapters.GameListRvAdapter;
 
-public class PopularGamesActivity extends AppCompatActivity implements GameListRvAdapter.ItemClickHandler{
+public class PopularGamesActivity extends AppCompatActivity {
 
     // Constants
     private static final String POPULAR_GAMES = "POPULAR_GAMES";
-    public static final String SELECTED_GAME_ID = "SELECTED_GAME_ID";
+
 
     // member variables
     private Fragment mFragment;
@@ -39,6 +39,7 @@ public class PopularGamesActivity extends AppCompatActivity implements GameListR
 
     }
 
+    /*
 
     @Override
     public void onGameItemClicked(Game game) {
@@ -49,4 +50,5 @@ public class PopularGamesActivity extends AppCompatActivity implements GameListR
 
         startActivity(intent);
     }
+    */
 }

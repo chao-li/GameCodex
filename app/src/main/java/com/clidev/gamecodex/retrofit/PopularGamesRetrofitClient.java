@@ -36,9 +36,9 @@ public interface PopularGamesRetrofitClient {
             "Accept: application/json"
     })
     @GET("/games/")
-    Call<List<Game>> getNextSetReleasedGames(
+    Call<List<Game>> getUpComingGames(
             @Query("fields") String fields,
-            @Query("filter[release_dates.date][lte]") String releasedBefore,
+            @Query("filter[release_dates.date][gt]") String releasedBefore,
             @Query("filter[release_dates.platform][eq]") int platform,
             @Query("order") String order,
             @Query("limit") int limit,

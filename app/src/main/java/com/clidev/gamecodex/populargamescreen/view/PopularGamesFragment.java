@@ -2,6 +2,7 @@ package com.clidev.gamecodex.populargamescreen.view;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import com.clidev.gamecodex.R;
 import com.clidev.gamecodex.constants.SearchTypeConstants;
+import com.clidev.gamecodex.gamedetailscreen.view.GameDetailsActivity;
 import com.clidev.gamecodex.populargamescreen.model.modeldata.Game;
 import com.clidev.gamecodex.room.entities.Genre;
 import com.clidev.gamecodex.room.database.GenreDatabase;
@@ -41,7 +43,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class PopularGamesFragment extends Fragment {
+
+public class PopularGamesFragment extends Fragment implements GameListRvAdapter.ItemClickHandler{
+
+    public static final String SELECTED_GAME_ID = "SELECTED_GAME_ID";
+    public static final String SEARCH_TYPE_ID = "SEARCH_TYPE_ID"   ;
 
     private GameListRvAdapter mGameListRvAdapter;
     private GridLayoutManager mGridLayoutManager;
@@ -49,6 +55,7 @@ public class PopularGamesFragment extends Fragment {
     private PopularGamesViewModel mPopViewModel;
     private Observer<List<Game>> mObserver;
     private ActionBar mActionBar;
+    private Integer mSearchTypeId;
 
     //private boolean notYetFirstLoad = true;
 
@@ -90,6 +97,8 @@ public class PopularGamesFragment extends Fragment {
 
         loadPopularGames();
 
+        loadActionBarTitle();
+
         return rootView;
     }
 
@@ -112,7 +121,7 @@ public class PopularGamesFragment extends Fragment {
         mActionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
         setHasOptionsMenu(true);
 
-        mActionBar.setTitle("Most Popular - PS4");
+
 
 
         mNavigationView = rootView.findViewById(R.id.drawer_navigation_view);
@@ -149,7 +158,7 @@ public class PopularGamesFragment extends Fragment {
     //..................................................................................................................
 
     private void prepareRecyclerView() {
-        mGameListRvAdapter = new GameListRvAdapter(getContext());
+        mGameListRvAdapter = new GameListRvAdapter(getContext(), this);
 
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             mGridLayoutManager = new GridLayoutManager(getContext(), 2,
@@ -246,13 +255,12 @@ public class PopularGamesFragment extends Fragment {
                 populateRecyclerView(gameList);
 
                 mLoadingBar.setVisibility(View.INVISIBLE);
+
             }
         };
 
         mPopViewModel.getGameList().observe(this, mObserver);
     }
-
-
 
     private void populateRecyclerView(List<Game> gameList) {
         // Determining screen width
@@ -262,6 +270,42 @@ public class PopularGamesFragment extends Fragment {
         mGameListRvAdapter.setGameList(gameList);
     }
 
+    private void loadActionBarTitle() {
+        mPopViewModel.getSearchTypeLiveData().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                mSearchTypeId = integer;
+                switch (integer) {
+                    case R.id.ps4_popular:
+                        mActionBar.setTitle("Most Popular - PS4");
+                        break;
+
+                    case R.id.ps4_rated:
+                        mActionBar.setTitle("Highest Rated - PS4");
+                        break;
+
+                    case R.id.ps4_upcoming:
+                        mActionBar.setTitle("Upcoming - PS4");
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+
+    // on recyclerview item clicked
+    @Override
+    public void onGameItemClicked(Game game) {
+        Intent intent = new Intent(getContext(), GameDetailsActivity.class);
+        Long gameId = game.getId();
+        intent.putExtra(SEARCH_TYPE_ID, mSearchTypeId);
+        intent.putExtra(SELECTED_GAME_ID, gameId);
+
+        startActivity(intent);
+    }
 
 
     // NETWORK CHECK ////////////////////////////////////
@@ -277,6 +321,8 @@ public class PopularGamesFragment extends Fragment {
             mLoadingBar.setVisibility(View.INVISIBLE);
         }
     }
+
+
     //...........................................................
 
 
