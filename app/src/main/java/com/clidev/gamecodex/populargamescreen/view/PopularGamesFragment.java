@@ -16,8 +16,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,11 +43,6 @@ import timber.log.Timber;
 
 public class PopularGamesFragment extends Fragment {
 
-    private static final String TOTAL_ITEM_COUNT = "TOTAL_ITEM_COUNT";
-    private static final String ISLOADING = "ISLOADING";
-    private static final String SEARCH_TYPE = "SEARCH_TYPE";
-    private static final String NOT_YET_FIRST_LOAD = "NOT_YEAT_FIRST_LOAD";
-
     private GameListRvAdapter mGameListRvAdapter;
     private GridLayoutManager mGridLayoutManager;
     private List<Genre> mGenres = new ArrayList<>();
@@ -57,26 +50,13 @@ public class PopularGamesFragment extends Fragment {
     private Observer<List<Game>> mObserver;
     private ActionBar mActionBar;
 
-    // fields for scroll listener
-    private String mSearchType;
-    private int mPreviousTotalItemCount = 0;
-    private boolean isLoading = false;
-    private boolean notYetFirstLoad = true;
+    //private boolean notYetFirstLoad = true;
 
     @BindView(R.id.popular_games_rv) RecyclerView mGameListRv;
     @BindView(R.id.loading_bar) ProgressBar mLoadingBar;
     @BindView(R.id.drawer_navigation_view) NavigationView mNavigationView;
     @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
 
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(TOTAL_ITEM_COUNT, mPreviousTotalItemCount);
-        outState.putBoolean(ISLOADING, isLoading);
-        outState.putString(SEARCH_TYPE, mSearchType);
-        outState.putBoolean(NOT_YET_FIRST_LOAD, notYetFirstLoad);
-    }
 
 
     @Override
@@ -98,21 +78,9 @@ public class PopularGamesFragment extends Fragment {
 
         ButterKnife.bind(this, rootView);
 
-        mSearchType = SearchTypeConstants.PS4_POPULAR;
-
-
-        if (savedInstanceState != null) {
-            mPreviousTotalItemCount = savedInstanceState.getInt(TOTAL_ITEM_COUNT);
-            isLoading = savedInstanceState.getBoolean(ISLOADING);
-            //isLoading = false;
-            mSearchType = savedInstanceState.getString(SEARCH_TYPE);
-            notYetFirstLoad = savedInstanceState.getBoolean(NOT_YET_FIRST_LOAD);
-
-            Timber.d("PreviousItemCount restored instance state: " + mPreviousTotalItemCount);
-            Timber.d("isLoading restored instance state: " + isLoading);
-        }
-
         mLoadingBar.setVisibility(View.VISIBLE);
+
+        initiatePopularGameViewModel(savedInstanceState);
 
         setNavigationDrawer(rootView);
 
@@ -124,6 +92,15 @@ public class PopularGamesFragment extends Fragment {
 
         return rootView;
     }
+
+
+    private void initiatePopularGameViewModel(@Nullable Bundle savedInstanceState) {
+        // Create popular games view model
+        PopularGamesViewModelFactory factory = new PopularGamesViewModelFactory();
+
+        mPopViewModel = ViewModelProviders.of(this, factory).get(PopularGamesViewModel.class);
+    }
+
 
     // SETTING UP NAVIGATION DRAWER AND ITS FUNCTIONALITY ////////////////////////////////////////////////////////////
     private void setNavigationDrawer(View rootView) {
@@ -138,24 +115,15 @@ public class PopularGamesFragment extends Fragment {
         mActionBar.setTitle("Most Popular - PS4");
 
 
-
-
-
         mNavigationView = rootView.findViewById(R.id.drawer_navigation_view);
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 resetScreen();
 
-                switch(item.getItemId()) {
+                mPopViewModel.downloadGames(item.getItemId());
 
-                    case R.id.ps4_popular:
-                        Toast.makeText(getContext(), "Ps4 sort by popular game", Toast.LENGTH_SHORT).show();
-
-                        // TODO: search for playstation game sorted by popular
-                        searchPs4PopularGames();
-                        break;
-                }
+                mPopViewModel.getGameList().observe(PopularGamesFragment.this, mObserver);
 
                 mDrawerLayout.closeDrawers();
                 return true;
@@ -163,38 +131,83 @@ public class PopularGamesFragment extends Fragment {
         });
     }
 
-    private void searchPs4PopularGames() {
-        // TODO: set new SearchType
-        mSearchType = SearchTypeConstants.PS4_POPULAR;
-
-        // TODO: request new download
-        mPopViewModel.downloadGames(mSearchType);
-
-        // TODO: attach new observer
-        mPopViewModel.getGameList().observe(this, mObserver);
-
-    }
 
     private void resetScreen() {
-        // TODO: turn on progressbar
+        // turn on progressbar
         mLoadingBar.setVisibility(View.VISIBLE);
 
-        // TODO: reset scrolling constants
-        mPreviousTotalItemCount = 0;
-        isLoading = false;
-        //notYetFirstLoad = true;
+        // clear scroll count in the view model
+        mPopViewModel.resetViewModel();
 
-        // TODO: clear scroll count in the view model
-        mPopViewModel.clearScrollCount();
-
-        // TODO: remove the previous observer
+        // remove the previous observer
         mPopViewModel.getGameList().removeObserver(mObserver);
 
-        // TODO: clear recyclerview adapter
+        // clear recyclerview adapter
         mGameListRvAdapter.clearGameList();
     }
 
     //..................................................................................................................
+
+    private void prepareRecyclerView() {
+        mGameListRvAdapter = new GameListRvAdapter(getContext());
+
+        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            mGridLayoutManager = new GridLayoutManager(getContext(), 2,
+                    GridLayoutManager.VERTICAL, false);
+        } else {
+            mGridLayoutManager = new GridLayoutManager(getContext(), 4,
+                    GridLayoutManager.VERTICAL, false);
+        }
+
+        mGameListRv.setAdapter(mGameListRvAdapter);
+        mGameListRv.setLayoutManager(mGridLayoutManager);
+
+        mGameListRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+
+                // Total items in the list
+                int totalItemCount = mGridLayoutManager.getItemCount();
+                Timber.d("Total item count: " + totalItemCount);
+
+                // the position of the last visible item on the list;
+                int lastVisiblePosition = mGridLayoutManager.findLastVisibleItemPosition();
+                //Timber.d("Current scroll position's last item: " + lastVisiblePosition);
+
+                mPopViewModel.scrollDetected(totalItemCount, lastVisiblePosition);
+
+                /*
+                // initiate previousTotalItemCount
+                if (mPreviousTotalItemCount == 0) {
+                    mPreviousTotalItemCount = totalItemCount;
+                }
+
+                // if not loading, and we are near the bottom of the list, initiate loading.
+                if (isLoading == false &&
+                        lastVisiblePosition >= totalItemCount - 25 &&
+                        totalItemCount > 0) {
+                    isLoading = true;
+                    //mLoadingBar.setVisibility(View.VISIBLE);
+                    queryForMoreGames();
+
+                    Timber.d("Scroll loading started");
+                }
+
+                // if we are currently loading, check if loading has completed
+                if (isLoading == true && totalItemCount > mPreviousTotalItemCount) {
+                    isLoading = false;
+                    //mLoadingBar.setVisibility(View.INVISIBLE);
+                    mPreviousTotalItemCount = totalItemCount;
+                    Timber.d("Scroll loading ended");
+                }
+                */
+
+            }
+        });
+    }
+
 
     private void loadGameGenres() {
         // Destroys database.
@@ -223,20 +236,12 @@ public class PopularGamesFragment extends Fragment {
 
 
     private void loadPopularGames() {
-        PopularGamesViewModelFactory factory = new PopularGamesViewModelFactory();
 
-        mPopViewModel = ViewModelProviders.of(this, factory).get(PopularGamesViewModel.class);
-
-        if (notYetFirstLoad == true ) {
-            mPopViewModel.downloadGames(mSearchType);
-            notYetFirstLoad = false;
-        }
+        mPopViewModel.downloadGames(R.id.ps4_popular);
 
         mObserver = new Observer<List<Game>>() {
             @Override
             public void onChanged(@Nullable List<Game> gameList) {
-               // Timber.d("Updated game list data observed, updating recycler view...");
-
                 // populate the RecyclerView
                 populateRecyclerView(gameList);
 
@@ -248,62 +253,6 @@ public class PopularGamesFragment extends Fragment {
     }
 
 
-    private void prepareRecyclerView() {
-        mGameListRvAdapter = new GameListRvAdapter(getContext());
-
-        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mGridLayoutManager = new GridLayoutManager(getContext(), 2,
-                    GridLayoutManager.VERTICAL, false);
-        } else {
-            mGridLayoutManager = new GridLayoutManager(getContext(), 4,
-                    GridLayoutManager.VERTICAL, false);
-        }
-
-        mGameListRv.setAdapter(mGameListRvAdapter);
-        mGameListRv.setLayoutManager(mGridLayoutManager);
-
-        mGameListRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                // Total items in the list
-                int totalItemCount = mGridLayoutManager.getItemCount();
-                Timber.d("Total item count: " + totalItemCount);
-
-                // the position of the last visible item on the list;
-                int lastVisiblePosition = mGridLayoutManager.findLastVisibleItemPosition();
-                //Timber.d("Current scroll position's last item: " + lastVisiblePosition);
-
-                // initiate previousTotalItemCount
-                if (mPreviousTotalItemCount == 0) {
-                    mPreviousTotalItemCount = totalItemCount;
-                }
-
-                // if not loading, and we are near the bottom of the list, initiate loading.
-                if (isLoading == false &&
-                        lastVisiblePosition >= totalItemCount - 25 &&
-                        totalItemCount > 0) {
-                    isLoading = true;
-                    //mLoadingBar.setVisibility(View.VISIBLE);
-                    queryForMoreGames();
-
-                    Timber.d("Scroll loading started");
-                }
-
-                // if we are currently loading, check if loading has completed
-                if (isLoading == true && totalItemCount > mPreviousTotalItemCount) {
-                    isLoading = false;
-                    //mLoadingBar.setVisibility(View.INVISIBLE);
-                    mPreviousTotalItemCount = totalItemCount;
-                    Timber.d("Scroll loading ended");
-                }
-
-
-            }
-        });
-    }
-
 
     private void populateRecyclerView(List<Game> gameList) {
         // Determining screen width
@@ -311,14 +260,8 @@ public class PopularGamesFragment extends Fragment {
         //float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
         mGameListRvAdapter.setGameList(gameList);
-
-
     }
 
-
-    private void queryForMoreGames() {
-        mPopViewModel.downloadNextSetOfGames(mSearchType);
-    }
 
 
     // NETWORK CHECK ////////////////////////////////////

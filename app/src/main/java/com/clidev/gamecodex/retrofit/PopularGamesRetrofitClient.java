@@ -25,7 +25,8 @@ public interface PopularGamesRetrofitClient {
             @Query("filter[release_dates.date][lte]") String releasedBefore,
             @Query("filter[release_dates.platform][eq]") int platform,
             @Query("order") String order,
-            @Query("limit") int limit
+            @Query("limit") int limit,
+            @Query("offset") int offset
     );
 
 
