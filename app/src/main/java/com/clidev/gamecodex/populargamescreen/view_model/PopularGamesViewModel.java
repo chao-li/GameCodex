@@ -56,6 +56,7 @@ public class PopularGamesViewModel extends ViewModel {
                                 RetrofitConstantFields.ORDER_AGGREGATED_RATING,
                                 mScrollCount,
                                 true);
+                break;
 
             case R.id.ps4_upcoming:
                 mGameList = mPopularGamesRepository
@@ -63,7 +64,31 @@ public class PopularGamesViewModel extends ViewModel {
                                 RetrofitConstantFields.ORDER_RELEASE_DATE,
                                 mScrollCount,
                                 false);
+                break;
 
+            case R.id.xb1_popular:
+                mGameList = mPopularGamesRepository
+                        .queryGames(RetrofitConstantFields.XBOX_ONE,
+                                RetrofitConstantFields.ORDER_POPULARITY,
+                                mScrollCount,
+                                true);
+                break;
+
+            case R.id.xb1_rated:
+                mGameList = mPopularGamesRepository
+                        .queryGames(RetrofitConstantFields.XBOX_ONE,
+                                RetrofitConstantFields.ORDER_AGGREGATED_RATING,
+                                mScrollCount,
+                                true);
+                break;
+
+            case R.id.xb1_upcoming:
+                mGameList = mPopularGamesRepository
+                        .queryGames(RetrofitConstantFields.XBOX_ONE,
+                                RetrofitConstantFields.ORDER_RELEASE_DATE,
+                                mScrollCount,
+                                false);
+                break;
 
             default:
                 Timber.d("Search type not supported");

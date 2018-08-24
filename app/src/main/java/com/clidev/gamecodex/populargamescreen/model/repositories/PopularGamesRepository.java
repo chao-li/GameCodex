@@ -77,7 +77,12 @@ public class PopularGamesRepository {
                     RetrofitConstantFields.LIMIT * scrollCount);
         }
 
-        Timber.d("Call offset by: " + RetrofitConstantFields.LIMIT*scrollCount);
+        Timber.d("Fields: " + RetrofitConstantFields.FIELDS + "\n");
+        Timber.d("Current: " + currentDate + "\n");
+        Timber.d("Platform id: " + platformId + "\n");
+        Timber.d("Sort by: " + sortBy + "\n");
+        Timber.d("Offset: " + RetrofitConstantFields.LIMIT * scrollCount + "\n");
+        Timber.d("//////////////////////////////////////////////////////////////\n");
 
         // Perform the call for popular movie list
         call.enqueue(new Callback<List<Game>>() {
