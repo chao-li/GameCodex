@@ -300,6 +300,18 @@ public class PopularGamesFragment extends Fragment implements GameListRvAdapter.
                         mActionBar.setTitle("Upcoming - XBONE");
                         break;
 
+                    case R.id.switch_popular:
+                        mActionBar.setTitle("Most Popular - SWITCH");
+                        break;
+
+                    case R.id.switch_rated:
+                        mActionBar.setTitle("Highest Rated - SWITCH");
+                        break;
+
+                    case R.id.switch_upcoming:
+                        mActionBar.setTitle("Upcoming - SWITCH");
+                        break;
+
                     default:
                         break;
                 }

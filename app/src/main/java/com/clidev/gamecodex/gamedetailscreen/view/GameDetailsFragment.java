@@ -376,6 +376,10 @@ public class GameDetailsFragment extends Fragment {
                         || mSearchTypeId.equals(R.id.xb1_rated)
                         || mSearchTypeId.equals(R.id.xb1_upcoming)) {
                     requiredPlatformId = 49; // Xbox one
+                } else if (mSearchTypeId.equals(R.id.switch_popular)
+                        || mSearchTypeId.equals(R.id.switch_rated)
+                        || mSearchTypeId.equals(R.id.switch_upcoming)) {
+                    requiredPlatformId = 130; // Switch
                 }
 
                 // create an equal sized list of just platform ids

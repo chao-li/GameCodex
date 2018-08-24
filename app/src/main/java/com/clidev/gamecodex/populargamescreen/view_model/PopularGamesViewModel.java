@@ -41,6 +41,50 @@ public class PopularGamesViewModel extends ViewModel {
     public void downloadGames(int searchType) {
         mSearchType = searchType;
         mSearchTypeLiveData.setValue(searchType);
+        selectRequiredQueryMethod();
+        mScrollCount++;
+    }
+
+    public void scrollDetected(int totalItemCount, int lastVisiblePosition) {
+
+        // initiate previousTotalItemCount
+        if (mPreviousTotalItemCount == 0) {
+            mPreviousTotalItemCount = totalItemCount;
+        }
+
+        // if not loading, and we are near the bottom of the list, initiate loading.
+        if (isLoading == false &&
+                lastVisiblePosition >= totalItemCount - 25 &&
+                totalItemCount > 0) {
+            isLoading = true;
+            //mLoadingBar.setVisibility(View.VISIBLE);
+            downloadGames(mSearchType);
+
+            Timber.d("Scroll loading started");
+        }
+
+        // if we are currently loading, check if loading has completed
+        if (isLoading == true && totalItemCount > mPreviousTotalItemCount) {
+            isLoading = false;
+            //mLoadingBar.setVisibility(View.INVISIBLE);
+            mPreviousTotalItemCount = totalItemCount;
+            Timber.d("Scroll loading ended");
+        }
+
+    }
+
+    public MutableLiveData<List<Game>> getGameList() {
+        return mGameList;
+    }
+
+    public MutableLiveData<Integer> getSearchTypeLiveData() {
+        return mSearchTypeLiveData;
+    }
+
+
+
+    // Additional helper method
+    private void selectRequiredQueryMethod() {
         switch(mSearchType) {
             case R.id.ps4_popular:
                 mGameList = mPopularGamesRepository
@@ -90,45 +134,33 @@ public class PopularGamesViewModel extends ViewModel {
                                 false);
                 break;
 
+
+            case R.id.switch_popular:
+                mGameList = mPopularGamesRepository
+                        .queryGames(RetrofitConstantFields.SWITCH,
+                                RetrofitConstantFields.ORDER_POPULARITY,
+                                mScrollCount,
+                                true);
+                break;
+
+            case R.id.switch_rated:
+                mGameList = mPopularGamesRepository
+                        .queryGames(RetrofitConstantFields.SWITCH,
+                                RetrofitConstantFields.ORDER_AGGREGATED_RATING,
+                                mScrollCount,
+                                true);
+                break;
+
+            case R.id.switch_upcoming:
+                mGameList = mPopularGamesRepository
+                        .queryGames(RetrofitConstantFields.SWITCH,
+                                RetrofitConstantFields.ORDER_RELEASE_DATE,
+                                mScrollCount,
+                                false);
+                break;
+
             default:
                 Timber.d("Search type not supported");
         }
-        mScrollCount++;
-    }
-
-    public void scrollDetected(int totalItemCount, int lastVisiblePosition) {
-
-        // initiate previousTotalItemCount
-        if (mPreviousTotalItemCount == 0) {
-            mPreviousTotalItemCount = totalItemCount;
-        }
-
-        // if not loading, and we are near the bottom of the list, initiate loading.
-        if (isLoading == false &&
-                lastVisiblePosition >= totalItemCount - 25 &&
-                totalItemCount > 0) {
-            isLoading = true;
-            //mLoadingBar.setVisibility(View.VISIBLE);
-            downloadGames(mSearchType);
-
-            Timber.d("Scroll loading started");
-        }
-
-        // if we are currently loading, check if loading has completed
-        if (isLoading == true && totalItemCount > mPreviousTotalItemCount) {
-            isLoading = false;
-            //mLoadingBar.setVisibility(View.INVISIBLE);
-            mPreviousTotalItemCount = totalItemCount;
-            Timber.d("Scroll loading ended");
-        }
-
-    }
-
-    public MutableLiveData<List<Game>> getGameList() {
-        return mGameList;
-    }
-
-    public MutableLiveData<Integer> getSearchTypeLiveData() {
-        return mSearchTypeLiveData;
     }
 }

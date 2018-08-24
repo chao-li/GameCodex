@@ -19,6 +19,7 @@ public class RetrofitConstantFields {
     public static final int PLAYSTATION_4 = 48;
     public static final int XBOX_ONE = 49;
     public static final int PC = 6;
+    public static final int SWITCH = 130;
     public static final String ORDER_POPULARITY = "popularity:desc";
     public static final String ORDER_AGGREGATED_RATING = "aggregated_rating:desc";
     public static final String ORDER_RELEASE_DATE = "first_release_date:asc";
