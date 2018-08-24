@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 
 
 import com.clidev.gamecodex.constants.RetrofitConstantFields;
+import com.clidev.gamecodex.populargamescreen.model.modeldata.ReleaseDate;
 import com.clidev.gamecodex.retrofit.PopularGamesRetrofitClient;
 import com.clidev.gamecodex.populargamescreen.model.modeldata.Game;
 
@@ -11,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -48,10 +50,11 @@ public class PopularGamesRepository {
 
 
 
-    public MutableLiveData<List<Game>> queryGames(int platformId, String sortBy, int scrollCount,
-                                                  boolean isReleased) {
+    public MutableLiveData<List<Game>> queryGames(final int platformId, String sortBy, int scrollCount,
+                                                  final boolean isReleased) {
         // Get current time and date
         Date currentTime = Calendar.getInstance().getTime();
+        final Long currentTimeSec = System.currentTimeMillis();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String currentDate = dateFormat.format(currentTime);
 
@@ -81,8 +84,8 @@ public class PopularGamesRepository {
             @Override
             public void onResponse(Call<List<Game>> call, Response<List<Game>> response) {
                 if (response.isSuccessful()) {
-                    //mGameList = response.body();
                     mGameList.addAll(response.body());
+
                     mLiveDataGameList.setValue(mGameList);
                 } else {
                     Timber.d("api call not successful");
